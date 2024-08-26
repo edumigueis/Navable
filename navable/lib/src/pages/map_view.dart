@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../components/custom_pin_marker.dart';
 import '../components/top_bar.dart';
-import 'sample_item.dart';
+import '../sample_feature/sample_item.dart';
 
-/// Displays a list of SampleItems.
 class MapView extends StatefulWidget {
   const MapView({
     super.key,
@@ -25,8 +25,6 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
   final mapController = MapController();
 
   void _animatedMapMove(LatLng destLocation, double destZoom) {
-    // Create some tweens. These serve to split up the transition from one location to another.
-    // In our case, we want to split the transition be<tween> our current map center and the destination.
     final camera = mapController.camera;
     final latTween = Tween<double>(
         begin: camera.center.latitude, end: destLocation.latitude);
@@ -34,18 +32,11 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
         begin: camera.center.longitude, end: destLocation.longitude);
     final zoomTween = Tween<double>(begin: camera.zoom, end: destZoom);
 
-    // Create a animation controller that has a duration and a TickerProvider.
     final controller = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
-    // The animation determines what path the animation will take. You can try different Curves values, although I found
-    // fastOutSlowIn to be my favorite.
     final Animation<double> animation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
-    // Note this method of encoding the target destination is a workaround.
-    // When proper animated movement is supported (see #1263) we should be able
-    // to detect an appropriate animated movement event which contains the
-    // target zoom/center.
     final startIdWithTarget =
         '$_startedId#${destLocation.latitude},${destLocation.longitude},$destZoom';
     bool hasTriggeredMove = false;
@@ -97,6 +88,21 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.unicamp.navable',
                 tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: const LatLng(30, 40),
+                    width: 20,
+                    height: 20,
+                    child: CustomPinMarker(
+                      onTap: () {},
+                      icon: Icons.wheelchair_pickup,
+                      color: Colors.red,
+                      size: 20.0,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
