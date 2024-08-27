@@ -17,17 +17,16 @@ class CustomPinMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        IconButton(
-            onPressed: onTap,
-            icon: Icon(
-              Icons.location_on_rounded,
-              color: color,
-              size: size, // Adjust the icon size relative to the pin
-            )), // Icon Inside the Pin
-      ],
-    );
+    return Center(
+        child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            // Define o cursor como "clique" ao passar o mouse
+            child: GestureDetector(
+                onTap: onTap,
+                child: Icon(
+                  Icons.location_on_rounded,
+                  color: color,
+                  size: size, // Adjust the icon size relative to the pin
+                )))); // Icon Inside the Pi
   }
 }

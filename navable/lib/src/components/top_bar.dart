@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/pages/profile_view.dart';
 
-import '../settings/settings_view.dart';
+import '../pages/settings_view.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   const TopBar({super.key});
@@ -11,21 +12,21 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent, // Transparent background
       elevation: 0, // Remove shadow
       leading: IconButton(
-        icon: const Icon(Icons.menu), // Replace with your desired icon
+        icon: const Icon(Icons.menu),
         onPressed: () {
-          // Define the action for the icon button, e.g., open a drawer
+          Navigator.restorablePushNamed(context, ProfileView.routeName);
         },
       ),
       title: Center(
         child: TextButton.icon(
-          label: const Text('Center Button'),
-          icon: const Icon(Icons.star), // Replace with your desired icon
+          label: const Text('Search'),
+          icon: const Icon(Icons.search),
           onPressed: () {
             // Define the action for the center button
           },
           style: TextButton.styleFrom(
             foregroundColor:
-                Colors.white, // Adjust text and icon color if needed
+                Colors.white,
           ),
         ),
       ),
@@ -34,11 +35,10 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           label: const Text('Filter'),
           icon: const Icon(Icons.settings),
           onPressed: () {
-            Navigator.restorablePushNamed(context, SettingsView.routeName);
           },
           style: TextButton.styleFrom(
             foregroundColor:
-                Colors.white, // Adjust text and icon color if needed
+                Colors.white,
           ),
         ),
       ],

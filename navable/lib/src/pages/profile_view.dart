@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'controllers/settings_controller.dart';
+import 'package:navable/src/pages/controllers/profile_controller.dart';
 
-/// Displays the various settings that can be customized by the user.
-///
-/// When a user changes a setting, the SettingsController is updated and
-/// Widgets that listen to the SettingsController are rebuilt.
-class SettingsView extends StatelessWidget {
-  const SettingsView({super.key, required this.controller});
+class ProfileView extends StatelessWidget {
+  const ProfileView({super.key, required this.controller});
 
-  static const routeName = '/settings';
+  static const routeName = '/profile';
 
-  final SettingsController controller;
+  final ProfileController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +17,9 @@ class SettingsView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: DropdownButton<ThemeMode>(
+          // Read the selected themeMode from the controller
           value: controller.themeMode,
+          // Call the updateThemeMode method any time the user selects a theme.
           onChanged: controller.updateThemeMode,
           items: const [
             DropdownMenuItem(

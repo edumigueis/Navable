@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../services/settings_service.dart';
+import '../services/profile_service.dart';
 
-class SettingsController with ChangeNotifier {
-  SettingsController(this._settingsService);
+class ProfileController with ChangeNotifier {
+  ProfileController(this._settingsService);
 
-  final SettingsService _settingsService;
+  final ProfileService _settingsService;
   late ThemeMode _themeMode;
 
   ThemeMode get themeMode => _themeMode;
