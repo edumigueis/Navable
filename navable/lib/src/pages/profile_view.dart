@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/components/accessibility_checks.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
 
 class ProfileView extends StatelessWidget {
@@ -49,7 +50,7 @@ class ProfileView extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                      Navigator.pushNamed(context, "/settings");
+                      Navigator.restorablePushNamed(context, "/settings");
                     },
                   ),
                 ],
@@ -57,57 +58,16 @@ class ProfileView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ExpandableSection(
+          const ExpandableSection(
             title: 'Accessibility',
-            child: Column( children: [
-              /*Section(
-                title: 'Category 1',
-                children: List.generate(5, (index) => _buildSelectableButton(context, 'Option ${index + 1}', index)),
-              ),
-              Section(
-                title: 'Category 2',
-                children: List.generate(5, (index) => _buildSelectableButton(context, 'Option ${index + 6}', index)),
-              ),*/
-            ],)
+            child: AccessibilityChecks(title: "a", buttons: ["a", "b"])
           ),
-          ExpandableSection(
+          const ExpandableSection(
             title: 'Badges',
             child: Column()
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSelectableButton(BuildContext context, String text, int index) {
-    return StatefulBuilder(
-      builder: (context, setState) {
-        bool _isSelected = false;
-
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _isSelected = !_isSelected;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 16,
-            ),
-            decoration: BoxDecoration(
-              color: _isSelected ? Colors.blue : Colors.grey[300],
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: _isSelected ? Colors.white : Colors.black,
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -123,10 +83,10 @@ class ExpandableSection extends StatefulWidget {
   });
 
   @override
-  _ExpandableSectionState createState() => _ExpandableSectionState();
+  ExpandableSectionState createState() => ExpandableSectionState();
 }
 
-class _ExpandableSectionState extends State<ExpandableSection> {
+class ExpandableSectionState extends State<ExpandableSection> {
   bool _isExpanded = false;
 
   @override

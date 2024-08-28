@@ -7,12 +7,14 @@ class PlaceCard extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     required this.text,
+    required this.onClose
   });
 
   final String title;
   final IconData icon;
   final Color iconColor;
   final String text;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +38,17 @@ class PlaceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          Row(children: [
+            IconButton(
+              icon: Icon(Icons.close),
+              onPressed: onClose, // Close the modal when "X" is clicked
+            ),
+            Text(
             title,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
-          ),
+          ),]),
           const SizedBox(height: 16), // Espaço entre o título e o conteúdo abaixo
           Row(
             children: [
