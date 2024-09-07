@@ -87,7 +87,7 @@ class PlaceCard extends StatelessWidget {
                             : "Partially accessible",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     place.address,
                     style: Theme.of(context).textTheme.bodyMedium,

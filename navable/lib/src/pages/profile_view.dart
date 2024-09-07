@@ -4,6 +4,8 @@ import 'package:navable/src/pages/models/acc_category.dart';
 import 'package:navable/src/pages/models/badge.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
 
+import '../components/expandable_section.dart';
+
 class ProfileView extends StatelessWidget {
   ProfileView({super.key, required this.controller});
 
@@ -98,47 +100,6 @@ class ProfileView extends StatelessWidget {
               ))),
         ],
       ),
-    );
-  }
-}
-
-class ExpandableSection extends StatefulWidget {
-  final String title;
-  final Widget child;
-
-  const ExpandableSection({
-    super.key,
-    required this.title,
-    required this.child,
-  });
-
-  @override
-  ExpandableSectionState createState() => ExpandableSectionState();
-}
-
-class ExpandableSectionState extends State<ExpandableSection> {
-  bool _isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          title: Text(widget.title),
-          trailing: IconButton(
-            icon: Icon(
-              _isExpanded ? Icons.expand_less : Icons.expand_more,
-            ),
-            onPressed: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
-          ),
-        ),
-        if (_isExpanded) widget.child
-      ],
     );
   }
 }

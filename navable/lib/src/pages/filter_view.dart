@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../components/accessibility_checks.dart';
+import '../components/expandable_section.dart';
+import 'models/acc_category.dart';
+
 class FilterView extends StatelessWidget {
   const FilterView({super.key});
 
@@ -7,9 +11,16 @@ class FilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Column(
         children: [
+          ExpandableSection(
+              title: 'Accessibility',
+              child: AccessibilityChecks(title: "a", buttons: [
+                AccessibilityCategory("a", "b"),
+                AccessibilityCategory("b", "b"),
+                AccessibilityCategory("c", "a")
+              ])),
           ElevatedButton(
             onPressed: () {
               // Example data to return
