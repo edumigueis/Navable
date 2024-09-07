@@ -30,3 +30,9 @@ To support additional languages, please visit the tutorial on
 
 https://adobexdelements.com/wp-content/uploads/2020/11/adobe-xd-e-scooter-mobile-app.jpg
 https://media.designrush.com/inspirations/256658/conversions/1.-YouMap-preview.jpg
+
+colors:
+77E4D4
+998CEB
+B4FE98
+FBF46D
