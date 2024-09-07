@@ -8,11 +8,11 @@ class AnimatedMapMove {
   static const finishedId = 'AnimatedMapController#MoveFinished';
 
   static void move(
-      MapController mapController,
-      LatLng destLocation,
-      double destZoom,
-      TickerProvider vsync,
-      ) {
+    MapController mapController,
+    LatLng destLocation,
+    double destZoom,
+    TickerProvider vsync,
+  ) {
     final camera = mapController.camera;
     final latTween = Tween<double>(
       begin: camera.center.latitude,
@@ -36,7 +36,8 @@ class AnimatedMapMove {
       curve: Curves.fastOutSlowIn,
     );
 
-    final startIdWithTarget = '$startedId#${destLocation.latitude},${destLocation.longitude},$destZoom';
+    final startIdWithTarget =
+        '$startedId#${destLocation.latitude},${destLocation.longitude},$destZoom';
     bool hasTriggeredMove = false;
 
     controller.addListener(() {
@@ -57,7 +58,8 @@ class AnimatedMapMove {
     });
 
     animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.dismissed) {
         controller.dispose();
       }
     });

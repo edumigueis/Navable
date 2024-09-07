@@ -12,5 +12,7 @@ void main() async {
   final profileController = ProfileController(ProfileService());
   await profileController.loadSettings();
 
-  runApp(MyApp(settingsController: settingsController, profileController: profileController));
+  runApp(MyApp(
+      settingsController: settingsController,
+      profileController: profileController));
 }

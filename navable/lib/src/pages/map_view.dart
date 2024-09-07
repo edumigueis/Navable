@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:navable/src/pages/add_warning_view.dart';
 
 import '../components/action_bar.dart';
 import '../components/map_widget.dart';
@@ -8,6 +9,7 @@ import '../components/place_card.dart';
 import '../components/top_bar.dart';
 import '../util/animated_map_move.dart';
 import 'filter_view.dart';
+
 class MapView extends StatefulWidget {
   const MapView({super.key});
 
@@ -33,7 +35,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     });
   }
 
-  void _openFilterModal(){
+  void _openFilterModal() {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -48,13 +50,35 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     });
   }
 
+  void _openAddWarningModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const AddWarningView();
+      },
+      isScrollControlled: true,
+    ).then((result) {
+      if (result != null) {
+        // Use the result data here
+        print('Filter data: $result');
+      }
+    });
+  }
+
+  void _moveToUserLocation() {
+    AnimatedMapMove.move(
+      mapController,
+      LatLng(51.509364, -0.128928),
+      18,
+      this,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopBar(
-          onTapSearch: _togglePlaceModal,
-          onTapFilter: _openFilterModal
-      ),
+      appBar:
+          TopBar(onTapSearch: _togglePlaceModal, onTapFilter: _openFilterModal),
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: Stack(
@@ -66,23 +90,9 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 AnimatedMapMove.move(mapController, latLng, zoom, this),
           ),
           CustomActionBar(
-            onTapLocate: () {
-              AnimatedMapMove.move(
-                mapController,
-                LatLng(51.509364, -0.128928),
-                18,
-                this,
-              );
-            },
-            onTapAddWarning: () {
-              AnimatedMapMove.move(
-                mapController,
-                LatLng(52.509364, -0.128928),
-                18,
-                this,
-              );
-            },
-            bottom: _isModalOpen ? 200 : 20,
+            onTapLocate: _moveToUserLocation,
+            onTapAddWarning: _openAddWarningModal,
+            bottom: _isModalOpen ? 215 : 15,
           ),
           if (_isModalOpen)
             Positioned(
@@ -96,7 +106,8 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                   icon: Icons.insert_emoticon_sharp,
                   iconColor: Colors.green,
                   text: "text",
-                  onClose: _closePlaceModal, // Close the modal when the "X" button is clicked
+                  onClose:
+                      _closePlaceModal, // Close the modal when the "X" button is clicked
                 ),
               ),
             ),

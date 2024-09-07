@@ -7,18 +7,23 @@ import '../pages/settings_view.dart';
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onTapFilter;
   final VoidCallback onTapSearch;
-  const TopBar({super.key, required this.onTapFilter, required this.onTapSearch});
+
+  const TopBar(
+      {super.key, required this.onTapFilter, required this.onTapSearch});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent, // Transparent background
-      elevation: 0, // Remove shadow
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.menu),
+        icon: const Icon(Icons.person_outline),
         onPressed: () {
           Navigator.restorablePushNamed(context, ProfileView.routeName);
         },
+        style: TextButton.styleFrom(
+          foregroundColor: const Color(0xff191919),
+        ),
       ),
       title: Center(
         child: TextButton.icon(
@@ -28,21 +33,18 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
             onTapSearch();
           },
           style: TextButton.styleFrom(
-            foregroundColor:
-                Colors.white,
-          ),
+              foregroundColor: const Color(0xff191919),
+              backgroundColor: Colors.white),
         ),
       ),
       actions: [
-        TextButton.icon(
-          label: const Text('Filter'),
-          icon: const Icon(Icons.filter_alt),
+        IconButton(
+          icon: const Icon(Icons.filter_alt_outlined),
           onPressed: () {
             onTapFilter();
           },
           style: TextButton.styleFrom(
-            foregroundColor:
-                Colors.white,
+            foregroundColor: const Color(0xff191919),
           ),
         ),
       ],

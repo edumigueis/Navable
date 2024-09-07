@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+
+import '../pages/models/acc_category.dart';
 
 class AccessibilityChecks extends StatefulWidget {
   final String title;
-  final List<String> buttons;
+  final List<AccessibilityCategory> buttons;
 
   const AccessibilityChecks({
     super.key,
@@ -15,53 +18,69 @@ class AccessibilityChecks extends StatefulWidget {
 }
 
 class AccessibilityChecksState extends State<AccessibilityChecks> {
+  Map<String, List<AccessibilityCategory>> _groupedButtons = {};
+
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Category 1"),
-        Wrap(
-          children: List.generate(
-              5,
-              (index) => _buildSelectableButton(
-                  context, 'Option ${index + 1}', index)),
-        ),
-        Text("Category 2"),
-        Wrap(
-          children: List.generate(
-              5,
-              (index) => _buildSelectableButton(
-                  context, 'Option ${index + 1}', index)),
-        ),
-      ],
+  void initState() {
+    super.initState();
+    _groupedButtons = groupBy(
+      widget.buttons,
+      (AccessibilityCategory button) => button.group,
     );
   }
 
-  Widget _buildSelectableButton(BuildContext context, String text, int index) {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: _groupedButtons.entries.map((entry) {
+        final group = entry.key;
+        final buttons = entry.value;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(group, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Wrap(
+              children: buttons.map((button) {
+                return _buildSelectableButton(
+                  context,
+                  button.title,
+                );
+              }).toList(),
+            ),
+          ],
+        );
+      }).toList(),
+    ));
+  }
+
+  Widget _buildSelectableButton(BuildContext context, String text) {
+    bool isSelected = false;
     return StatefulBuilder(
       builder: (context, setState) {
-        bool _isSelected = false;
-
         return GestureDetector(
           onTap: () {
             setState(() {
-              _isSelected = !_isSelected;
+              isSelected = !isSelected;
             });
           },
           child: Container(
+            margin: const EdgeInsets.all(4.0), // Adds spacing between buttons
             padding: const EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 16,
             ),
             decoration: BoxDecoration(
-              color: _isSelected ? Colors.blue : Colors.grey[300],
+              color: isSelected ? Colors.blue : Colors.grey[300],
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               text,
               style: TextStyle(
-                color: _isSelected ? Colors.white : Colors.black,
+                color: isSelected ? Colors.white : Colors.black,
               ),
             ),
           ),

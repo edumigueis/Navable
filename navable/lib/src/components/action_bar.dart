@@ -15,22 +15,24 @@ class CustomActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       bottom: bottom,
-      right: 20,
+      right: 15,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
             onPressed: onTapLocate,
             backgroundColor: Colors.grey.withOpacity(0.5),
-            child: const Icon(Icons.edit),
+            shape: const CircleBorder(),
+            child: const Icon(Icons.center_focus_weak),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             onPressed: onTapAddWarning,
-            backgroundColor: Colors.blue,
+            shape: const CircleBorder(),
+            backgroundColor: const Color(0xff998CEB),
             child: const Icon(Icons.add),
           ),
         ],

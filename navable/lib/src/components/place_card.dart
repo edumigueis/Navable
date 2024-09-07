@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class PlaceCard extends StatelessWidget {
-  const PlaceCard({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.iconColor,
-    required this.text,
-    required this.onClose
-  });
+  const PlaceCard(
+      {super.key,
+      required this.title,
+      required this.icon,
+      required this.iconColor,
+      required this.text,
+      required this.onClose});
 
   final String title;
   final IconData icon;
@@ -44,12 +43,14 @@ class PlaceCard extends StatelessWidget {
               onPressed: onClose, // Close the modal when "X" is clicked
             ),
             Text(
-            title,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+              title,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-          ),]),
-          const SizedBox(height: 16), // Espaço entre o título e o conteúdo abaixo
+          ]),
+          const SizedBox(height: 16),
+          // Espaço entre o título e o conteúdo abaixo
           Row(
             children: [
               Icon(

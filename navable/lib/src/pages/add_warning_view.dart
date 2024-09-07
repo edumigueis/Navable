@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FilterView extends StatelessWidget {
-  const FilterView({super.key});
+class AddWarningView extends StatelessWidget {
+  const AddWarningView({super.key});
 
   @override
   Widget build(BuildContext context) {
