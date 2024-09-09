@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:navable/src/pages/models/warning.dart';
 
 class AddWarningView extends StatelessWidget {
   const AddWarningView({super.key});
@@ -7,16 +9,40 @@ class AddWarningView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ElevatedButton(
-            onPressed: () {
-              // Example data to return
-              String selectedData = "Some Filter Data";
-              Navigator.pop(context, selectedData); // Pass data back
-            },
-            child: const Text('Apply Filter'),
+          const Text("What do you want to report?"),
+          const SizedBox(height: 16), // Add spacing
+          Expanded(
+            // Wrap GridView in Expanded to give it constrained space
+            child: GridView.count(
+              crossAxisCount: 3,
+              children: [
+                Warning("a", "b", const LatLng(2.1, 2.3)),
+                Warning("a", "b", const LatLng(2.1, 2.3)),
+                Warning("a", "b", const LatLng(2.1, 2.3)),
+              ].map((el) {
+                return GestureDetector(
+                  onTap: () {
+                    // Example data to return
+                    String selectedData = "Some Filter Data";
+                    Navigator.pop(context, selectedData);
+                  },
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage:
+                            AssetImage('assets/images/warnings/${el.type}.png'),
+                      ),
+                      Text(el.title),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ],
       ),
