@@ -1,92 +1,74 @@
 import 'package:flutter/material.dart';
 
-class Landing extends StatefulWidget{
-  const Landing({required Key key}) : super(key: key);
+import '../components/navable_button.dart';
+import '../util/styles.dart';
+
+class Landing extends StatefulWidget {
+  const Landing({super.key});
 
   @override
   LandingState createState() => LandingState();
 }
-class LandingState extends State<Landing>{
 
+class LandingState extends State<Landing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF3FAE1),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 10, // 20%
-                  child: Image.asset(
-                    'assets/images/main.jpg',
-                    fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height * 0.56,
-                  ),
-                ),
-              ],
-            ),
+            Expanded(
+                flex: 60, // 20%
+                child: Container(
+                  color: const Color(0xFF5E2BFF),
+                )),
             const Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 30.0, 8.0, 10.0),
+              padding: EdgeInsets.only(top: 20, bottom: 10),
               child: Text(
-                "Welcome to NavAble!",
+                "Welcome to navAble!",
                 style: TextStyle(
-                    fontSize: 25.0,
+                    fontSize: 22.0,
                     fontFamily: 'Ubuntu',
                     fontWeight: FontWeight.w600),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 20.0),
+              padding: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "The biggest and most inclusive clothing e-commerce. Enjoy the amazing propped app, with everything you need.",
+                "Lorem Ipsum Dolor kaakuaua aa yaa aja ha aaiayavqyqy7aa aa hayuaysvbsa abava aayava.",
                 style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(40, 40, 40, 1)),
                 textAlign: TextAlign.center,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 10.0),
-                    child: SizedBox(
-                      width: 150,
-                      height: 50,
-                      child: TextButton(
-                          onPressed: () {
-
-                          },
-                          child: const Text('LOGIN',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'Ubuntu',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(0, 0, 0, 10)))),
-                    )),
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 10.0),
-                    child: SizedBox(
-                      width: 150,
-                      height: 50,
-                      child: TextButton(
-                          onPressed: () {
-
-                          },
-                          child: const Text('REGISTER',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'Ubuntu',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(240, 240, 240, 1)))),
-                    ))
-              ],
-            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  NavableButton(
+                    "REGISTER",
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/signup");
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  NavableButton(
+                    "SIGN IN",
+                    background: Colors.transparent,
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/signin");
+                    },
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),

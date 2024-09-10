@@ -14,7 +14,7 @@ import 'filter_view.dart';
 class MapView extends StatefulWidget {
   const MapView({super.key});
 
-  static const routeName = '/';
+  static const routeName = '/home';
 
   @override
   MapViewState createState() => MapViewState();

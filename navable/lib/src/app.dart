@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
+import 'package:navable/src/pages/landing_view.dart';
+import 'package:navable/src/pages/pick_accessibilities_view.dart';
 import 'package:navable/src/pages/profile_view.dart';
+import 'package:navable/src/pages/signin_view.dart';
+import 'package:navable/src/pages/signup_view.dart';
 
 import 'pages/map_view.dart';
 import 'pages/controllers/settings_controller.dart';
@@ -49,8 +53,16 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case ProfileView.routeName:
                     return ProfileView(controller: profileController);
-                  default:
+                  case SignUpView.routeName:
+                    return SignUpView(controller: settingsController);
+                  case SignInView.routeName:
+                    return SignInView(controller: settingsController);
+                  case MapView.routeName:
                     return const MapView();
+                  case PickAccessibilitiesView.routeName:
+                    return PickAccessibilitiesView(controller: settingsController);
+                  default:
+                    return const Landing();
                 }
               },
             );
