@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:navable/src/pages/controllers/map_controller.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/landing_view.dart';
 import 'package:navable/src/pages/pick_accessibilities_view.dart';
@@ -8,20 +9,20 @@ import 'package:navable/src/pages/profile_view.dart';
 import 'package:navable/src/pages/signin_view.dart';
 import 'package:navable/src/pages/signup_view.dart';
 
-import 'pages/map_view.dart';
 import 'pages/controllers/settings_controller.dart';
+import 'pages/map_view.dart';
 import 'pages/settings_view.dart';
 
-/// The Widget that configures your application.
-class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-    required this.settingsController,
-    required this.profileController,
-  });
+class Navable extends StatelessWidget {
+  const Navable(
+      {super.key,
+      required this.settingsController,
+      required this.profileController,
+      required this.mapController});
 
   final SettingsController settingsController;
   final ProfileController profileController;
+  final MapViewController mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +59,10 @@ class MyApp extends StatelessWidget {
                   case SignInView.routeName:
                     return SignInView(controller: settingsController);
                   case MapView.routeName:
-                    return const MapView();
+                    return MapView(controller: mapController);
                   case PickAccessibilitiesView.routeName:
-                    return PickAccessibilitiesView(controller: settingsController);
+                    return PickAccessibilitiesView(
+                        controller: settingsController);
                   default:
                     return const Landing();
                 }

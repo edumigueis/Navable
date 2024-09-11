@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:navable/src/util/styles.dart';
+
 import '../components/custom_pin_marker.dart';
 import '../util/animated_map_move.dart';
 
 class MapWidget extends StatelessWidget {
-  MapWidget({
-    super.key,
-    required this.mapController,
-    required this.onToggleModal,
-    required this.onMapMove,
-  });
+  MapWidget(
+      {super.key,
+      required this.mapController,
+      required this.onToggleModal,
+      required this.onMapMove,
+      required this.initialCenter});
 
   final MapController mapController;
   final VoidCallback onToggleModal;
   final void Function(LatLng latLng, double zoom) onMapMove;
+  final LatLng initialCenter;
 
   Widget tileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
@@ -48,9 +49,9 @@ class MapWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterMap(
       mapController: mapController,
-      options: const MapOptions(
-        initialCenter: LatLng(51.509364, -0.128928),
-        initialZoom: 17.2,
+      options: MapOptions(
+        initialCenter: initialCenter,
+        initialZoom: 16.2,
       ),
       children: [
         TileLayer(

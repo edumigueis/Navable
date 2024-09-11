@@ -6,7 +6,9 @@ class NavableButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color? background;
-  const NavableButton(this.text, {
+
+  const NavableButton(
+    this.text, {
     super.key,
     required this.onPressed,
     this.background,
@@ -19,7 +21,8 @@ class NavableButton extends StatelessWidget {
       height: 45,
       child: TextButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(background == null ? NavableColors.yellowAccent : background!),
+          backgroundColor: WidgetStateProperty.all<Color>(
+              background == null ? NavableColors.yellowAccent : background!),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -28,7 +31,8 @@ class NavableButton extends StatelessWidget {
           side: WidgetStateProperty.all<BorderSide>(
             const BorderSide(color: NavableColors.black, width: 2.0),
           ),
-          overlayColor: WidgetStateProperty.all<Color>(Colors.black.withOpacity(0.1)),
+          overlayColor:
+              WidgetStateProperty.all<Color>(Colors.black.withOpacity(0.1)),
           elevation: WidgetStateProperty.all<double>(5),
         ),
         onPressed: onPressed,

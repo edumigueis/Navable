@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:navable/src/util/styles.dart';
 
 import '../pages/models/acc_category.dart';
@@ -35,29 +35,30 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: _groupedButtons.entries.map((entry) {
-        final group = entry.key;
-        final buttons = entry.value;
-
-        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(group, style: const TextStyle(fontWeight: FontWeight.bold)),
-            Wrap(
-              spacing: 4,
-              runSpacing: 8,
-              children: buttons.map((button) {
-                return _buildSelectableButton(
-                  context,
-                  button.title,
-                );
-              }).toList(),
-            ),
-          ],
-        );
-      }).toList(),
-    ));
+          children: _groupedButtons.entries.map((entry) {
+            final group = entry.key;
+            final buttons = entry.value;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(group,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 8,
+                  children: buttons.map((button) {
+                    return _buildSelectableButton(
+                      context,
+                      button.title,
+                    );
+                  }).toList(),
+                ),
+              ],
+            );
+          }).toList(),
+        ));
   }
 
   Widget _buildSelectableButton(BuildContext context, String text) {

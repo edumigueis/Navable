@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/components/accessibility_checks.dart';
+import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/models/acc_category.dart';
 import 'package:navable/src/pages/models/badge.dart';
-import 'package:navable/src/pages/controllers/profile_controller.dart';
 
 import '../components/expandable_section.dart';
 
@@ -84,20 +84,20 @@ class ProfileView extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Wrap(
-                spacing: 15,
-                children: badges.map((badge) {
-                  return Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: AssetImage(
-                            badge.image), // Replace with your photo asset
-                      ),
-                      Text(badge.title)
-                    ],
-                  );
-                }).toList(),
-              ))),
+                    spacing: 15,
+                    children: badges.map((badge) {
+                      return Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage(
+                                badge.image), // Replace with your photo asset
+                          ),
+                          Text(badge.title)
+                        ],
+                      );
+                    }).toList(),
+                  ))),
         ],
       ),
     );

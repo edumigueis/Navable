@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navable/src/components/place_card.dart';
 import 'package:navable/src/pages/profile_view.dart';
-
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onTapFilter;
