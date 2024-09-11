@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:navable/src/util/styles.dart';
 import '../components/custom_pin_marker.dart';
 import '../util/animated_map_move.dart';
 
@@ -16,6 +17,33 @@ class MapWidget extends StatelessWidget {
   final VoidCallback onToggleModal;
   final void Function(LatLng latLng, double zoom) onMapMove;
 
+  Widget tileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
+    return ColorFiltered(
+        colorFilter: const ColorFilter.matrix(<double>[
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]),
+        child: tileWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
@@ -29,6 +57,7 @@ class MapWidget extends StatelessWidget {
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.unicamp.navable',
           tileUpdateTransformer: _animatedMoveTileUpdateTransformer,
+          tileBuilder: tileBuilder,
         ),
         MarkerLayer(
           markers: [

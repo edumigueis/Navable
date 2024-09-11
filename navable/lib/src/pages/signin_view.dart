@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../components/navable_button.dart';
-import '../util/styles.dart';
 import 'controllers/settings_controller.dart';
 
 class SignInView extends StatelessWidget {

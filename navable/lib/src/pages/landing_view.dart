@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../components/navable_button.dart';
-import '../util/styles.dart';
 
 class Landing extends StatefulWidget {
   const Landing({super.key});
@@ -48,7 +47,7 @@ class LandingState extends State<Landing> {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

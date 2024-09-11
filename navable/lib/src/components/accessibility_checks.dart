@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:navable/src/util/styles.dart';
 
 import '../pages/models/acc_category.dart';
 
@@ -44,6 +45,8 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
           children: [
             Text(group, style: const TextStyle(fontWeight: FontWeight.bold)),
             Wrap(
+              spacing: 4,
+              runSpacing: 8,
               children: buttons.map((button) {
                 return _buildSelectableButton(
                   context,
@@ -68,19 +71,18 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
             });
           },
           child: Container(
-            margin: const EdgeInsets.all(4.0), // Adds spacing between buttons
             padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 16,
+              vertical: 5,
+              horizontal: 15,
             ),
             decoration: BoxDecoration(
-              color: isSelected ? Colors.blue : Colors.grey[300],
+              color: isSelected ? NavableColors.blueAccent : NavableColors.gray,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               text,
               style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black,
+                color: isSelected ? NavableColors.white : NavableColors.black,
               ),
             ),
           ),

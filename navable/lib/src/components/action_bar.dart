@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/util/styles.dart';
 
 class CustomActionBar extends StatelessWidget {
   const CustomActionBar({
@@ -24,16 +25,22 @@ class CustomActionBar extends StatelessWidget {
         children: [
           FloatingActionButton(
             onPressed: onTapLocate,
-            backgroundColor: Colors.grey.withOpacity(0.5),
+            backgroundColor: NavableColors.grayAccent.withOpacity(0.5),
             shape: const CircleBorder(),
-            child: const Icon(Icons.center_focus_weak),
+            child: const Icon(
+              Icons.center_focus_weak,
+              color: NavableColors.white,
+            ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             onPressed: onTapAddWarning,
             shape: const CircleBorder(),
-            backgroundColor: const Color(0xff998CEB),
-            child: const Icon(Icons.add),
+            backgroundColor: NavableColors.yellowAccent,
+            child: const Icon(
+              Icons.add,
+              color: NavableColors.black,
+            ),
           ),
         ],
       ),

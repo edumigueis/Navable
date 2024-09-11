@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../components/navable_button.dart';
-import '../util/styles.dart';
 import 'controllers/settings_controller.dart';
 
 class SignUpView extends StatelessWidget {
@@ -106,7 +105,7 @@ class SignUpView extends StatelessWidget {
                       obscureText: true),
                   Container(
                     margin: const EdgeInsets.only(top: 10.0),
-                    alignment: Alignment(1, 0),
+                    alignment: const Alignment(1, 0),
                     child: const Text("Forgot your password?",
                         style: TextStyle(
                             fontSize: 14.0,
@@ -118,7 +117,8 @@ class SignUpView extends StatelessWidget {
                 ],
               )),
           Padding(
-              padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: NavableButton(
                 "SIGN UP",
                 onPressed: () {
@@ -126,7 +126,7 @@ class SignUpView extends StatelessWidget {
                 },
               )),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
             child: Text("Opa deu erro",
                 style: TextStyle(
                     fontSize: 16,

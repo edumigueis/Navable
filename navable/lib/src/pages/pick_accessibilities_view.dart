@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/components/accessibility_checks.dart';
+import 'package:navable/src/components/navable_button.dart';
+import 'package:navable/src/pages/models/acc_category.dart';
 import 'controllers/settings_controller.dart';
 
 class PickAccessibilitiesView extends StatelessWidget {
@@ -15,30 +18,29 @@ class PickAccessibilitiesView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      extendBodyBehindAppBar: true,
       extendBody: true,
       backgroundColor: Colors.white,
       body: Center(
-          child: Column(children: [
-        Expanded(child: ListView()),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
-          child: SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: TextButton(
-                onPressed: () {
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(15.0, 4.0, 0.0, 15.0),
+              child: Text("Quais as suas necessidades?"),
+            ),
+            Expanded(
+                child: AccessibilityChecks(title: "", buttons: [
+              AccessibilityCategory("a", "b"),
+              AccessibilityCategory("b", "b"),
+              AccessibilityCategory("c", "a")
+            ])),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
+                child: NavableButton("NEXT", onPressed: () {
                   Navigator.pushNamed(context, "/home");
-                },
-                child: const Text('LOGIN',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Ubuntu',
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(240, 240, 240, 1)))),
-          ),
-        ),
-      ])),
+                }))
+          ])),
     );
   }
 }
