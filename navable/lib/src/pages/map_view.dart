@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -10,6 +12,7 @@ import '../components/place_card.dart';
 import '../components/top_bar.dart';
 import '../util/animated_map_move.dart';
 import 'filter_view.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});
@@ -22,6 +25,14 @@ class MapView extends StatefulWidget {
 
 class MapViewState extends State<MapView> with TickerProviderStateMixin {
   final MapController mapController = MapController();
+  LatLng _currentLocation = LatLng(0, 0);
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
   bool _isModalOpen = false;
 
   void _togglePlaceModal() {
@@ -66,10 +77,24 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     });
   }
 
+  void _getCurrentLocation() async {
+    bool servicePermission = await Geolocator.isLocationServiceEnabled();
+    print("aaaaaaaaaaa");
+    if (!servicePermission) {
+      print("Service Disabled");
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    Position? currentLocationPos = await Geolocator.getCurrentPosition();
+    _currentLocation = LatLng(currentLocationPos.latitude, currentLocationPos.longitude);
+  }
+
   void _moveToUserLocation() {
     AnimatedMapMove.move(
       mapController,
-      LatLng(51.509364, -0.128928),
+      _currentLocation,
       18,
       this,
     );
@@ -105,7 +130,8 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                   Navigator.pushNamed(context, "/settings");
                 }, // Prevent closing when tapping inside the card
                 child: PlaceCard(
-                  place: Place("name", 1.5, "assets/images/flutter_logo.png", "Rua Rita Lee, 255"),
+                  place: Place("name", 1.5, "assets/images/flutter_logo.png",
+                      "Rua Rita Lee, 255"),
                   icon: Icons.insert_emoticon_sharp,
                   iconColor: Colors.green,
                   onClose:
