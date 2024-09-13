@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../util/styles.dart';
+import '../../util/styles.dart';
 
 class NavableButton extends StatelessWidget {
   final String text;
@@ -32,7 +32,7 @@ class NavableButton extends StatelessWidget {
             const BorderSide(color: NavableColors.black, width: 2.0),
           ),
           overlayColor:
-              WidgetStateProperty.all<Color>(Colors.black.withOpacity(0.1)),
+              WidgetStateProperty.all<Color>(NavableColors.black.withOpacity(0.1)),
           elevation: WidgetStateProperty.all<double>(5),
         ),
         onPressed: onPressed,

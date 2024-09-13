@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/accessibility_checks.dart';
-import '../components/expandable_section.dart';
+import '../components/basics/expandable_section.dart';
 import 'models/acc_category.dart';
 
 class FilterView extends StatelessWidget {

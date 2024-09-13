@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/components/accessibility_checks.dart';
-import 'package:navable/src/components/navable_button.dart';
+import 'package:navable/src/components/basics/navable_button.dart';
 import 'package:navable/src/pages/models/acc_category.dart';
 
 import 'controllers/settings_controller.dart';

@@ -49,7 +49,7 @@ class LoadingApp extends StatelessWidget {
     await profileController.loadSettings();
 
     final mapController = MapViewController(MapService());
-    await Future.delayed(Duration(seconds: 3));
+    //await Future.delayed(Duration(seconds: 3));
     return {
       'settingsController': settingsController,
       'profileController': profileController,

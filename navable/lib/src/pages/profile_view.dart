@@ -4,7 +4,7 @@ import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/models/acc_category.dart';
 import 'package:navable/src/pages/models/badge.dart';
 
-import '../components/expandable_section.dart';
+import '../components/basics/expandable_section.dart';
 
 class ProfileView extends StatelessWidget {
   ProfileView({super.key, required this.controller});

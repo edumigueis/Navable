@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/navable_button.dart';
+import '../components/basics/navable_button.dart';
 
 class Landing extends StatefulWidget {
   const Landing({super.key});
