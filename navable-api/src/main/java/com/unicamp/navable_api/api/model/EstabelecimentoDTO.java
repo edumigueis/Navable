@@ -1,12 +1,13 @@
 package com.unicamp.navable_api.api.model;
 
-@Entity
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Estabelecimento")
-public class Estabelecimento {
-    @Id
+public class EstabelecimentoDTO {
     private Integer idEstabelecimento;
     private Integer idTipoEstabeleci;
     private String nome;
