@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      # Persistent data storage for PostgreSQL
+      - postgres_data:/var/lib/postgresql/data
+      # Initialization scripts
+      - ./dataset:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+    healthcheck:
+          test: curl --fail http://localhost:5432/ || exit 1
+          interval: 40s
+          timeout: 30s
+          retries: 3
+          start_period: 60s
+    networks:
+      - navable
+
+networks:
+  navable:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
