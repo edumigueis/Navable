@@ -1,4 +1,7 @@
+package com.unicamp.navable_api.api.impl;
+
 import com.unicamp.navable_api.api.model.UsuarioDTO;
+import com.unicamp.navable_api.services.impl.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

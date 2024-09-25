@@ -1,6 +1,7 @@
 package com.unicamp.navable_api.api.impl;
 
 import com.unicamp.navable_api.api.model.CategoriaAcessibilidadeDTO;
+import com.unicamp.navable_api.services.impl.CategoriaAcessibilidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class CategoriaAcessibilidadeControllerImpl {
 
     @Autowired
-    private CategoriaAcessibilidadeDTO categoriaService;
+    private CategoriaAcessibilidadeService categoriaService;
 
     @GetMapping
     public List<CategoriaAcessibilidadeDTO> getAllCategorias() {

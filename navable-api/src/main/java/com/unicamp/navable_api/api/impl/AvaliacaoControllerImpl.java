@@ -1,6 +1,7 @@
 package com.unicamp.navable_api.api.impl;
 
 import com.unicamp.navable_api.api.model.AvaliacaoDTO;
+import com.unicamp.navable_api.services.impl.AvaliacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
