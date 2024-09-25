@@ -19,7 +19,7 @@ class LandingState extends State<Landing> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
-                flex: 60, // 20%
+                flex: 60,
                 child: Container(
                   color: const Color(0xFF5E2BFF),
                 )),
