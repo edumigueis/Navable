@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/util/styles.dart';
 
 import '../components/basics/navable_button.dart';
 
@@ -23,25 +24,15 @@ class LandingState extends State<Landing> {
                 child: Container(
                   color: const Color(0xFF5E2BFF),
                 )),
-            const Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 10),
-              child: Text(
-                "Welcome to navAble!",
-                style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            const Padding(
+            Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 10),
+                child: Text("Bem-vindo à Navable!",
+                    style: Theme.of(context).textTheme.subtitle)),
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Lorem Ipsum Dolor kaakuaua aa yaa aja ha aaiayavqyqy7aa aa hayuaysvbsa abava aayava.",
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromRGBO(40, 40, 40, 1)),
+                "O seu mapa colaborativo de acessibilidade. Vá onde quiser quando quiser.",
+                style: Theme.of(context).textTheme.body,
                 textAlign: TextAlign.center,
               ),
             ),

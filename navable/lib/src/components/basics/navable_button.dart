@@ -31,8 +31,8 @@ class NavableButton extends StatelessWidget {
           side: WidgetStateProperty.all<BorderSide>(
             const BorderSide(color: NavableColors.black, width: 2.0),
           ),
-          overlayColor:
-              WidgetStateProperty.all<Color>(NavableColors.black.withOpacity(0.1)),
+          overlayColor: WidgetStateProperty.all<Color>(
+              NavableColors.black.withOpacity(0.1)),
           elevation: WidgetStateProperty.all<double>(5),
         ),
         onPressed: onPressed,
@@ -41,16 +41,9 @@ class NavableButton extends StatelessWidget {
           transitionBuilder: (child, animation) {
             return ScaleTransition(scale: animation, child: child);
           },
-          child: Text(
-            text,
-            key: ValueKey<String>(text),
-            style: const TextStyle(
-              fontSize: 16,
-              fontFamily: 'Lexend',
-              fontWeight: FontWeight.bold,
-              color: NavableColors.black,
-            ),
-          ),
+          child: Text(text,
+              key: ValueKey<String>(text),
+              style: Theme.of(context).textTheme.button),
         ),
       ),
     );

@@ -44,11 +44,23 @@ class SignUpView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  NavableTextInput("E-mail", controller: TextEditingController(), hintText: "Digite seu e-mail",),
+                  NavableTextInput(
+                    "E-mail",
+                    controller: TextEditingController(),
+                    hintText: "Digite seu e-mail",
+                  ),
                   SizedBox(height: 20),
-                  NavableTextInput("Senha", controller: TextEditingController(), hintText: "Digite sua senha",),
+                  NavableTextInput(
+                    "Senha",
+                    controller: TextEditingController(),
+                    hintText: "Digite sua senha",
+                  ),
                   SizedBox(height: 20),
-                  NavableTextInput("Confirmar senha", controller: TextEditingController(), hintText: "Digite novamente a senha",)
+                  NavableTextInput(
+                    "Confirmar senha",
+                    controller: TextEditingController(),
+                    hintText: "Digite novamente a senha",
+                  )
                 ],
               )),
           Padding(

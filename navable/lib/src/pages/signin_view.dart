@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/components/basics/navable_text_input.dart';
+import 'package:navable/src/util/styles.dart';
 
 import '../components/basics/navable_button.dart';
 import 'controllers/settings_controller.dart';
@@ -24,17 +25,13 @@ class SignInView extends StatelessWidget {
       body: Center(
           child: ListView(
         children: <Widget>[
-          const Row(
+          Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
                   "Login",
-                  style: TextStyle(
-                      fontSize: 35.0,
-                      fontFamily: 'Ubuntu',
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(40, 40, 40, 1)),
+                  style: Theme.of(context).textTheme.heading,
                 ),
               ),
             ],
@@ -59,12 +56,8 @@ class SignInView extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 10.0),
                     alignment: Alignment(1, 0),
-                    child: const Text("Forgot your password?",
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Ubuntu',
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(40, 40, 40, 1)),
+                    child: Text("Forgot your password?",
+                        style: Theme.of(context).textTheme.caption,
                         textAlign: TextAlign.right),
                   )
                 ],
@@ -77,15 +70,10 @@ class SignInView extends StatelessWidget {
                   Navigator.pushNamed(context, "/home");
                 },
               )),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-            child: Text("Opa deu erro",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(237, 67, 35, 1))),
-          )
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+              child: Text("Opa deu erro",
+                  style: Theme.of(context).textTheme.error))
         ],
       )),
     );

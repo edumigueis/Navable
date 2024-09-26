@@ -6,6 +6,7 @@ import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/landing_view.dart';
 import 'package:navable/src/pages/pick_accessibilities_view.dart';
 import 'package:navable/src/pages/profile_view.dart';
+import 'package:navable/src/pages/review_view.dart';
 import 'package:navable/src/pages/signin_view.dart';
 import 'package:navable/src/pages/signup_view.dart';
 
@@ -63,6 +64,8 @@ class Navable extends StatelessWidget {
                   case PickAccessibilitiesView.routeName:
                     return PickAccessibilitiesView(
                         controller: settingsController);
+                  case ReviewView.routeName:
+                    return ReviewView(controller: profileController);
                   default:
                     return const Landing();
                 }

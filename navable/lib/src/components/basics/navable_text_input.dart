@@ -5,14 +5,11 @@ import '../../util/styles.dart';
 class NavableTextInput extends StatelessWidget {
   final String labelText;
   final String? hintText;
+  final int? maxLines;
   final TextEditingController controller;
 
-  const NavableTextInput(
-      this.labelText, {
-        super.key,
-        required this.controller,
-        this.hintText
-      });
+  const NavableTextInput(this.labelText,
+      {super.key, required this.controller, this.hintText, this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -23,35 +20,30 @@ class NavableTextInput extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 2.0),
           child: Text(
             labelText,
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontFamily: 'Ubuntu',
-              fontWeight: FontWeight.w500,
-              color: NavableColors.black,
-            ),
+            style: Theme.of(context).textTheme.minititle,
             textAlign: TextAlign.start,
           ),
         ),
         TextField(
-          controller: controller, // Utiliza o controlador
-          decoration: InputDecoration(
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: NavableColors.grayAccent,
-                width: 2.0,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: NavableColors.gray,
-                width: 2.0,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            hintText: hintText ?? "",
-          ),
-        ),
+            controller: controller, // Utiliza o controlador
+            decoration: InputDecoration(
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: NavableColors.grayAccent,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: NavableColors.gray,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                hintText: hintText ?? "",
+                hintStyle: Theme.of(context).textTheme.caption),
+            maxLines: maxLines ?? 1),
       ],
     );
   }

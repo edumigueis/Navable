@@ -101,7 +101,7 @@ class PlaceCard extends StatelessWidget {
               child: TextButton(
                   //style: ButtonStyle(backgroundColor: Color(0xff998CEB)),
                   onPressed: () {
-                    print("ui");
+                    Navigator.pushNamed(context, "/review", arguments: place);
                   },
                   child: const Text("REVIEW")))
         ],

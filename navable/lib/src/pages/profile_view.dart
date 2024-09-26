@@ -3,6 +3,7 @@ import 'package:navable/src/components/accessibility_checks.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/models/acc_category.dart';
 import 'package:navable/src/pages/models/badge.dart';
+import 'package:navable/src/util/styles.dart';
 
 import '../components/basics/expandable_section.dart';
 
@@ -24,11 +25,12 @@ class ProfileView extends StatelessWidget {
       body: ListView(
         children: [
           Card(
-            elevation: 4,
+            elevation: 0,
             margin: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
+            color: NavableColors.gray,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -45,18 +47,17 @@ class ProfileView extends StatelessWidget {
                       children: [
                         Text(
                           'John Doe', // Replace with dynamic name if needed
-                          style: Theme.of(context).textTheme.headlineMedium,
+                          style: Theme.of(context).textTheme.subtitle,
                         ),
                         Text(
                           '800 POINTS', // Replace with dynamic name if needed
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.highlight,
                         ),
-                        const SizedBox(height: 8),
-                        LinearProgressIndicator(
+                        const SizedBox(height: 10),
+                        const LinearProgressIndicator(
                           value: 0.7,
-                          // Static progress, replace with dynamic value if needed
-                          backgroundColor: Colors.grey[300],
-                          color: const Color(0xff998CEB),
+                          backgroundColor: NavableColors.gray,
+                          color: NavableColors.blueAccent,
                         ),
                       ],
                     ),

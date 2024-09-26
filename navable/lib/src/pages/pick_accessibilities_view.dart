@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:navable/src/components/accessibility_checks.dart';
 import 'package:navable/src/components/basics/navable_button.dart';
 import 'package:navable/src/pages/models/acc_category.dart';
+import 'package:navable/src/util/styles.dart';
 
 import 'controllers/settings_controller.dart';
 
@@ -25,10 +26,9 @@ class PickAccessibilitiesView extends StatelessWidget {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-            const Padding(
+              children: [Padding(
               padding: EdgeInsets.fromLTRB(15.0, 4.0, 0.0, 15.0),
-              child: Text("Quais as suas necessidades?"),
+              child: Text("Quais as suas necessidades?", style: Theme.of(context).textTheme.heading,),
             ),
             Expanded(
                 child: AccessibilityChecks(title: "", buttons: [

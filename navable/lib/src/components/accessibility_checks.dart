@@ -44,7 +44,7 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(group,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                    style: Theme.of(context).textTheme.minititle),
                 Wrap(
                   spacing: 4,
                   runSpacing: 8,
