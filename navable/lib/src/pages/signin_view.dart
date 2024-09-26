@@ -65,7 +65,7 @@ class SignInView extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
               child: NavableButton(
-                "SIGN IN",
+                "ENTRAR",
                 onPressed: () {
                   Navigator.pushNamed(context, "/home");
                 },

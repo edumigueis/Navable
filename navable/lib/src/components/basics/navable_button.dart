@@ -6,19 +6,25 @@ class NavableButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color? background;
+  final double? height;
+  final double? width;
+  final double? textSize;
 
   const NavableButton(
     this.text, {
     super.key,
     required this.onPressed,
     this.background,
+        this.height,
+        this.width,
+        this.textSize
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 45,
+      width: width ?? double.infinity,
+      height: height ?? 45,
       child: TextButton(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all<Color>(
@@ -43,7 +49,7 @@ class NavableButton extends StatelessWidget {
           },
           child: Text(text,
               key: ValueKey<String>(text),
-              style: Theme.of(context).textTheme.button),
+              style: Theme.of(context).textTheme.button.copyWith(fontSize: textSize ?? 18)),
         ),
       ),
     );

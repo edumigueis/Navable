@@ -37,6 +37,13 @@ extension CustomStyles on TextTheme {
         color: NavableColors.black,
       ));
 
+  TextStyle get smalltitle => GoogleFonts.urbanist(
+      textStyle: const TextStyle(
+        fontSize: 18.0,
+        fontWeight: FontWeight.w600,
+        color: NavableColors.black,
+      ));
+
   TextStyle get minititle => GoogleFonts.urbanist(
           textStyle: const TextStyle(
         fontSize: 15.0,

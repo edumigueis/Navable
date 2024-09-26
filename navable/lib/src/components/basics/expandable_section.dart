@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/components/accessibility_checks.dart';
+import 'package:navable/src/util/styles.dart';
 
 class ExpandableSection extends StatefulWidget {
   final String title;
@@ -23,7 +25,7 @@ class ExpandableSectionState extends State<ExpandableSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-          title: Text(widget.title),
+          title: Text(widget.title, style: Theme.of(context).textTheme.minititle,),
           trailing: IconButton(
             icon: Icon(
               _isExpanded ? Icons.expand_less : Icons.expand_more,

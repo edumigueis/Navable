@@ -43,14 +43,14 @@ class LandingState extends State<Landing> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   NavableButton(
-                    "REGISTER",
+                    "CRIAR CONTA",
                     onPressed: () {
                       Navigator.pushNamed(context, "/signup");
                     },
                   ),
                   const SizedBox(height: 8),
                   NavableButton(
-                    "SIGN IN",
+                    "ENTRAR",
                     background: Colors.transparent,
                     onPressed: () {
                       Navigator.pushNamed(context, "/signin");

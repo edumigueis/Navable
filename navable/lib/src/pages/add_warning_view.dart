@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navable/src/pages/models/warning.dart';
+import 'package:navable/src/util/styles.dart';
 
 class AddWarningView extends StatelessWidget {
   const AddWarningView({super.key});
@@ -13,7 +14,10 @@ class AddWarningView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("What do you want to report?"),
+          Text(
+            "O que você quer reportar?",
+            style: Theme.of(context).textTheme.smalltitle,
+          ),
           const SizedBox(height: 16), // Add spacing
           Expanded(
             // Wrap GridView in Expanded to give it constrained space
@@ -37,7 +41,7 @@ class AddWarningView extends StatelessWidget {
                         backgroundImage:
                             AssetImage('assets/images/warnings/${el.type}.png'),
                       ),
-                      Text(el.title),
+                      Text(el.title, style: Theme.of(context).textTheme.minititle,),
                     ],
                   ),
                 );

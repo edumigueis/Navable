@@ -33,7 +33,7 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: _groupedButtons.entries.map((entry) {
@@ -43,8 +43,7 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(group,
-                    style: Theme.of(context).textTheme.minititle),
+                Text(group, style: Theme.of(context).textTheme.smalltitle),
                 Wrap(
                   spacing: 4,
                   runSpacing: 8,
@@ -80,12 +79,13 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
               color: isSelected ? NavableColors.blueAccent : NavableColors.gray,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: isSelected ? NavableColors.white : NavableColors.black,
-              ),
-            ),
+            child: Text(text,
+                style: isSelected
+                    ? Theme.of(context)
+                        .textTheme
+                        .minititle
+                        .copyWith(color: NavableColors.white)
+                    : Theme.of(context).textTheme.minititle),
           ),
         );
       },

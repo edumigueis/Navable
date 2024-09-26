@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/util/styles.dart';
 
 import '../components/basics/navable_button.dart';
 import '../components/basics/navable_text_input.dart';
@@ -24,19 +25,13 @@ class SignUpView extends StatelessWidget {
       body: Center(
           child: ListView(
         children: <Widget>[
-          const Row(
+          Row(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
-                child: Text(
-                  "Sign up",
-                  style: TextStyle(
-                      fontSize: 35.0,
-                      fontFamily: 'Ubuntu',
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(40, 40, 40, 1)),
-                ),
-              ),
+                padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
+                child: Text("Criar conta",
+                    style: Theme.of(context).textTheme.heading),
+              )
             ],
           ),
           Padding(
@@ -67,19 +62,15 @@ class SignUpView extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: NavableButton(
-                "SIGN UP",
+                "REGISTRAR",
                 onPressed: () {
                   Navigator.pushNamed(context, "/pickacc");
                 },
               )),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-            child: Text("Opa deu erro",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(237, 67, 35, 1))),
+            child:
+                Text("Opa deu erro", style: Theme.of(context).textTheme.error),
           )
         ],
       )),
