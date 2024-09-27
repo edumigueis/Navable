@@ -16,16 +16,21 @@ class FilterView extends StatelessWidget {
       height: 400,
       child: ListView(
         shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text('Filtrar', style: Theme.of(context).textTheme.subtitle),
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Text('Filtrar',
+                    style: Theme.of(context).textTheme.subtitle)),
           ),
-          ReviewSlider(
-            initialValue: 2,
-            onChanged: (newValue) {},
-          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ReviewSlider(
+                initialValue: 2,
+                onChanged: (newValue) {},
+              )),
           ExpandableSection(
               title: 'Acessibilidade',
               child: AccessibilityChecks(title: "a", buttons: [
@@ -40,14 +45,14 @@ class FilterView extends StatelessWidget {
                 AccessibilityCategory("b", "b"),
                 AccessibilityCategory("c", "a")
               ])),
+          SizedBox(height: 30),
           NavableButton(
-              "APLICAR",
-              onPressed: () {
-                // Example data to return
-                String selectedData = "Some Filter Data";
-                Navigator.pop(context, selectedData); // Pass data back
-              },
-            ),
+            "APLICAR",
+            onPressed: () {
+              String selectedData = "Some Filter Data";
+              Navigator.pop(context, selectedData); // Pass data back
+            },
+          ),
         ],
       ),
     );

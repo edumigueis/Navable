@@ -39,7 +39,7 @@ class AddWarningView extends StatelessWidget {
                       CircleAvatar(
                         radius: 30,
                         backgroundImage:
-                            AssetImage('assets/images/warnings/${el.type}.png'),
+                            AssetImage('assets/images/flutter_logo.png'),
                       ),
                       Text(el.title, style: Theme.of(context).textTheme.minititle,),
                     ],

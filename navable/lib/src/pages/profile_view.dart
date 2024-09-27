@@ -91,8 +91,7 @@ class ProfileView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage: AssetImage(
-                                badge.image), // Replace with your photo asset
+                            backgroundImage: AssetImage("assets/images/flutter_logo.png"), // Replace with your photo asset
                           ),
                           Text(badge.title)
                         ],
