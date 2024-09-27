@@ -124,17 +124,92 @@ CREATE TABLE AvaliacaoCategoria (
     FOREIGN KEY (id_avaliacao) REFERENCES Avaliação(id_avaliacao)
 );
 
---SAMPLE FOR FILE INITIATING
-CREATE TABLE inflation_data (
-    RegionalMember TEXT,
-    Year INT,
-    Inflation DECIMAL,
-    Unit_of_Measurement TEXT,
-    Subregion TEXT,
-    Country_Code TEXT
-);
+-- Insert data into Selo
+INSERT INTO Selo (nome, imagem) VALUES
+('Novato', 'selo_novato.png'),
+('Ativo', 'selo_ativo.png'),
+('Expert', 'selo_expert.png'),
+('Contribuidor', 'selo_contribuidor.png'),
+('Veterano', 'selo_veterano.png');
 
-COPY inflation_data
-FROM '/docker-entrypoint-initdb.d/inflation.csv'
-DELIMITER ','
-CSV HEADER;
+-- Inserir dados na CategoriaAcessibilidade
+INSERT INTO CategoriaAcessibilidade (nome, grupo) VALUES
+('Assento Sanitário Rebaixado', 'Banheiro'),
+('Rampa de Acesso', 'Entrada'),
+('Estacionamento Acessível', 'Entrada'),
+('Entrada Sem Barreiras', 'Entrada'),
+('Porta Automática', 'Entrada'),
+('Elevador', 'Geral'),
+('Banheiro Acessível - Privado', 'Banheiro'),
+('Banheiro Acessível - Cabine', 'Banheiro'),
+('Mobiliário Acessível', 'Geral'),
+('Iluminação Brilhante', 'Geral'),
+('Iluminação Baixa', 'Geral'),
+('Acessibilidade Auditiva', 'Auditivo'),
+('Sinais em Braille', 'Geral'),
+('Cadeiras de Rodas Disponíveis', 'Geral'),
+('Espaço Amplo', 'Geral'),
+('Balcões Abaixados', 'Geral'),
+('Serviço Amigo do Animal', 'Geral'),
+('Quadro de Avisos em Grande Formato', 'Geral'),
+('Sinalização Clara', 'Geral'),
+('Sons Auditivos de Alerta', 'Auditivo'),
+('Acessibilidade Digital', 'Digital'),
+('Menu Digital', 'Digital'),
+('Acessibilidade em Eventos', 'Geral'),
+('Sistema de Loop de Audição', 'Auditivo'),
+('Apoio Visual', 'Geral'),
+('Área de Espera Acessível', 'Geral'),
+('Tábuas de Tactile', 'Geral'),
+('Acessibilidade para Deficientes Visuais', 'Geral'),
+('Guias de Navegação', 'Geral'),
+('Área de Descanso Acessível', 'Geral'),
+('Placas Informativas em Braille', 'Geral'),
+('Feedback Auditivo', 'Geral'),
+('Mesas Acessíveis', 'Banheiro'),
+('Protetores Auditivos Disponíveis', 'Auditivo'),
+('Segurança Acessível', 'Geral'),
+('Iluminação de Sinalização', 'Geral'),
+('Acessibilidade para Animais de Serviço', 'Geral'),
+('Suporte para Mobilidade', 'Geral'),
+('Sinalização em Vários Idiomas', 'Geral'),
+('Estacionamento Reservado para Deficientes', 'Entrada');
+
+-- Insert data into TipoEstabelecimento
+INSERT INTO TipoEstabelecimento (nome) VALUES
+('Restaurante'),
+('Loja de Roupas'),
+('Supermercado'),
+('Escola'),
+('Hospital'),
+('Ponto de Ônibus'),
+('Cafeteria'),
+('Clínica'),
+('Shopping Center'),
+('Biblioteca'),
+('Centro de Convivência'),
+('Posto de Combustível'),
+('Academia'),
+('Teatro'),
+('Museu'),
+('Parque');
+
+-- Insert data into TipoOcorrencia
+INSERT INTO TipoOcorrencia (nome, icone) VALUES
+('Calçada Irregular', 'images/icone_calçada_irregular.png'),
+('Rampa Íngreme', 'images/icone_rampa_ingreme.png'),
+('Buraco na Calçada', 'images/icone_buraco_calçada.png'),
+('Guia de Cegos Mal Posicionada', 'images/icone_guia_cegos.png'),
+('Acesso Bloqueado', 'images/icone_acesso_bloqueado.png'),
+('Falta de Sinalização', 'images/icone_falta_sinalizacao.png'),
+('Banheiro Inacessível', 'images/icone_banheiro_inacessivel.png'),
+('Escadas Sem Alternativa', 'images/icone_escadas_sem_alternativa.png'),
+('Assentos Inadequados', 'images/icone_assentos_inadequados.png'),
+('Iluminação Insuficiente', 'images/icone_iluminacao_insuficiente.png'),
+('Elevador Fora de Serviço', 'images/icone_elevador_fora_servico.png'),
+('Superfície Escorregadia', 'images/icone_superficie_escorregadia.png'),
+('Mobiliário Inadequado', 'images/icone_mobiliario_inadequado.png'),
+('Portas Pesadas ou Difíceis de Abrir', 'images/icone_portas_pesadas.png'),
+('Falta de Corrimão em Escadas', 'images/icone_falta_corrimao.png'),
+('Obstáculos no Caminho', 'images/icone_obstaculos_caminho.png'),
+('Dificuldade para Manobras com Cadeira de Rodas', 'images/icone_dificuldade_manobras.png');
