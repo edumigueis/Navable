@@ -16,8 +16,8 @@ public class OcorrenciaControllerImpl {
     private OcorrenciaService ocorrenciaService;
 
     @GetMapping("/{latitude}/{longitude}")
-    public ResponseEntity<List<OcorrenciaDTO>> getAllOcorrencias(@PathVariable Integer latitude, @PathVariable Integer longitude) {
-        return ResponseEntity.ok(ocorrenciaService.getAllOcorrencias());
+    public ResponseEntity<List<OcorrenciaDTO>> getAllOcorrencias(@PathVariable double latitude, @PathVariable double longitude) {
+        return ResponseEntity.ok(ocorrenciaService.getAllOcorrencias(latitude, longitude));
     }
 
     @GetMapping("/{id}")

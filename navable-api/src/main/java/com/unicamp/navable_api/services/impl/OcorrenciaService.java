@@ -25,8 +25,8 @@ public class OcorrenciaService {
         return ocorrenciaMapper.toDTO(savedOcorrencia);
     }
 
-    public List<OcorrenciaDTO> getAllOcorrencias() {
-        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findAll();
+    public List<OcorrenciaDTO> getAllOcorrencias(double latitude, double longitude) {
+        List<Ocorrencia> ocorrencias = ocorrenciaRepository.findNearby(latitude, longitude);
         return ocorrencias.stream()
                 .map(ocorrenciaMapper::toDTO)
                 .collect(Collectors.toList());
