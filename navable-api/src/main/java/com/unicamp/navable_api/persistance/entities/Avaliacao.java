@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Avaliação")
+@Table(name = "Avaliacao")
 public class Avaliacao {
     @Id
     private Integer idAvaliacao;

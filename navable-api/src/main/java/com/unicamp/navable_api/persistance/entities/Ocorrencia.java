@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Ocorrência")
+@Table(name = "Ocorrencia")
 public class Ocorrencia {
     @Id
     private Integer idOcorrencia;

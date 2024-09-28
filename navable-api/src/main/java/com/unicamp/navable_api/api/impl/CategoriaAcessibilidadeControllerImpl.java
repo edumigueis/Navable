@@ -3,6 +3,7 @@ package com.unicamp.navable_api.api.impl;
 import com.unicamp.navable_api.api.model.CategoriaAcessibilidadeDTO;
 import com.unicamp.navable_api.services.impl.CategoriaAcessibilidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class CategoriaAcessibilidadeControllerImpl {
     private CategoriaAcessibilidadeService categoriaService;
 
     @GetMapping
-    public List<CategoriaAcessibilidadeDTO> getAllCategorias() {
-        return categoriaService.getAllCategorias();
+    public ResponseEntity<List<CategoriaAcessibilidadeDTO>> getAllCategorias() {
+        return ResponseEntity.ok(categoriaService.getAllCategorias());
     }
 
     @GetMapping("/{id}")

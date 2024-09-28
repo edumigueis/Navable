@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Categoria_de_Acessibilidade")
+@Table(name = "CategoriaAcessibilidade")
 public class CategoriaAcessibilidade {
     @Id
     private Integer categoriaAcId;
