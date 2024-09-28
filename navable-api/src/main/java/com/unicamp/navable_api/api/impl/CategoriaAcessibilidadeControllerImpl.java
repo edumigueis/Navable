@@ -23,9 +23,4 @@ public class CategoriaAcessibilidadeControllerImpl {
     public CategoriaAcessibilidadeDTO getCategoriaById(@PathVariable Integer id) {
         return categoriaService.getCategoriaById(id);
     }
-
-    @PostMapping("/user/{usuarioId}")
-    public void setCategoriaToUsuario(@PathVariable Integer usuarioId, @RequestBody List<Integer> categoriaIds) {
-        usuarioService.setCategoriaToUsuario(usuarioId, categoriaIds);
-    }
 }

@@ -21,8 +21,8 @@ public class OcorrenciaControllerImpl {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<OcorrenciaDTO>> getEstabelecimentoById(@PathVariable Integer id) {
-        return ResponseEntity.ok(ocorrenciaService.getOcorrenciasByTipo(id));
+    public ResponseEntity<OcorrenciaDTO> getOcorrenciaById(@PathVariable Integer id) {
+        return ResponseEntity.ok(ocorrenciaService.getOcorrenciaById(id));
     }
 
     @PostMapping

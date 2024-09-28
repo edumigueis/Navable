@@ -4,10 +4,7 @@ import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
 import com.unicamp.navable_api.services.impl.EstabelecimentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +25,8 @@ public class EstabelecimentoControllerImpl {
         return ResponseEntity.ok(estabelecimentoService.getEstabelecimentoById(id));
     }
 
-    @GetMapping("/tipo/{tipoId}")
-    public ResponseEntity<List<EstabelecimentoDTO>> getEstabelecimentosByTipo(@PathVariable Integer tipoId) {
-        return ResponseEntity.ok(estabelecimentoService.getEstabelecimentosByTipo(tipoId));
+    @GetMapping("/filtrar")
+    public ResponseEntity<List<EstabelecimentoDTO>> getEstabelecimentosByTipo(@RequestParam Float nota, @RequestParam List<Integer> categorias, @RequestParam Integer tipoId) {
+        return ResponseEntity.ok(estabelecimentoService.filtrar(nota, categorias, tipoId));
     }
 }

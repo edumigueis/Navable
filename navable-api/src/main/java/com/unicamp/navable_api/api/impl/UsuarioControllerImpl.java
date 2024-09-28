@@ -39,8 +39,8 @@ public class UsuarioControllerImpl {
         usuarioService.deleteUsuario(id);
     }
 
-    @PostMapping("/{usuarioId}/selo/{seloId}")
-    public void addSeloToUsuario(@PathVariable Integer usuarioId, @PathVariable Integer seloId) {
+    @PostMapping("/selo")
+    public void addSeloToUsuario(@RequestParam Integer usuarioId, @RequestParam Integer seloId) {
         usuarioService.addSeloToUsuario(usuarioId, seloId);
     }
 }

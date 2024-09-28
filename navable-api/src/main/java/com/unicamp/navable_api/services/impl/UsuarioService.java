@@ -1,7 +1,10 @@
 package com.unicamp.navable_api.services.impl;
 
+import com.unicamp.navable_api.api.model.AvaliacaoDTO;
 import com.unicamp.navable_api.api.model.UsuarioDTO;
 import com.unicamp.navable_api.persistance.entities.Usuario;
+import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
+import com.unicamp.navable_api.services.mappers.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +17,24 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private ModelMapper modelMapper; // Assuming you're using ModelMapper for DTO conversion
+    private final UsuarioMapper usuarioMapper = UsuarioMapper.INSTANCE;
 
     public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
-        Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
+        Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return modelMapper.map(savedUsuario, UsuarioDTO.class);
+        return usuarioMapper.toDTO(savedUsuario);
     }
 
     public List<UsuarioDTO> getAllUsuarios() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios.stream()
-                .map(usuario -> modelMapper.map(usuario, UsuarioDTO.class))
+                .map(usuarioMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public UsuarioDTO getUsuarioById(Integer id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario not found with id " + id));
-        return modelMapper.map(usuario, UsuarioDTO.class);
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Usuario not found with id " + id));
+        return usuarioMapper.toDTO(usuario);
     }
 
     public void deleteUsuario(Integer id) {
@@ -48,11 +49,6 @@ public class UsuarioService {
         // Implement logic to record vote on an occurrence
     }
 
-    public OcorrenciaDTO createOcorrencia(Integer usuarioId, OcorrenciaDTO ocorrenciaDTO) {
-        // Implement logic to create an occurrence by user
-        return null; // Placeholder for actual implementation
-    }
-
     public AvaliacaoDTO createAvaliacao(Integer usuarioId, AvaliacaoDTO avaliacaoDTO) {
         // Implement logic to create an evaluation by user
         return null; // Placeholder for actual implementation
@@ -60,5 +56,11 @@ public class UsuarioService {
 
     public void addCategoriaToUsuario(Integer usuarioId, List<Integer> categoriaIds) {
         // Implement logic to add accessibility categories to user
+    }
+
+    public UsuarioDTO updateUsuario(Integer id, UsuarioDTO usuarioDTO) {
+        //Usuario usuario = usuarioRepository.find(id);
+        //return usuarioMapper.toDTO(usuario);
+        return new UsuarioDTO();
     }
 }

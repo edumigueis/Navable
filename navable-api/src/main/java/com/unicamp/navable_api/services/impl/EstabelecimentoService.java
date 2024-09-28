@@ -2,6 +2,8 @@ package com.unicamp.navable_api.services.impl;
 
 import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
 import com.unicamp.navable_api.persistance.entities.Estabelecimento;
+import com.unicamp.navable_api.persistance.repositories.EstabelecimentoRepository;
+import com.unicamp.navable_api.services.mappers.EstabelecimentoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,35 +16,34 @@ public class EstabelecimentoService {
     @Autowired
     private EstabelecimentoRepository estabelecimentoRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    // Usar o mapper gerado pelo MapStruct
+    private final EstabelecimentoMapper estabelecimentoMapper = EstabelecimentoMapper.INSTANCE;
 
     public EstabelecimentoDTO createEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) {
-        Estabelecimento estabelecimento = modelMapper.map(estabelecimentoDTO, Estabelecimento.class);
+        // Usar o mapper para converter DTO para Entidade
+        Estabelecimento estabelecimento = estabelecimentoMapper.toEntity(estabelecimentoDTO);
         Estabelecimento savedEstabelecimento = estabelecimentoRepository.save(estabelecimento);
-        return modelMapper.map(savedEstabelecimento, EstabelecimentoDTO.class);
+        // Retornar o DTO a partir da entidade salva
+        return estabelecimentoMapper.toDTO(savedEstabelecimento);
     }
 
     public List<EstabelecimentoDTO> getAllEstabelecimentos() {
         List<Estabelecimento> estabelecimentos = estabelecimentoRepository.findAll();
         return estabelecimentos.stream()
-                .map(estabelecimento -> modelMapper.map(estabelecimento, EstabelecimentoDTO.class))
+                .map(estabelecimentoMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public EstabelecimentoDTO getEstabelecimentoById(Integer id) {
         Estabelecimento estabelecimento = estabelecimentoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Estabelecimento not found with id " + id));
-        return modelMapper.map(estabelecimento, EstabelecimentoDTO.class);
+                .orElseThrow(() -> new IllegalArgumentException("Estabelecimento not found with id " + id));
+        return estabelecimentoMapper.toDTO(estabelecimento);
     }
 
-    public void deleteEstabelecimento(Integer id) {
-        estabelecimentoRepository.deleteById(id);
-    }
-
-    public List<EstabelecimentoDTO> getEstabelecimentosByTipo(Integer tipoId) {
-        // Implement logic to get establishments by type
-        return null; // Placeholder for actual implementation
+    public List<EstabelecimentoDTO> filtrar(Float nota, List<Integer> categorias, Integer tipoId) {
+        List<Estabelecimento> estabelecimentos = estabelecimentoRepository.findByNotaAndCategoriaAndTipo(nota, categorias, tipoId);
+        return estabelecimentos.stream()
+                .map(estabelecimentoMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
-
