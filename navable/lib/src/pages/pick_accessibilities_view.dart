@@ -1,47 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:navable/src/components/accessibility_checks.dart';
-import 'package:navable/src/components/basics/navable_button.dart';
-import 'package:navable/src/pages/models/acc_category.dart';
-import 'package:navable/src/util/styles.dart';
 
-import 'controllers/settings_controller.dart';
+import '../components/accessibility_checks.dart';
+import '../components/basics/navable_button.dart';
+import '../util/styles.dart';
+import 'controllers/pick_accessibilities_controller.dart';
 
 class PickAccessibilitiesView extends StatelessWidget {
   const PickAccessibilitiesView({super.key, required this.controller});
 
   static const routeName = '/pickacc';
 
-  final SettingsController controller;
+  final PickAccessibilitiesController controller;
 
   @override
   Widget build(BuildContext context) {
+    // Fetch the controller with Provider
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      extendBody: true,
-      backgroundColor: Colors.white,
-      body: Center(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Padding(
-              padding: EdgeInsets.fromLTRB(15.0, 4.0, 0.0, 15.0),
-              child: Text("Quais as suas necessidades?", style: Theme.of(context).textTheme.heading,),
-            ),
-            Expanded(
-                child: AccessibilityChecks(title: "", buttons: [
-              AccessibilityCategory("a", "b"),
-              AccessibilityCategory("b", "b"),
-              AccessibilityCategory("c", "a")
-            ])),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        extendBody: true,
+        backgroundColor: Colors.white,
+        body: Center(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
-                child: NavableButton("NEXT", onPressed: () {
+              padding: const EdgeInsets.fromLTRB(15.0, 4.0, 0.0, 15.0),
+              child: Text(
+                "Quais as suas necessidades?",
+                style: Theme.of(context).textTheme.heading,
+              ),
+            ),
+            FutureBuilder<void>(
+              future: controller.fetchCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return const Center(
+                      child: Text("Erro ao carregar localização"));
+                }
+                return Expanded(
+                  child: AccessibilityChecks(
+                      title: "", buttons: controller.categories),
+                );
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
+              child: NavableButton(
+                "NEXT",
+                onPressed: () {
                   Navigator.pushNamed(context, "/home");
-                }))
-          ])),
-    );
+                },
+              ),
+            ),
+          ],
+        )));
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:navable/src/pages/controllers/map_controller.dart';
+import 'package:navable/src/pages/controllers/pick_accessibilities_controller.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/landing_view.dart';
 import 'package:navable/src/pages/pick_accessibilities_view.dart';
@@ -19,11 +20,13 @@ class Navable extends StatelessWidget {
       {super.key,
       required this.settingsController,
       required this.profileController,
-      required this.mapController});
+      required this.mapController,
+      required this.pickController});
 
   final SettingsController settingsController;
   final ProfileController profileController;
   final MapViewController mapController;
+  final PickAccessibilitiesController pickController;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,7 @@ class Navable extends StatelessWidget {
                     return MapView(controller: mapController);
                   case PickAccessibilitiesView.routeName:
                     return PickAccessibilitiesView(
-                        controller: settingsController);
+                        controller: pickController);
                   case ReviewView.routeName:
                     return ReviewView(controller: profileController);
                   default:

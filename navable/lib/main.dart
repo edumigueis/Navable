@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/components/splash.dart';
 import 'package:navable/src/pages/controllers/map_controller.dart';
+import 'package:navable/src/pages/controllers/pick_accessibilities_controller.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/services/map_service.dart';
+import 'package:navable/src/pages/services/pick_accessibilities_service.dart';
 import 'package:navable/src/pages/services/profile_service.dart';
 
 import 'src/app.dart';
@@ -34,6 +36,7 @@ class LoadingApp extends StatelessWidget {
               settingsController: controllers['settingsController'],
               profileController: controllers['profileController'],
               mapController: controllers['mapController'],
+              pickController: controllers['pickController'],
             );
           }
         },
@@ -49,11 +52,13 @@ class LoadingApp extends StatelessWidget {
     await profileController.loadSettings();
 
     final mapController = MapViewController(MapService());
+    final pickController = PickAccessibilitiesController(PickAccessibilitiesService());
     //await Future.delayed(Duration(seconds: 3));
     return {
       'settingsController': settingsController,
       'profileController': profileController,
       'mapController': mapController,
+      'pickController': pickController
     };
   }
 }
