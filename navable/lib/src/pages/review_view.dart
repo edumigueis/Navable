@@ -63,9 +63,9 @@ class _ReviewViewState extends State<ReviewView> {
           Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
             child: AccessibilityChecks(title: "", buttons: [
-              AccessibilityCategory("a", "b"),
-              AccessibilityCategory("b", "b"),
-              AccessibilityCategory("c", "a")
+              AccessibilityCategory(1, "a", "b"),
+              AccessibilityCategory(1, "b", "b"),
+              AccessibilityCategory(1, "c", "a")
             ]),
           ),
           Padding(

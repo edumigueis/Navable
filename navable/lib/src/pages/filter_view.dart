@@ -34,16 +34,16 @@ class FilterView extends StatelessWidget {
           ExpandableSection(
               title: 'Acessibilidade',
               child: AccessibilityChecks(title: "a", buttons: [
-                AccessibilityCategory("a", "b"),
-                AccessibilityCategory("b", "b"),
-                AccessibilityCategory("c", "a")
+                AccessibilityCategory(1, "a", "b"),
+                AccessibilityCategory(1, "b", "b"),
+                AccessibilityCategory(1, "c", "a")
               ])),
           ExpandableSection(
               title: 'Tipos de estabeleciemento',
               child: AccessibilityChecks(title: "a", buttons: [
-                AccessibilityCategory("a", "b"),
-                AccessibilityCategory("b", "b"),
-                AccessibilityCategory("c", "a")
+                AccessibilityCategory(1, "a", "b"),
+                AccessibilityCategory(1, "b", "b"),
+                AccessibilityCategory(1, "c", "a")
               ])),
           SizedBox(height: 30),
           NavableButton(

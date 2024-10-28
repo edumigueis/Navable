@@ -41,8 +41,9 @@ class PickAccessibilitiesView extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
+                  print(snapshot.error);
                   return const Center(
-                      child: Text("Erro ao carregar localização"));
+                      child: Text("Erro ao carregar"));
                 }
                 return Expanded(
                   child: AccessibilityChecks(

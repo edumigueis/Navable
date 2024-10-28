@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navable/src/components/accessibility_checks.dart';
 import 'package:navable/src/util/styles.dart';
 
 class ExpandableSection extends StatefulWidget {

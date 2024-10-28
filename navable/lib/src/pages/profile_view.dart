@@ -76,9 +76,9 @@ class ProfileView extends StatelessWidget {
           ExpandableSection(
               title: 'Accessibility',
               child: AccessibilityChecks(title: "a", buttons: [
-                AccessibilityCategory("a", "b"),
-                AccessibilityCategory("b", "b"),
-                AccessibilityCategory("c", "a")
+                AccessibilityCategory(1, "a", "b"),
+                AccessibilityCategory(2, "b", "b"),
+                AccessibilityCategory(3, "c", "a")
               ])),
           ExpandableSection(
               title: 'Badges',
