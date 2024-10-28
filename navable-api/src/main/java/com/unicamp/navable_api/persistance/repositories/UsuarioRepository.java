@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    // Query to find selos for a specific user
     @Query(value = """
         SELECT s.*, su.timestamp
         FROM Selo s
@@ -24,7 +24,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
         """, nativeQuery = true)
     List<Object[]> findSelosByUsuarioId(@Param("id_usuario") Integer idUsuario);
 
-    // Query to get accessibility categories for a specific user
     @Query(value = """
         SELECT ca.*
         FROM CategoriaAcessibilidade ca
@@ -33,11 +32,38 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
         """, nativeQuery = true)
     List<CategoriaAcessibilidade> findByUsuarioId(@Param("id_usuario") Integer idUsuario);
 
-
     @Modifying
     @Transactional
     default Usuario createUsuario(Usuario usuario, EntityManager entityManager) {
         entityManager.persist(usuario);
         return usuario;
     }
+
+    // Additional methods to support UsuarioService logic
+    Optional<Usuario> findById(Integer id);
+
+    @Modifying
+    @Transactional
+    void deleteById(Integer id);
+
+    // Methods for associating selo and handling ocorrencias
+    @Modifying
+    @Query(value = "INSERT INTO UsuarioSelo (usuario_id, selo_id) VALUES (:usuarioId, :seloId)", nativeQuery = true)
+    void addSeloToUsuario(@Param("usuarioId") Integer usuarioId, @Param("seloId") Integer seloId);
+
+    @Modifying
+    @Query(value = "INSERT INTO OcorrenciaVote (usuario_id, ocorrencia_id) VALUES (:usuarioId, :ocorrenciaId)", nativeQuery = true)
+    void voteOnOcorrencia(@Param("usuarioId") Integer usuarioId, @Param("ocorrenciaId") Integer ocorrenciaId);
+
+    // Placeholder for Avaliacao creation query
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO Avaliacao (usuario_id, descricao, rating) VALUES (:usuarioId, :descricao, :rating)", nativeQuery = true)
+    void createAvaliacao(@Param("usuarioId") Integer usuarioId, @Param("descricao") String descricao, @Param("rating") Integer rating);
+
+    // Placeholder for associating CategoriaAcessibilidade with Usuario
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO UsuarioCategoria (usuario_id, categoria_id) VALUES (:usuarioId, :categoriaId)", nativeQuery = true)
+    void addCategoriaToUsuario(@Param("usuarioId") Integer usuarioId, @Param("categoriaId") Integer categoriaId);
 }

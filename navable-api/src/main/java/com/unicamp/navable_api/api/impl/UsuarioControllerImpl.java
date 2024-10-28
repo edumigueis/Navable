@@ -29,18 +29,23 @@ public class UsuarioControllerImpl {
         return usuarioService.createUsuario(usuarioDTO);
     }
 
-    @PutMapping("/{id}")
-    public UsuarioDTO updateUsuario(@PathVariable Integer id, @RequestBody UsuarioDTO usuarioDTO) {
-        return usuarioService.updateUsuario(id, usuarioDTO);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteUsuario(@PathVariable Integer id) {
         usuarioService.deleteUsuario(id);
     }
 
-    @PostMapping("/selo")
-    public void addSeloToUsuario(@RequestParam Integer usuarioId, @RequestParam Integer seloId) {
+    @PostMapping("/{usuarioId}/selo/{seloId}")
+    public void addSeloToUsuario(@PathVariable Integer usuarioId, @PathVariable Integer seloId) {
         usuarioService.addSeloToUsuario(usuarioId, seloId);
+    }
+
+    @PostMapping("/{usuarioId}/vote/{ocorrenciaId}")
+    public void voteOnOcorrencia(@PathVariable Integer usuarioId, @PathVariable Integer ocorrenciaId) {
+        usuarioService.voteOnOcorrencia(usuarioId, ocorrenciaId);
+    }
+
+    @PostMapping("/{usuarioId}/categoria")
+    public void addCategoriaToUsuario(@PathVariable Integer usuarioId, @RequestBody List<Integer> categoriaIds) {
+        usuarioService.addCategoriaToUsuario(usuarioId, categoriaIds);
     }
 }
