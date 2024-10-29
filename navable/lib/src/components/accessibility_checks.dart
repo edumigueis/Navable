@@ -7,11 +7,13 @@ import '../pages/models/acc_category.dart';
 class AccessibilityChecks extends StatefulWidget {
   final String title;
   final List<AccessibilityCategory> buttons;
+  final ValueChanged<List<AccessibilityCategory>> onSelectionChanged;
 
   const AccessibilityChecks({
     super.key,
     required this.title,
     required this.buttons,
+    required this.onSelectionChanged,
   });
 
   @override
@@ -20,75 +22,80 @@ class AccessibilityChecks extends StatefulWidget {
 
 class AccessibilityChecksState extends State<AccessibilityChecks> {
   Map<String, List<AccessibilityCategory>> _groupedButtons = {};
+  List<AccessibilityCategory> _selectedCategories = [];
 
   @override
   void initState() {
     super.initState();
     _groupedButtons = groupBy(
       widget.buttons,
-      (AccessibilityCategory button) => button.group,
+          (AccessibilityCategory button) => button.group,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: _groupedButtons.entries.map((entry) {
-            final group = entry.key;
-            final buttons = entry.value;
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: ListView(
+        children: _groupedButtons.entries.map((entry) {
+          final group = entry.key;
+          final buttons = entry.value;
 
-            return Column(
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(group, style: Theme.of(context).textTheme.smalltitle),
                 Wrap(
-                  spacing: 4,
-                  runSpacing: 8,
+                  spacing: 8,
+                  runSpacing: 10,
                   children: buttons.map((button) {
                     return _buildSelectableButton(
                       context,
-                      button.title,
+                      button,
                     );
                   }).toList(),
                 ),
               ],
-            );
-          }).toList(),
-        ));
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 
-  Widget _buildSelectableButton(BuildContext context, String text) {
-    bool isSelected = false;
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              isSelected = !isSelected;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 15,
-            ),
-            decoration: BoxDecoration(
-              color: isSelected ? NavableColors.blueAccent : NavableColors.gray,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(text,
-                style: isSelected
-                    ? Theme.of(context)
-                        .textTheme
-                        .minititle
-                        .copyWith(color: NavableColors.white)
-                    : Theme.of(context).textTheme.minititle),
-          ),
-        );
+  Widget _buildSelectableButton(BuildContext context, AccessibilityCategory button) {
+    bool isSelected = _selectedCategories.contains(button);
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            _selectedCategories.remove(button);
+          } else {
+            _selectedCategories.add(button);
+          }
+          widget.onSelectionChanged(_selectedCategories);
+        });
       },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 5,
+          horizontal: 15,
+        ),
+        decoration: BoxDecoration(
+          color: isSelected ? NavableColors.blueAccent : NavableColors.gray,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          button.title,
+          style: isSelected
+              ? Theme.of(context).textTheme.minititle.copyWith(color: Colors.white)
+              : Theme.of(context).textTheme.minititle,
+        ),
+      ),
     );
   }
 }

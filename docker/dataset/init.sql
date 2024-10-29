@@ -1,127 +1,118 @@
--- Create table for Usuario
-CREATE TABLE Usuario (
-    id_usuario INT NOT NULL,
+-- Criação da tabela usuario
+CREATE TABLE usuario (
+    id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     senha VARCHAR(100) NOT NULL,
-    pontos INT NOT NULL,
-    PRIMARY KEY (id_usuario)
+    pontos INT NOT NULL
 );
 
--- Create table for Selo
-CREATE TABLE Selo (
-    id_selo INT NOT NULL,
+-- Criação da tabela selo
+CREATE TABLE selo (
+    id_selo SERIAL PRIMARY KEY,
     nome VARCHAR(30) NOT NULL,
-    imagem VARCHAR(200) NOT NULL,
-    PRIMARY KEY (id_selo)
+    imagem VARCHAR(200) NOT NULL
 );
 
--- Create table for SeloUsuario
-CREATE TABLE SeloUsuario (
+-- Criação da tabela selo_usuario (associativa)
+CREATE TABLE selo_usuario (
     id_usuario INT NOT NULL,
     id_selo INT NOT NULL,
     timestamp DATE NOT NULL,
     PRIMARY KEY (id_usuario, id_selo),
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
-    FOREIGN KEY (id_selo) REFERENCES Selo(id_selo)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_selo) REFERENCES selo(id_selo)
 );
 
-
--- Create table for Categoria de Acessibilidade
-CREATE TABLE CategoriaAcessibilidade (
-    categoria_ac_id INT NOT NULL,
+-- Criação da tabela categoria_acessibilidade
+CREATE TABLE categoria_acessibilidade (
+    categoria_ac_id SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
-    grupo VARCHAR(50) NOT NULL,
-    PRIMARY KEY (categoria_ac_id)
+    grupo VARCHAR(50) NOT NULL
 );
 
--- Create table for Tipo de Estabelecimento
-CREATE TABLE TipoEstabelecimento (
-    id_tipo_estabeleci INT NOT NULL,
-    nome VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_tipo_estabeleci)
+-- Criação da tabela tipo_estabelecimento
+CREATE TABLE tipo_estabelecimento (
+    id_tipo_estabeleci SERIAL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL
 );
 
--- Create table for Estabelecimento
-CREATE TABLE Estabelecimento (
-    id_estabelecimento INT NOT NULL,
+-- Criação da tabela estabelecimento
+CREATE TABLE estabelecimento (
+    id_estabelecimento SERIAL PRIMARY KEY,
     id_tipo_estabeleci INT NOT NULL,
     nome VARCHAR(50) NOT NULL,
     latitude INT NOT NULL,
     longitude INT NOT NULL,
     imagem VARCHAR(200),
     endereco VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id_estabelecimento),
-    FOREIGN KEY (id_tipo_estabeleci) REFERENCES TipoEstabelecimento(id_tipo_estabeleci)
+    FOREIGN KEY (id_tipo_estabeleci) REFERENCES tipo_estabelecimento(id_tipo_estabeleci)
 );
 
--- Create table for Tipo de Ocorrência
-CREATE TABLE TipoOcorrência (
-    id_tipo_ocorrencia INT NOT NULL,
+-- Criação da tabela tipo_ocorrencia
+CREATE TABLE tipo_ocorrencia (
+    id_tipo_ocorrencia SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
-    icone VARCHAR(200) NOT NULL,
-    PRIMARY KEY (id_tipo_ocorrencia)
+    icone VARCHAR(200) NOT NULL
 );
 
--- Create table for Ocorrência
-CREATE TABLE Ocorrencia (
-    id_ocorrencia INT NOT NULL,
+-- Criação da tabela ocorrencia
+CREATE TABLE ocorrencia (
+    id_ocorrencia SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
     id_tipo_ocorrencia INT NOT NULL,
     latitude INT NOT NULL,
     longitude INT NOT NULL,
-    PRIMARY KEY (id_ocorrencia),
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
-    FOREIGN KEY (id_tipo_ocorrencia) REFERENCES TipoOcorrência(id_tipo_ocorrencia)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_tipo_ocorrencia) REFERENCES tipo_ocorrencia(id_tipo_ocorrencia)
 );
 
--- Create table for Votos
-CREATE TABLE Votos (
+-- Criação da tabela votos (associativa)
+CREATE TABLE votos (
     id_usuario INT NOT NULL,
     id_ocorrencia INT NOT NULL,
     PRIMARY KEY (id_usuario, id_ocorrencia),
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
-    FOREIGN KEY (id_ocorrencia) REFERENCES Ocorrência(id_ocorrencia)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_ocorrencia) REFERENCES ocorrencia(id_ocorrencia)
 );
 
--- Create table for UsuarioCategoria
-CREATE TABLE UsuarioCategoria (
+-- Criação da tabela usuario_categoria (associativa)
+CREATE TABLE usuario_categoria (
     categoria_ac_id INT NOT NULL,
     id_usuario INT NOT NULL,
     PRIMARY KEY (categoria_ac_id, id_usuario),
-    FOREIGN KEY (categoria_ac_id) REFERENCES CategoriaAcessibilidade(categoria_ac_id),
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+    FOREIGN KEY (categoria_ac_id) REFERENCES categoria_acessibilidade(categoria_ac_id),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
--- Create table for CategoriaAceTipoEstab
-CREATE TABLE CategoriaAceTipoEstab (
+-- Criação da tabela categoria_ace_tipo_estab (associativa)
+CREATE TABLE categoria_ace_tipo_estab (
     id_tipo_estabeleci INT NOT NULL,
     categoria_ac_id INT NOT NULL,
     PRIMARY KEY (id_tipo_estabeleci, categoria_ac_id),
-    FOREIGN KEY (id_tipo_estabeleci) REFERENCES TipoEstabelecimento(id_tipo_estabeleci),
-    FOREIGN KEY (categoria_ac_id) REFERENCES CategoriaAcessibilidade(categoria_ac_id)
+    FOREIGN KEY (id_tipo_estabeleci) REFERENCES tipo_estabelecimento(id_tipo_estabeleci),
+    FOREIGN KEY (categoria_ac_id) REFERENCES categoria_acessibilidade(categoria_ac_id)
 );
 
--- Create table for Avaliação
-CREATE TABLE Avaliacaoo (
-    id_avaliacao INT NOT NULL,
+-- Criação da tabela avaliacao
+CREATE TABLE avaliacao (
+    id_avaliacao SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
     id_estabelecimento INT NOT NULL,
     avaliacao VARCHAR(100),
     nota INT CHECK (nota IN (0, 1, 2)) NOT NULL,
     timestamp DATE NOT NULL,
-    PRIMARY KEY (id_avaliacao),
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
-    FOREIGN KEY (id_estabelecimento) REFERENCES Estabelecimento(id_estabelecimento)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_estabelecimento) REFERENCES estabelecimento(id_estabelecimento)
 );
 
--- Create table for AvaliacaoCategoria
-CREATE TABLE AvaliacaoCategoria (
+-- Criação da tabela avaliacao_categoria (associativa)
+CREATE TABLE avaliacao_categoria (
     categoria_ac_id INT NOT NULL,
     id_avaliacao INT NOT NULL,
     PRIMARY KEY (categoria_ac_id, id_avaliacao),
-    FOREIGN KEY (categoria_ac_id) REFERENCES CategoriaAcessibilidade(categoria_ac_id),
-    FOREIGN KEY (id_avaliacao) REFERENCES Avaliação(id_avaliacao)
+    FOREIGN KEY (categoria_ac_id) REFERENCES categoria_acessibilidade(categoria_ac_id),
+    FOREIGN KEY (id_avaliacao) REFERENCES avaliacao(id_avaliacao)
 );
 
 -- Insert data into Selo
@@ -133,7 +124,7 @@ INSERT INTO Selo (nome, imagem) VALUES
 ('Veterano', 'selo_veterano.png');
 
 -- Inserir dados na CategoriaAcessibilidade
-INSERT INTO CategoriaAcessibilidade (nome, grupo) VALUES
+INSERT INTO Categoria_Acessibilidade (nome, grupo) VALUES
 ('Assento Sanitário Rebaixado', 'Banheiro'),
 ('Rampa de Acesso', 'Entrada'),
 ('Estacionamento Acessível', 'Entrada'),
@@ -176,7 +167,7 @@ INSERT INTO CategoriaAcessibilidade (nome, grupo) VALUES
 ('Estacionamento Reservado para Deficientes', 'Entrada');
 
 -- Insert data into TipoEstabelecimento
-INSERT INTO TipoEstabelecimento (nome) VALUES
+INSERT INTO Tipo_Estabelecimento (nome) VALUES
 ('Restaurante'),
 ('Loja de Roupas'),
 ('Supermercado'),
@@ -195,7 +186,7 @@ INSERT INTO TipoEstabelecimento (nome) VALUES
 ('Parque');
 
 -- Insert data into TipoOcorrencia
-INSERT INTO TipoOcorrencia (nome, icone) VALUES
+INSERT INTO Tipo_Ocorrencia (nome, icone) VALUES
 ('Calçada Irregular', 'images/icone_calçada_irregular.png'),
 ('Rampa Íngreme', 'images/icone_rampa_ingreme.png'),
 ('Buraco na Calçada', 'images/icone_buraco_calçada.png'),

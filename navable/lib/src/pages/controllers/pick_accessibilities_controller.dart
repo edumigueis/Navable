@@ -14,8 +14,18 @@ class PickAccessibilitiesController with ChangeNotifier {
 
   List<AccessibilityCategory> get categories => _categories;
 
+  set categories(List<AccessibilityCategory> newCategories) {
+    _categories = newCategories;
+    notifyListeners();
+  }
+
   Future<void> fetchCategories() async {
     _categories = await _service.getCategories();
+    notifyListeners();
+  }
+
+  Future<void> registerCategories() async {
+    await _service.registerCategories(_categories);
     notifyListeners();
   }
 }

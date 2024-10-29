@@ -79,7 +79,7 @@ class ProfileView extends StatelessWidget {
                 AccessibilityCategory(1, "a", "b"),
                 AccessibilityCategory(2, "b", "b"),
                 AccessibilityCategory(3, "c", "a")
-              ])),
+              ], onSelectionChanged: (selectedCategories){},)),
           ExpandableSection(
               title: 'Badges',
               child: Padding(

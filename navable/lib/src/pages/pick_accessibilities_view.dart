@@ -14,16 +14,15 @@ class PickAccessibilitiesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fetch the controller with Provider
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        extendBody: true,
-        backgroundColor: Colors.white,
-        body: Center(
-            child: Column(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      extendBody: true,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -31,7 +30,7 @@ class PickAccessibilitiesView extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(15.0, 4.0, 0.0, 15.0),
               child: Text(
                 "Quais as suas necessidades?",
-                style: Theme.of(context).textTheme.heading,
+                style: Theme.of(context).textTheme.smalltitle,
               ),
             ),
             FutureBuilder<void>(
@@ -42,12 +41,16 @@ class PickAccessibilitiesView extends StatelessWidget {
                 }
                 if (snapshot.hasError) {
                   print(snapshot.error);
-                  return const Center(
-                      child: Text("Erro ao carregar"));
+                  return const Center(child: Text("Erro ao carregar"));
                 }
                 return Expanded(
                   child: AccessibilityChecks(
-                      title: "", buttons: controller.categories),
+                    title: "",
+                    buttons: controller.categories,
+                    onSelectionChanged: (selectedCategories) {
+                      controller.categories = selectedCategories;
+                    },
+                  ),
                 );
               },
             ),
@@ -56,11 +59,15 @@ class PickAccessibilitiesView extends StatelessWidget {
               child: NavableButton(
                 "NEXT",
                 onPressed: () {
-                  Navigator.pushNamed(context, "/home");
+                  controller.registerCategories().whenComplete((){
+                    Navigator.pushNamed(context, "/home");
+                  });
                 },
               ),
             ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 }

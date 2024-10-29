@@ -66,7 +66,7 @@ class _ReviewViewState extends State<ReviewView> {
               AccessibilityCategory(1, "a", "b"),
               AccessibilityCategory(1, "b", "b"),
               AccessibilityCategory(1, "c", "a")
-            ]),
+            ], onSelectionChanged: (selectedCategories){},),
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
