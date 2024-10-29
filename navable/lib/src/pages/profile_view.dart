@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/components/accessibility_checks.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
-import 'package:navable/src/pages/models/acc_category.dart';
 import 'package:navable/src/pages/models/badge.dart';
 import 'package:navable/src/util/styles.dart';
 
@@ -46,11 +45,11 @@ class ProfileView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'John Doe', // Replace with dynamic name if needed
+                          controller.user.name,
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                         Text(
-                          '800 POINTS', // Replace with dynamic name if needed
+                          '${controller.user.points} POINTS',
                           style: Theme.of(context).textTheme.highlight,
                         ),
                         const SizedBox(height: 10),
@@ -74,29 +73,59 @@ class ProfileView extends StatelessWidget {
             ),
           ),
           ExpandableSection(
-              title: 'Accessibility',
-              child: AccessibilityChecks(title: "a", buttons: [
-                AccessibilityCategory(1, "a", "b"),
-                AccessibilityCategory(2, "b", "b"),
-                AccessibilityCategory(3, "c", "a")
-              ], onSelectionChanged: (selectedCategories){},)),
+            title: 'Accessibility',
+            child: FutureBuilder<void>(
+              future: controller.fetchUserCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return const Center(child: Text("Erro ao carregar"));
+                }
+                return Expanded(
+                  child: AccessibilityChecks(
+                    title: "",
+                    buttons: controller.categories,
+                    onSelectionChanged: (selectedCategories) {
+                      controller.categories = selectedCategories;
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
           ExpandableSection(
               title: 'Badges',
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Wrap(
-                    spacing: 15,
-                    children: badges.map((badge) {
-                      return Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundImage: AssetImage("assets/images/flutter_logo.png"), // Replace with your photo asset
-                          ),
-                          Text(badge.title)
-                        ],
+                  child: FutureBuilder<void>(
+                    future: controller.fetchUserAccessibilityBadges(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return const Center(child: Text("Erro ao carregar"));
+                      }
+                      return Wrap(
+                        spacing: 15,
+                        children: controller.badges.map((badge) {
+                          return Column(
+                            children: [
+                              const CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage(
+                                    "assets/images/flutter_logo.png"),
+                              ),
+                              Text(badge.title)
+                            ],
+                          );
+                        }).toList(),
                       );
-                    }).toList(),
+                    },
                   ))),
         ],
       ),

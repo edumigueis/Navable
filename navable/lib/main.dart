@@ -45,11 +45,11 @@ class LoadingApp extends StatelessWidget {
   }
 
   Future<Map<String, dynamic>> _initializeControllers() async {
+    final profileController = ProfileController(ProfileService());
+    await profileController.fetchLoggedUser();
+
     final settingsController = SettingsController(SettingsService());
     await settingsController.loadSettings();
-
-    final profileController = ProfileController(ProfileService());
-    await profileController.loadSettings();
 
     final mapController = MapViewController(MapService());
     final pickController = PickAccessibilitiesController(PickAccessibilitiesService());
