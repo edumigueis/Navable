@@ -19,4 +19,36 @@ class MapService {
     Position position = await Geolocator.getCurrentPosition();
     return LatLng(position.latitude, position.longitude);
   }
+
+  Future<List<Place>> getNearbyVenues(LatLng center) async {
+    final url = Uri.parse('${AppConfig.baseUrl}/estabelecimentos/${center.latitude}/${center.longitude}');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        return data.map((json) => Place.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load places');
+      }
+    } catch (e) {
+      throw Exception('Error fetching places: $e');
+    }
+  }
+
+  Future<List<Warning>> getNearbyWarnings() async {
+    final url = Uri.parse('${AppConfig.baseUrl}/ocorrencias/${center.latitude}/${center.longitude}');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        return data.map((json) => Warning.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load warnings');
+      }
+    } catch (e) {
+      throw Exception('Error fetching warnings: $e');
+    }
+  }
 }

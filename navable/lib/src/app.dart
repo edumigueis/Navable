@@ -1,32 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:navable/src/pages/controllers/map_controller.dart';
-import 'package:navable/src/pages/controllers/pick_accessibilities_controller.dart';
-import 'package:navable/src/pages/controllers/profile_controller.dart';
-import 'package:navable/src/pages/landing_view.dart';
-import 'package:navable/src/pages/pick_accessibilities_view.dart';
-import 'package:navable/src/pages/profile_view.dart';
-import 'package:navable/src/pages/review_view.dart';
-import 'package:navable/src/pages/signin_view.dart';
-import 'package:navable/src/pages/signup_view.dart';
-
-import 'pages/controllers/settings_controller.dart';
-import 'pages/map_view.dart';
-import 'pages/settings_view.dart';
-
 class Navable extends StatelessWidget {
-  const Navable(
-      {super.key,
-      required this.settingsController,
-      required this.profileController,
-      required this.mapController,
-      required this.pickController});
+  const Navable({
+    super.key,
+    required this.settingsController,
+    required this.profileController,
+    required this.mapController,
+    required this.pickController,
+    required this.signupController,
+    required this.signinController,
+    required this.isUserSignedIn,
+  });
 
   final SettingsController settingsController;
   final ProfileController profileController;
   final MapViewController mapController;
   final PickAccessibilitiesController pickController;
+  final SignupController signupController;
+  final SigninController signinController;
+  final bool isUserSignedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -53,20 +43,23 @@ class Navable extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
+                // Use isUserSignedIn to determine the initial route
+                if (routeSettings.name == '/') {
+                  return isUserSignedIn ? 
+                    MapView(controller: mapController) : 
+                    const Landing();
+                }
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
                   case ProfileView.routeName:
                     return ProfileView(controller: profileController);
                   case SignUpView.routeName:
-                    return SignUpView(controller: settingsController);
+                    return SignUpView(controller: signupController);
                   case SignInView.routeName:
-                    return SignInView(controller: settingsController);
-                  case MapView.routeName:
-                    return MapView(controller: mapController);
+                    return SignInView(controller: signinController);
                   case PickAccessibilitiesView.routeName:
-                    return PickAccessibilitiesView(
-                        controller: pickController);
+                    return PickAccessibilitiesView(controller: pickController);
                   case ReviewView.routeName:
                     return ReviewView(controller: profileController);
                   default:

@@ -20,8 +20,4 @@ class PickAccessibilitiesService {
       throw Exception('Error fetching categories: $e');
     }
   }
-
-  Future<void> registerCategories(List<AccessibilityCategory> categories) async {
-
-  }
 }

@@ -23,20 +23,24 @@ class LoadingApp extends StatelessWidget {
     return MaterialApp(
       title: 'Navable',
       home: FutureBuilder(
-        future: _initializeControllers(), // Carrega os controladores
+        future: _initializeControllers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SplashScreen();
           } else if (snapshot.hasError) {
-            return Center(
-                child: Text('Erro ao carregar o app: ${snapshot.error}'));
+            return Center(child: Text('Erro ao carregar o app: ${snapshot.error}'));
           } else {
             final controllers = snapshot.data as Map<String, dynamic>;
+            final isUserSignedIn = controllers['isUserSignedIn'];
+
             return Navable(
               settingsController: controllers['settingsController'],
               profileController: controllers['profileController'],
               mapController: controllers['mapController'],
               pickController: controllers['pickController'],
+              signupController: controllers['signupController'],
+              signinController: controllers['signinController'],
+              isUserSignedIn: controllers['isUserSignedIn'],
             );
           }
         },
@@ -53,12 +57,19 @@ class LoadingApp extends StatelessWidget {
 
     final mapController = MapViewController(MapService());
     final pickController = PickAccessibilitiesController(PickAccessibilitiesService());
-    //await Future.delayed(Duration(seconds: 3));
+    final signupController = SignupController(SignupService());
+    final signinController = SigninController(SigninService());
+
+    final isUserSignedIn = await signinController.isUserSignedIn();
+
     return {
       'settingsController': settingsController,
       'profileController': profileController,
       'mapController': mapController,
-      'pickController': pickController
+      'pickController': pickController,
+      'signupController': signupController,
+      'signinController': signinController,
+      'isUserSignedIn': isUserSignedIn,
     };
   }
 }
