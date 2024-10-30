@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../util/config/app_config.dart';
+import '../models/place.dart';
+import '../models/warning.dart';
+
+import 'package:http/http.dart' as http;
 class MapService {
   Future<LatLng> getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -36,7 +43,7 @@ class MapService {
     }
   }
 
-  Future<List<Warning>> getNearbyWarnings() async {
+  Future<List<Warning>> getNearbyWarnings(LatLng center) async {
     final url = Uri.parse('${AppConfig.baseUrl}/ocorrencias/${center.latitude}/${center.longitude}');
     try {
       final response = await http.get(url);

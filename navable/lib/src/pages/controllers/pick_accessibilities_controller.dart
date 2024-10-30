@@ -25,7 +25,7 @@ class PickAccessibilitiesController with ChangeNotifier {
   }
 
   Future<void> registerCategories() async {
-    await _service.registerCategories(_categories);
+    //await _service.registerCategories();
     notifyListeners();
   }
 }

@@ -7,9 +7,10 @@ class NavableTextInput extends StatelessWidget {
   final String? hintText;
   final int? maxLines;
   final TextEditingController controller;
+  final bool? obscureText;
 
   const NavableTextInput(this.labelText,
-      {super.key, required this.controller, this.hintText, this.maxLines});
+      {super.key, required this.controller, this.hintText, this.maxLines, this.obscureText});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,8 @@ class NavableTextInput extends StatelessWidget {
           ),
         ),
         TextField(
-            controller: controller, // Utiliza o controlador
+            obscureText: obscureText ?? false,
+            controller: controller,
             decoration: InputDecoration(
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(

@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/components/basics/navable_text_input.dart';
+import 'package:navable/src/pages/controllers/signin_controller.dart';
 import 'package:navable/src/util/styles.dart';
-
 import '../components/basics/navable_button.dart';
-import 'controllers/settings_controller.dart';
 
-class SignInView extends StatelessWidget {
+class SignInView extends StatefulWidget {
   const SignInView({super.key, required this.controller});
 
   static const routeName = '/signin';
 
-  final SettingsController controller;
+  final SigninController controller;
+
+  @override
+  _SignInViewState createState() => _SignInViewState();
+}
+
+class _SignInViewState extends State<SignInView> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,59 +37,80 @@ class SignInView extends StatelessWidget {
       extendBody: true,
       backgroundColor: Colors.white,
       body: Center(
-          child: ListView(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  "Login",
-                  style: Theme.of(context).textTheme.heading,
+        child: ListView(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    "Login",
+                    style: Theme.of(context).textTheme.heading,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Padding(
+              ],
+            ),
+            Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
               child: NavableTextInput(
                 "E-mail",
-                controller: TextEditingController(),
+                controller: _emailController,
                 hintText: "Digite seu e-mail",
-              )),
-          Padding(
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 12.0, 15.0, 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   NavableTextInput(
                     "Senha",
-                    controller: TextEditingController(),
+                    controller: _passwordController,
                     hintText: "Digite sua senha",
+                    obscureText: true,
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 10.0),
                     alignment: Alignment(1, 0),
-                    child: Text("Forgot your password?",
-                        style: Theme.of(context).textTheme.caption,
-                        textAlign: TextAlign.right),
-                  )
+                    child: Text(
+                      "Forgot your password?",
+                      style: Theme.of(context).textTheme.caption,
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
                 ],
-              )),
-          Padding(
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
               child: NavableButton(
                 "ENTRAR",
-                onPressed: () {
-                  Navigator.pushNamed(context, "/home");
+                onPressed: () async {
+                  // Call the signin method on controller
+                  await widget.controller.signin(
+                    _emailController.text,
+                    _passwordController.text,
+                  );
+
+                  // Check if there is an error message and display it
+                  if (widget.controller.errorMsg == null) {
+                    Navigator.pushNamed(context, "/home");
+                  }
                 },
-              )),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-              child: Text("Opa deu erro",
-                  style: Theme.of(context).textTheme.error))
-        ],
-      )),
+              ),
+            ),
+            // Error message display
+            if (widget.controller.errorMsg != null)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+                child: Text(
+                  widget.controller.errorMsg!,
+                  style: Theme.of(context).textTheme.error,
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

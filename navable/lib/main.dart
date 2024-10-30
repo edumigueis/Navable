@@ -3,9 +3,13 @@ import 'package:navable/src/components/splash.dart';
 import 'package:navable/src/pages/controllers/map_controller.dart';
 import 'package:navable/src/pages/controllers/pick_accessibilities_controller.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
+import 'package:navable/src/pages/controllers/signin_controller.dart';
+import 'package:navable/src/pages/controllers/signup_controller.dart';
 import 'package:navable/src/pages/services/map_service.dart';
 import 'package:navable/src/pages/services/pick_accessibilities_service.dart';
 import 'package:navable/src/pages/services/profile_service.dart';
+import 'package:navable/src/pages/services/signin_service.dart';
+import 'package:navable/src/pages/services/signup_service.dart';
 
 import 'src/app.dart';
 import 'src/pages/controllers/settings_controller.dart';

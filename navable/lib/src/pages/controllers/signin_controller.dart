@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
-
-import '../services/map_service.dart';
+import '../services/signin_service.dart';
 
 class SigninController with ChangeNotifier {
   final SigninService _service;
 
   SigninController(this._service);
 
-  Sring _errorMsg;
+  String? _errorMsg;
   bool _showErrorMsg = false;
 
-  Sring get errorMsg => _errorMsg;
+  String? get errorMsg => _errorMsg;
 
-  set errorMsg(String newMsg) {
+  set errorMsg(String? newMsg) {
     _errorMsg = newMsg;
     notifyListeners();
   }
 
-  Future<void> signin() async {
-    await _service.signin();
+  Future<void> signin(String email, String password) async {
+    try {
+      // Attempt to sign in using the service
+      final success = await _service.signin(email, password);
+
+      if (!success) {
+        errorMsg = "Invalid email or password";
+      } else {
+        errorMsg = null; // Clear any previous error
+      }
+    } catch (e) {
+      errorMsg = "An error occurred. Please try again.";
+    }
     notifyListeners();
   }
-  
+
   Future<bool> isUserSignedIn() async {
     return await _service.isUserSignedIn();
   }
