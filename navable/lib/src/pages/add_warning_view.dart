@@ -24,9 +24,9 @@ class AddWarningView extends StatelessWidget {
             child: GridView.count(
               crossAxisCount: 3,
               children: [
-                Warning("a", "b", const LatLng(2.1, 2.3)),
-                Warning("a", "b", const LatLng(2.1, 2.3)),
-                Warning("a", "b", const LatLng(2.1, 2.3)),
+                Warning("a", const LatLng(2.1, 2.3)),
+                Warning("a", const LatLng(2.1, 2.3)),
+                Warning("a", const LatLng(2.1, 2.3)),
               ].map((el) {
                 return GestureDetector(
                   onTap: () {
@@ -41,7 +41,7 @@ class AddWarningView extends StatelessWidget {
                         backgroundImage:
                             AssetImage('assets/images/flutter_logo.png'),
                       ),
-                      Text(el.title, style: Theme.of(context).textTheme.minititle,),
+                      Text(el.type, style: Theme.of(context).textTheme.minititle,),
                     ],
                   ),
                 );

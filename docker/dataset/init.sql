@@ -204,3 +204,83 @@ INSERT INTO Tipo_Ocorrencia (nome, icone) VALUES
 ('Falta de Corrimão em Escadas', 'images/icone_falta_corrimao.png'),
 ('Obstáculos no Caminho', 'images/icone_obstaculos_caminho.png'),
 ('Dificuldade para Manobras com Cadeira de Rodas', 'images/icone_dificuldade_manobras.png');
+
+-- Insert data into Usuario
+INSERT INTO Usuario (nome, email, senha, pontos) VALUES
+('Maria Silva', 'maria.silva@email.com', 'B23SMgJxhisIEWMb9OKe5g==', 150),
+('João Oliveira', 'joao.oliveira@email.com', 'V7R8qoHA8GRvo1YjJesmEg==', 250),
+('Ana Pereira', 'ana.pereira@email.com', '6LFFwZzPmhVrUIgArs77ew==', 300),
+('Carlos Santos', 'carlos.santos@email.com', 'N+O5Pk+tJGLgyOv0z3cVWg==', 100),
+('Juliana Costa', 'juliana.costa@email.com', 'rYGht6h7tw0msRAlRkDUZQ==', 200);
+
+-- Insert data into Selo
+INSERT INTO Selo (nome, imagem) VALUES
+('Novato', 'selo_novato.png'),
+('Ativo', 'selo_ativo.png'),
+('Expert', 'selo_expert.png'),
+('Contribuidor', 'selo_contribuidor.png'),
+('Veterano', 'selo_veterano.png');
+
+-- Insert data into SeloUsuario
+INSERT INTO SeloUsuario (id_usuario, id_selo, timestamp) VALUES
+(1, 1, '2024-01-01'),
+(2, 2, '2024-01-02'),
+(3, 3, '2024-01-03'),
+(4, 1, '2024-01-04'),
+(5, 2, '2024-01-05');
+
+-- Insert data into Estabelecimento
+INSERT INTO Estabelecimento (id_tipo_estabeleci, nome, latitude, longitude, imagem, endereco) VALUES
+(1, 'Pizzaria do João', 123456, 654321, 'images/pizzaria.jpg', 'Rua A, 123'),
+(2, 'Moda e Estilo', 123457, 654322, 'images/moda.jpg', 'Rua B, 234'),
+(3, 'Supermercado Central', 123458, 654323, 'images/supermercado.jpg', 'Rua C, 345'),
+(4, 'Colégio Nossa Senhora', 123459, 654324, 'images/colegio.jpg', 'Rua D, 456'),
+(5, 'Hospital da Cidade', 123460, 654325, 'images/hospital.jpg', 'Rua E, 567');
+
+-- Insert data into Ocorrencia
+INSERT INTO Ocorrencia (id_usuario, id_tipo_ocorrencia, latitude, longitude) VALUES
+(1, 1, 123456, 654321),
+(2, 2, 123457, 654322),
+(3, 3, 123458, 654323),
+(4, 4, 123459, 654324),
+(5, 5, 123460, 654325);
+
+-- Insert data into Votos
+INSERT INTO Votos (id_usuario, id_ocorrencia) VALUES
+(1, 1),
+(2, 1),
+(3, 2),
+(4, 3),
+(5, 4);
+
+-- Insert data into UsuarioCategoria
+INSERT INTO UsuarioCategoria (categoria_ac_id, id_usuario) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(1, 4),
+(2, 5);
+
+-- Insert data into CategoriaAceTipoEstab
+INSERT INTO CategoriaAceTipoEstab (id_tipo_estabeleci, categoria_ac_id) VALUES
+(1, 1),
+(2, 2),
+(3, 1),
+(4, 3),
+(5, 4);
+
+-- Insert data into Avaliacao
+INSERT INTO Avaliacao (id_usuario, id_estabelecimento, avaliacao, nota, timestamp) VALUES
+(1, 1, 'Ótima experiência!', 2, '2024-01-01'),
+(2, 2, 'Bom atendimento.', 1, '2024-01-02'),
+(3, 3, 'Pode melhorar.', 0, '2024-01-03'),
+(4, 4, 'Excelente!', 2, '2024-01-04'),
+(5, 5, 'Muito bom.', 1, '2024-01-05');
+
+-- Insert data into AvaliacaoCategoria
+INSERT INTO AvaliacaoCategoria (categoria_ac_id, id_avaliacao) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
