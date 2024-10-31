@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:navable/src/pages/models/place.dart';
+import 'package:navable/src/pages/models/warning.dart';
 
 import '../components/custom_pin_marker.dart';
 import '../util/animated_map_move.dart';
@@ -11,12 +13,16 @@ class MapWidget extends StatelessWidget {
       required this.mapController,
       required this.onToggleModal,
       required this.onMapMove,
-      required this.initialCenter});
+      required this.initialCenter,
+      required this.warnings,
+      required this.places});
 
   final MapController mapController;
   final VoidCallback onToggleModal;
   final void Function(LatLng latLng, double zoom) onMapMove;
   final LatLng initialCenter;
+  final List<Warning> warnings;
+  final List<Place> places;
 
   Widget tileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(

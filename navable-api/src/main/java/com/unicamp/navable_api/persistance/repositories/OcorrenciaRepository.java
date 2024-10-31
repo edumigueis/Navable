@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface OcorrenciaRepository extends JpaRepository<Ocorrencia, Integer> {
 
-    // Query to find occurrences within 1km of a given latitude and longitude
     @Query(value = """
             SELECT o.*
             FROM Ocorrencia o

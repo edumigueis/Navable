@@ -57,6 +57,8 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 mapController: _mapController,
                 initialCenter: widget.controller.currentLocation,
                 onToggleModal: widget.controller.togglePlaceModal,
+                warnings: widget.controller.warnings,
+                places: widget.controller.places,
                 onMapMove: (LatLng latLng, double zoom) {
                   _animateMapMove(latLng, zoom);
                 },

@@ -11,6 +11,7 @@ public class OcorrenciaDTO {
     private Integer idOcorrencia;
     private Integer idUsuario;
     private Integer idTipoOcorrencia;
+    private TipoOcorrenciaDTO tipoOcorrencia;
     private Integer latitude;
     private Integer longitude;
 }

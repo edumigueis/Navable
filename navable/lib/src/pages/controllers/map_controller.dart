@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:navable/src/pages/models/place.dart';
 
+import '../models/warning.dart';
 import '../services/map_service.dart';
 
 class MapViewController with ChangeNotifier {
@@ -15,8 +17,30 @@ class MapViewController with ChangeNotifier {
 
   bool get isModalOpen => _isModalOpen;
 
+  List<Warning> _warnings = [];
+
+  List<Warning> get warnings => _warnings;
+
+  set warnings(List<Warning> newWarnings) {
+    _warnings = newWarnings;
+    notifyListeners();
+  }
+
+  List<Place> _places = [];
+
+  List<Place> get places => _places;
+
+  set places(List<Place> newPlaces) {
+    _places = newPlaces;
+    notifyListeners();
+  }
+
   Future<void> loadCurrentLocation() async {
-    _currentLocation = await _mapService.getCurrentLocation();
+    await _mapService.getCurrentLocation().then((value) async {
+      _currentLocation = value;
+      _places = await _mapService.getNearbyVenues(value);
+      _warnings = await _mapService.getNearbyWarnings(value);
+    });
     notifyListeners();
   }
 
