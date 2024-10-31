@@ -1,6 +1,8 @@
 package com.unicamp.navable_api.api.impl;
 
+import com.unicamp.navable_api.api.model.CategoriaAcessibilidadeDTO;
 import com.unicamp.navable_api.api.model.OcorrenciaDTO;
+import com.unicamp.navable_api.api.model.TipoOcorrenciaDTO;
 import com.unicamp.navable_api.services.impl.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,11 @@ public class OcorrenciaControllerImpl {
 
     @Autowired
     private OcorrenciaService ocorrenciaService;
+
+    @GetMapping
+    public ResponseEntity<List<TipoOcorrenciaDTO>> getAllTypes() {
+        return ResponseEntity.ok(ocorrenciaService.getAllTypes());
+    }
 
     @GetMapping("/{latitude}/{longitude}")
     public ResponseEntity<List<OcorrenciaDTO>> getAllOcorrencias(@PathVariable double latitude, @PathVariable double longitude) {

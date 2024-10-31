@@ -4,7 +4,8 @@ import 'package:navable/src/pages/models/warning.dart';
 import 'package:navable/src/util/styles.dart';
 
 class AddWarningView extends StatelessWidget {
-  const AddWarningView({super.key});
+  const AddWarningView({super.key, required this.warnings});
+  final List<WarningType> warnings;
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +21,12 @@ class AddWarningView extends StatelessWidget {
           ),
           const SizedBox(height: 16), // Add spacing
           Expanded(
-            // Wrap GridView in Expanded to give it constrained space
             child: GridView.count(
               crossAxisCount: 3,
-              children: [
-                Warning("a", const LatLng(2.1, 2.3)),
-                Warning("a", const LatLng(2.1, 2.3)),
-                Warning("a", const LatLng(2.1, 2.3)),
-              ].map((el) {
+              children: warnings.map((el) {
                 return GestureDetector(
                   onTap: () {
-                    // Example data to return
-                    String selectedData = "Some Filter Data";
-                    Navigator.pop(context, selectedData);
+                    Navigator.pop(context, el);
                   },
                   child: Column(
                     children: [
@@ -41,7 +35,7 @@ class AddWarningView extends StatelessWidget {
                         backgroundImage:
                             AssetImage('assets/images/flutter_logo.png'),
                       ),
-                      Text(el.type, style: Theme.of(context).textTheme.minititle,),
+                      Text(el.nome, style: Theme.of(context).textTheme.minititle,),
                     ],
                   ),
                 );

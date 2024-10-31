@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:navable/src/pages/models/warning.dart';
 
 import '../components/action_bar.dart';
 import '../components/map_widget.dart';
@@ -68,7 +69,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
           CustomActionBar(
             onTapLocate: () =>
                 _animateMapMove(widget.controller.currentLocation, 18),
-            onTapAddWarning: () => _openAddWarningModal(context),
+            onTapAddWarning: () => _openAddWarningModal(context, widget.controller.warningTypes),
             bottom: widget.controller.isModalOpen ? 225 : 15,
           ),
           AnimatedBuilder(
@@ -114,11 +115,11 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     );
   }
 
-  void _openAddWarningModal(BuildContext context) {
+  void _openAddWarningModal(BuildContext context, List<WarningType> types) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const AddWarningView();
+        return AddWarningView(warnings: types);
       },
       isScrollControlled: true,
     );

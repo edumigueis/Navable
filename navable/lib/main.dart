@@ -54,7 +54,6 @@ class LoadingApp extends StatelessWidget {
 
   Future<Map<String, dynamic>> _initializeControllers() async {
     final profileController = ProfileController(ProfileService());
-    await profileController.fetchLoggedUser();
 
     final settingsController = SettingsController(SettingsService());
     await settingsController.loadSettings();
@@ -65,6 +64,9 @@ class LoadingApp extends StatelessWidget {
     final signinController = SigninController(SigninService());
 
     final isUserSignedIn = await signinController.isUserSignedIn();
+    if(isUserSignedIn) {
+      await profileController.fetchLoggedUser();
+    }
 
     return {
       'settingsController': settingsController,

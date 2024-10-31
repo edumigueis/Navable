@@ -35,12 +35,26 @@ class MapViewController with ChangeNotifier {
     notifyListeners();
   }
 
+  List<WarningType> _warningTypes = [];
+
+  List<WarningType> get warningTypes => _warningTypes;
+
+  set warningTypes(List<WarningType> newTypes) {
+    _warningTypes = newTypes;
+    notifyListeners();
+  }
+
   Future<void> loadCurrentLocation() async {
     await _mapService.getCurrentLocation().then((value) async {
       _currentLocation = value;
       _places = await _mapService.getNearbyVenues(value);
       _warnings = await _mapService.getNearbyWarnings(value);
     });
+    notifyListeners();
+  }
+
+  Future<void> loadWarningTypes() async {
+      _warningTypes = await _mapService.getWarningTypes();
     notifyListeners();
   }
 

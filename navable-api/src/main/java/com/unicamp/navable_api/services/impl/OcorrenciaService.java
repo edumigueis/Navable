@@ -1,7 +1,10 @@
 package com.unicamp.navable_api.services.impl;
 
 import com.unicamp.navable_api.api.model.OcorrenciaDTO;
+import com.unicamp.navable_api.api.model.TipoOcorrenciaDTO;
 import com.unicamp.navable_api.persistance.entities.Ocorrencia;
+import com.unicamp.navable_api.persistance.entities.TipoOcorrencia;
+import com.unicamp.navable_api.persistance.entities.Usuario;
 import com.unicamp.navable_api.persistance.repositories.OcorrenciaRepository;
 import com.unicamp.navable_api.persistance.repositories.TipoOcorrenciaRepository;
 import com.unicamp.navable_api.services.mappers.OcorrenciaMapper;
@@ -20,7 +23,6 @@ public class OcorrenciaService {
     @Autowired
     private TipoOcorrenciaRepository tipoOcorrenciaRepository;
 
-    // Usar o mapper gerado pelo MapStruct
     private final OcorrenciaMapper ocorrenciaMapper = OcorrenciaMapper.INSTANCE;
     private final TipoOcorrenciaMapper tipoOcorrenciaMapper = TipoOcorrenciaMapper.INSTANCE;
 
@@ -28,6 +30,13 @@ public class OcorrenciaService {
         Ocorrencia ocorrencia = ocorrenciaMapper.toEntity(ocorrenciaDTO);
         Ocorrencia savedOcorrencia = ocorrenciaRepository.save(ocorrencia);
         return ocorrenciaMapper.toDTO(savedOcorrencia);
+    }
+
+    public List<TipoOcorrenciaDTO> getAllTypes() {
+        List<TipoOcorrencia> types = tipoOcorrenciaRepository.findAll();
+        return types.stream()
+                .map(tipoOcorrenciaMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public List<OcorrenciaDTO> getAllOcorrencias(double latitude, double longitude) {

@@ -58,4 +58,20 @@ class MapService {
       throw Exception('Error fetching warnings: $e');
     }
   }
+
+  Future<List<WarningType>> getWarningTypes() async {
+    final url = Uri.parse('${AppConfig.baseUrl}/ocorrencias');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        return data.map((json) => WarningType.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load warnings');
+      }
+    } catch (e) {
+      throw Exception('Error fetching warnings: $e');
+    }
+  }
 }
