@@ -3,8 +3,10 @@ package com.unicamp.navable_api.api.impl;
 import com.unicamp.navable_api.api.model.UsuarioDTO;
 import com.unicamp.navable_api.services.impl.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 
 @RestController
@@ -17,6 +19,15 @@ public class UsuarioControllerImpl {
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<UsuarioDTO> signIn(@RequestParam String email, @RequestParam String password) {
+        try {
+            return ResponseEntity.ok(usuarioService.signIn(email, password));
+        } catch (AuthenticationException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @GetMapping("/{id}")

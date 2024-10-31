@@ -5,8 +5,11 @@ import com.unicamp.navable_api.persistance.entities.Usuario;
 import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
 import com.unicamp.navable_api.services.mappers.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -40,6 +43,17 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario not found with id " + id));
         return usuarioMapper.toDTO(usuario);
+    }
+
+    public UsuarioDTO signIn(String email, String password) throws AuthenticationException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email " + email));
+
+        if (password.matches(usuario.getSenha())) {
+            return usuarioMapper.toDTO(usuario);
+        } else {
+            throw new AuthenticationException();
+        }
     }
 
     @Transactional

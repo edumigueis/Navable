@@ -39,8 +39,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
         return usuario;
     }
 
-    // Additional methods to support UsuarioService logic
     Optional<Usuario> findById(Integer id);
+
+    Optional<Usuario> findByEmail(String email);
 
     @Modifying
     @Transactional

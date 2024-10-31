@@ -9,16 +9,13 @@ class SigninService {
   static const _userIdKey = 'userId';
 
   Future<bool> signin(String email, String password) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/user/signin');
+    final url = Uri.parse('${AppConfig.baseUrl}/signin?email=$email&password=$password');
+
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
     );
 
     if (response.statusCode == 200) {
