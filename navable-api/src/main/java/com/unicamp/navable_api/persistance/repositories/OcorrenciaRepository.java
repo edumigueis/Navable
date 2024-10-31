@@ -1,8 +1,7 @@
 package com.unicamp.navable_api.persistance.repositories;
 
 import com.unicamp.navable_api.persistance.entities.Ocorrencia;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 

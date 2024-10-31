@@ -1,6 +1,6 @@
 package com.unicamp.navable_api.api.impl;
 
-import com.unicamp.navable_api.api.model.UsuarioDTO;
+import com.unicamp.navable_api.api.model.*;
 import com.unicamp.navable_api.services.impl.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -19,6 +19,11 @@ public class UsuarioControllerImpl {
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
+    }
+
+    @GetMapping("/selos/{id}")
+    public List<SeloDTO> getAllSelosByUsuario(@PathVariable Integer id) {
+        return usuarioService.getSelosByUserId(id);
     }
 
     @PostMapping("/signin")

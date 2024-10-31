@@ -1,13 +1,11 @@
 package com.unicamp.navable_api.services.impl;
 
-import com.unicamp.navable_api.api.model.UsuarioDTO;
-import com.unicamp.navable_api.persistance.entities.Usuario;
+import com.unicamp.navable_api.api.model.*;
+import com.unicamp.navable_api.persistance.entities.*;
 import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
-import com.unicamp.navable_api.services.mappers.UsuarioMapper;
+import com.unicamp.navable_api.services.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 import javax.persistence.EntityManager;
@@ -25,6 +23,7 @@ public class UsuarioService {
     private EntityManager entityManager;
 
     private final UsuarioMapper usuarioMapper = UsuarioMapper.INSTANCE;
+    private final SelosMapper selosMapper = SelosMapper.INSTANCE;
 
     public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
@@ -36,6 +35,13 @@ public class UsuarioService {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios.stream()
                 .map(usuarioMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<SeloDTO> getSelosByUserId(Integer id) {
+        List<Selo> selos = usuarioRepository.findSelosByUsuario(id);
+        return selos.stream()
+                .map(selosMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

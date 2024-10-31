@@ -11,6 +11,7 @@ public interface CategoriaAcessibilidadeMapper {
     CategoriaAcessibilidadeMapper INSTANCE = Mappers.getMapper(CategoriaAcessibilidadeMapper.class);
 
     CategoriaAcessibilidade toEntity(CategoriaAcessibilidadeDTO categoriaDTO);
+
     CategoriaAcessibilidadeDTO toDTO(CategoriaAcessibilidade categoria);
 }
 

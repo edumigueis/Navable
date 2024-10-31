@@ -1,36 +1,42 @@
 package com.unicamp.navable_api.persistance.repositories;
 
-import com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade;
-import com.unicamp.navable_api.persistance.entities.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.unicamp.navable_api.persistance.entities.*;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = """
-        SELECT s.*, su.timestamp
-        FROM Selo s
-        JOIN SeloUsuario su ON s.id_selo = su.id_selo
-        WHERE su.id_usuario = :id_usuario
-        """, nativeQuery = true)
+            SELECT s.*, su.timestamp
+            FROM Selo s
+            JOIN SeloUsuario su ON s.id_selo = su.id_selo
+            WHERE su.id_usuario = :id_usuario
+            """, nativeQuery = true)
     List<Object[]> findSelosByUsuarioId(@Param("id_usuario") Integer idUsuario);
 
     @Query(value = """
-        SELECT ca.*
-        FROM CategoriaAcessibilidade ca
-        JOIN UsuarioCategoria uc ON ca.categoria_ac_id = uc.categoria_ac_id
-        WHERE uc.id_usuario = :id_usuario
-        """, nativeQuery = true)
+            SELECT ca.*
+            FROM CategoriaAcessibilidade ca
+            JOIN UsuarioCategoria uc ON ca.categoria_ac_id = uc.categoria_ac_id
+            WHERE uc.id_usuario = :id_usuario
+            """, nativeQuery = true)
     List<CategoriaAcessibilidade> findByUsuarioId(@Param("id_usuario") Integer idUsuario);
+
+    @Query(
+            value = """
+                    SELECT s.*, su.timestamp  -- Timestamp da associação entre selo e usuário
+                    FROM selo AS s
+                    JOIN selo_usuario AS su ON s.id_selo = su.id_selo
+                    WHERE su.id_usuario = :id_usuario;
+                    """, nativeQuery = true
+    )
+    List<Selo> findSelosByUsuario(@Param("id_usuario") Integer idUsuario);
 
     @Modifying
     @Transactional
@@ -56,13 +62,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "INSERT INTO OcorrenciaVote (usuario_id, ocorrencia_id) VALUES (:usuarioId, :ocorrenciaId)", nativeQuery = true)
     void voteOnOcorrencia(@Param("usuarioId") Integer usuarioId, @Param("ocorrenciaId") Integer ocorrenciaId);
 
-    // Placeholder for Avaliacao creation query
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO Avaliacao (usuario_id, descricao, rating) VALUES (:usuarioId, :descricao, :rating)", nativeQuery = true)
     void createAvaliacao(@Param("usuarioId") Integer usuarioId, @Param("descricao") String descricao, @Param("rating") Integer rating);
 
-    // Placeholder for associating CategoriaAcessibilidade with Usuario
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO UsuarioCategoria (usuario_id, categoria_id) VALUES (:usuarioId, :categoriaId)", nativeQuery = true)

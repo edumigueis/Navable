@@ -10,10 +10,7 @@ public interface OcorrenciaMapper {
 
     OcorrenciaMapper INSTANCE = Mappers.getMapper(OcorrenciaMapper.class);
 
-    // Mapeamento de OcorrenciaDTO para Ocorrencia (Entidade)
     Ocorrencia toEntity(OcorrenciaDTO ocorrenciaDTO);
-
-    // Mapeamento de Ocorrencia (Entidade) para OcorrenciaDTO
     OcorrenciaDTO toDTO(Ocorrencia ocorrencia);
 }
 

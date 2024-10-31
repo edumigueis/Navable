@@ -1,8 +1,6 @@
 package com.unicamp.navable_api.services.mappers;
 
-import com.unicamp.navable_api.api.model.OcorrenciaDTO;
 import com.unicamp.navable_api.api.model.TipoOcorrenciaDTO;
-import com.unicamp.navable_api.persistance.entities.Ocorrencia;
 import com.unicamp.navable_api.persistance.entities.TipoOcorrencia;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

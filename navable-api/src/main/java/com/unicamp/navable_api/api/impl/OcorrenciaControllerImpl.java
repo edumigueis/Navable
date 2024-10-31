@@ -1,8 +1,6 @@
 package com.unicamp.navable_api.api.impl;
 
-import com.unicamp.navable_api.api.model.CategoriaAcessibilidadeDTO;
-import com.unicamp.navable_api.api.model.OcorrenciaDTO;
-import com.unicamp.navable_api.api.model.TipoOcorrenciaDTO;
+import com.unicamp.navable_api.api.model.*;
 import com.unicamp.navable_api.services.impl.OcorrenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

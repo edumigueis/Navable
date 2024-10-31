@@ -1,14 +1,9 @@
 package com.unicamp.navable_api.services.impl;
 
-import com.unicamp.navable_api.api.model.OcorrenciaDTO;
-import com.unicamp.navable_api.api.model.TipoOcorrenciaDTO;
-import com.unicamp.navable_api.persistance.entities.Ocorrencia;
-import com.unicamp.navable_api.persistance.entities.TipoOcorrencia;
-import com.unicamp.navable_api.persistance.entities.Usuario;
-import com.unicamp.navable_api.persistance.repositories.OcorrenciaRepository;
-import com.unicamp.navable_api.persistance.repositories.TipoOcorrenciaRepository;
-import com.unicamp.navable_api.services.mappers.OcorrenciaMapper;
-import com.unicamp.navable_api.services.mappers.TipoOcorrenciaMapper;
+import com.unicamp.navable_api.api.model.*;
+import com.unicamp.navable_api.persistance.entities.*;
+import com.unicamp.navable_api.persistance.repositories.*;
+import com.unicamp.navable_api.services.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
