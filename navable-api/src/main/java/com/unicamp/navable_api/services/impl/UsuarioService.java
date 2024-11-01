@@ -24,6 +24,7 @@ public class UsuarioService {
 
     private final UsuarioMapper usuarioMapper = UsuarioMapper.INSTANCE;
     private final SelosMapper selosMapper = SelosMapper.INSTANCE;
+    private final CategoriaAcessibilidadeMapper categoriaMapper = CategoriaAcessibilidadeMapper.INSTANCE;
 
     public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
@@ -42,6 +43,13 @@ public class UsuarioService {
         List<Selo> selos = usuarioRepository.findSelosByUsuario(id);
         return selos.stream()
                 .map(selosMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<CategoriaAcessibilidadeDTO> getCategoriasByUserId(Integer id) {
+        List<CategoriaAcessibilidade> selos = usuarioRepository.findCategoriasByUsuario(id);
+        return selos.stream()
+                .map(categoriaMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

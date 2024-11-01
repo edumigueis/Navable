@@ -26,6 +26,11 @@ public class UsuarioControllerImpl {
         return usuarioService.getSelosByUserId(id);
     }
 
+    @GetMapping("/categorias/{id}")
+    public List<CategoriaAcessibilidadeDTO> getAllCategoriasByUsuario(@PathVariable Integer id) {
+        return usuarioService.getCategoriasByUserId(id);
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<UsuarioDTO> signIn(@RequestParam String email, @RequestParam String password) {
         try {
