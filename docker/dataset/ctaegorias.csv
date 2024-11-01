@@ -1,0 +1,42 @@
+categoria_ac_id,nome,grupo
+1,Assento Sanitário Rebaixado,Restroom
+2,Rampa de Acesso,Entrance
+3,Estacionamento Acessível,Entrance
+4,Entrada Sem Barreiras,Entrance
+5,Porta Automática,Entrance
+6,Elevador,General
+7,Banheiro Acessível - Privado,Restroom
+8,Banheiro Acessível - Cabine,Restroom
+9,Mobiliário Acessível,General
+10,Iluminação Brilhante,General
+11,Iluminação Baixa,General
+12,Acessibilidade Auditiva,Hearing
+13,Sinais em Braille,General
+14,Cadeiras de Rodas Disponíveis,General
+15,Espaço Amplo,General
+16,Balcões Abaixados,General
+17,Serviço Amigo do Animal,General
+18,Quadro de Avisos em Grande Formato,General
+19,Sinalização Clara,General
+20,Sons Auditivos de Alerta,Hearing
+21,Acessibilidade Digital,Digital
+22,Menu Digital,Digital
+23,Acessibilidade em Eventos,General
+24,Sistema de Loop de Audição,Hearing
+25,Apoio Visual,General
+26,Área de Espera Acessível,General
+27,Tábuas de Tactile,General
+28,Acessibilidade para Deficientes Visuais,General
+29,Guias de Navegação,General
+30,Área de Descanso Acessível,General
+31,Placas Informativas em Braille,General
+32,Feedback Auditivo,General
+33,Mesas Acessíveis,Restroom
+34,Protetores Auditivos Disponíveis,Hearing
+35,Segurança Acessível,General
+36,Iluminação de Sinalização,General
+37,Acessibilidade para Animais de Serviço,General
+38,Suporte para Mobilidade,General
+39,Sinalização em Vários Idiomas,General
+40,Estacionamento Reservado para Deficientes,Entrance
+
