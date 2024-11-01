@@ -35,7 +35,7 @@ class ProfileService {
   }
 
   Future<List<AccessibilityCategory>> getUserCategories(String userId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/categorias-acessibilidade');
+    final url = Uri.parse('${AppConfig.baseUrl}/usuarios/categorias/$userId');
     try {
       final response = await http.get(url);
 
@@ -51,19 +51,18 @@ class ProfileService {
   }
 
   Future<List<AccessibilityBadge>> getUserBadges(String userId) async {
-    /*final url = Uri.parse('${AppConfig.baseUrl}/categorias-acessibilidade');
+    final url = Uri.parse('${AppConfig.baseUrl}/usuarios/selos/$userId');
     try {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-        return data.map((json) => AccessibilityCategory.fromJson(json)).toList();
+        return data.map((json) => AccessibilityBadge.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load categories');
       }
     } catch (e) {
       throw Exception('Error fetching categories: $e');
-    }*/
-    return List.of([AccessibilityBadge("a", "a")]);
+    }
   }
 }
