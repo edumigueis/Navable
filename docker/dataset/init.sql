@@ -259,11 +259,11 @@ INSERT INTO Ocorrencia (id_usuario, id_tipo_ocorrencia, latitude, longitude) VAL
 (3, 3, 123458, 654323),
 (4, 4, 123459, 654324),
 (5, 5, 123460, 654325),
-(6, 2, -22.81678209374871, -47.07163840057773), --rampa ingreme, no ru--
-(7, 12, -22.81519689405684, -47.06215842203571), --superficie escorregadia, rs--
-(8, 16, -22.817855629693145, -47.07071132402292), --obstaculos no caminho, pb--
-(9, 7, -22.81330657707895, -47.068970019519725), --banheiro inacessivel no ig--
-(10, 6, -22.81788369830114, -47.068504959994634); -- falta de sinalização no cb--
+(5, 2, -22.81678209374871, -47.07163840057773), --rampa ingreme, no ru--
+(2, 12, -22.81519689405684, -47.06215842203571), --superficie escorregadia, rs--
+(1, 16, -22.817855629693145, -47.07071132402292), --obstaculos no caminho, pb--
+(3, 7, -22.81330657707895, -47.068970019519725), --banheiro inacessivel no ig--
+(4, 6, -22.81788369830114, -47.068504959994634); -- falta de sinalização no cb--
 
 -- Insert data into Votos
 INSERT INTO Votos (id_usuario, id_ocorrencia) VALUES
