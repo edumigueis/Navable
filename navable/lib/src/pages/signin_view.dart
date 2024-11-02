@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:navable/src/components/basics/navable_text_input.dart';
 import 'package:navable/src/pages/controllers/signin_controller.dart';
 import 'package:navable/src/util/styles.dart';
+
 import '../components/basics/navable_button.dart';
 
 class SignInView extends StatefulWidget {
@@ -86,15 +87,15 @@ class _SignInViewState extends State<SignInView> {
               child: NavableButton(
                 "ENTRAR",
                 onPressed: () async {
-                  // Call the signin method on controller
-                  await widget.controller.signin(
-                    _emailController.text,
-                    _passwordController.text,
-                  );
-
-                  // Check if there is an error message and display it
-                  if (widget.controller.errorMsg == null) {
+                  try {
+                    await widget.controller.signin(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
                     Navigator.pushNamed(context, "/home");
+                  } catch (e) {
+                    print(e);
+                    setState(() {});
                   }
                 },
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navable/src/pages/models/place.dart';
 
@@ -9,6 +10,8 @@ class MapViewController with ChangeNotifier {
   final MapService _mapService;
 
   MapViewController(this._mapService);
+
+  final storage = const FlutterSecureStorage();
 
   late LatLng _currentLocation;
   bool _isModalOpen = false;
@@ -49,12 +52,18 @@ class MapViewController with ChangeNotifier {
       _currentLocation = value;
       _places = await _mapService.getNearbyVenues(value);
       _warnings = await _mapService.getNearbyWarnings(value);
+      _warningTypes = await _mapService.getWarningTypes();
     });
     notifyListeners();
   }
 
-  Future<void> loadWarningTypes() async {
-      _warningTypes = await _mapService.getWarningTypes();
+  Future<void> createOcurrence(WarningType warning) async {
+    final id = await storage.read(key: 'userId');
+    if (id == null) {
+      throw Exception('User ID not found in storage');
+    } else {
+      await _mapService.saveOcurrence(warning, _currentLocation, int.parse(id));
+    }
     notifyListeners();
   }
 

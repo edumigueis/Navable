@@ -36,21 +36,6 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
             """, nativeQuery = true)
     List<Estabelecimento> findByNotaAndCategoriaAndTipo(@Param("nota") Float nota, @Param("lista_categoria") List<Integer> listaCategoria, @Param("id_tipo_estabeleci") Integer idTipoEstabeleci);
 
-    // Query to find establishments within latitude/longitude bounds
-    @Query(value = """
-            SELECT e.*
-            FROM Estabelecimento e
-            WHERE (e.latitude BETWEEN :lat_min AND :lat_max)
-            AND (e.longitude BETWEEN :lon_min AND :lon_max)
-            AND (e.id_tipo_estabeleci = :id_tipo_estabeleci OR :id_tipo_estabeleci IS NULL)
-            """, nativeQuery = true)
-    List<Estabelecimento> findByLatLongBounds(
-            @Param("lat_min") double latMin,
-            @Param("lat_max") double latMax,
-            @Param("lon_min") double lonMin,
-            @Param("lon_max") double lonMax,
-            @Param("id_tipo_estabeleci") Long idTipoEstabeleci);
-
     // Query to search establishments by name
     @Query(value = """
             SELECT e.*

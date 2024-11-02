@@ -10,16 +10,22 @@ import '../models/warning.dart';
 import 'package:http/http.dart' as http;
 class MapService {
   Future<LatLng> getCurrentLocation() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      throw Exception("Location services are disabled.");
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        throw Exception("Location services are disabled.");
+      }
+    }
+    catch(ex){
+      return LatLng(-22.813366, -47.063731);
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-        throw Exception("Location permissions are permanently denied.");
+        return LatLng(-22.813366, -47.063731);
+        //throw Exception("Location permissions are permanently denied.");
       }
     }
 
@@ -73,5 +79,28 @@ class MapService {
     } catch (e) {
       throw Exception('Error fetching warnings: $e');
     }
+  }
+
+  Future<void> saveOcurrence(WarningType w, LatLng loc, int userId) async {
+    final url = Uri.parse('${AppConfig.baseUrl}/ocorrencias');
+      Map<String, dynamic> ocorrenciaDTO = {
+        'idUsuario': userId,
+        'idTipoOcorrencia': w.idTipoOcorrencia,
+        'tipoOcorrencia': w.toJson(),
+        'latitude': loc.latitude,
+        'longitude': loc.longitude,
+      };
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(ocorrenciaDTO),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to save warning');
+      }
   }
 }

@@ -9,7 +9,7 @@ class SigninService {
   static const _userIdKey = 'userId';
 
   Future<bool> signin(String email, String password) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/signin?email=$email&password=$password');
+    final url = Uri.parse('${AppConfig.baseUrl}/usuarios/signin?email=$email&password=$password');
 
     final response = await http.post(
       url,
@@ -21,7 +21,7 @@ class SigninService {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
 
-      final userId = data['userId'];
+      final userId = data['idUsuario'];
       if (userId != null) {
         await _storage.write(key: _userIdKey, value: userId.toString());
         return true;

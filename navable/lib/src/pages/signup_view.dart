@@ -101,7 +101,7 @@ class _SignUpViewState extends State<SignUpView> {
                     confirmPassword: _confirmPasswordController.text,
                   );
                   if (widget.controller.errorMsg != null) {
-                    setState(() {}); // Refresh to show error message
+                    setState(() {});
                   } else {
                     Navigator.pushNamed(context, "/pickacc");
                   }

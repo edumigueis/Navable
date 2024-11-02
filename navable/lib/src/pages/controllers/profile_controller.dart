@@ -39,13 +39,12 @@ class ProfileController with ChangeNotifier {
   }
 
   Future<void> fetchLoggedUser() async {
-      final userId = await storage.read(key: 'userId');
-      if (userId == null) throw Exception('User ID not found in storage');
-
-      notifyListeners();
-  }
-
-  Future<void> loadUser() async {
+      final id = await storage.read(key: 'userId');
+      if (id == null) {
+        throw Exception('User ID not found in storage');
+      } else {
+        userId = id;
+      }
       user = await _service.getUser(userId);
       notifyListeners();
   }

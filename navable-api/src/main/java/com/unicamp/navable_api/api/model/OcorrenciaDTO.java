@@ -10,7 +10,7 @@ public class OcorrenciaDTO {
     private Integer idUsuario;
     private Integer idTipoOcorrencia;
     private TipoOcorrenciaDTO tipoOcorrencia;
-    private Integer latitude;
-    private Integer longitude;
+    private Double latitude;
+    private Double longitude;
 }
 

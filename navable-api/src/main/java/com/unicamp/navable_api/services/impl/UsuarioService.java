@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,16 +18,13 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private EntityManager entityManager;
-
     private final UsuarioMapper usuarioMapper = UsuarioMapper.INSTANCE;
     private final SelosMapper selosMapper = SelosMapper.INSTANCE;
     private final CategoriaAcessibilidadeMapper categoriaMapper = CategoriaAcessibilidadeMapper.INSTANCE;
 
     public UsuarioDTO createUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
-        Usuario savedUsuario = usuarioRepository.createUsuario(usuario, entityManager);
+        Usuario savedUsuario = usuarioRepository.save(usuario);
         return usuarioMapper.toDTO(savedUsuario);
     }
 
@@ -47,8 +43,8 @@ public class UsuarioService {
     }
 
     public List<CategoriaAcessibilidadeDTO> getCategoriasByUserId(Integer id) {
-        List<CategoriaAcessibilidade> selos = usuarioRepository.findCategoriasByUsuario(id);
-        return selos.stream()
+        List<CategoriaAcessibilidade> categorias = usuarioRepository.findCategoriasByUsuario(id);
+        return categorias.stream()
                 .map(categoriaMapper::toDTO)
                 .collect(Collectors.toList());
     }

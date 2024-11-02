@@ -11,10 +11,11 @@ import javax.persistence.*;
 @Table(name = "Ocorrencia")
 public class Ocorrencia {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idOcorrencia;
     private Integer idUsuario;
     private Integer idTipoOcorrencia;
-    private Integer latitude;
-    private Integer longitude;
+    private Double latitude;
+    private Double longitude;
 }
 

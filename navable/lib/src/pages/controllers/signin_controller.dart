@@ -24,7 +24,7 @@ class SigninController with ChangeNotifier {
       if (!success) {
         errorMsg = "Invalid email or password";
       } else {
-        errorMsg = null; // Clear any previous error
+        errorMsg = null;
       }
     } catch (e) {
       errorMsg = "An error occurred. Please try again.";

@@ -34,6 +34,13 @@ public class EstabelecimentoService {
                 .collect(Collectors.toList());
     }
 
+    public List<EstabelecimentoDTO> getAllEstabelecimentosNearby(double latitude, double longitude) {
+        List<Estabelecimento> estabelecimentos = estabelecimentoRepository.findNearby(latitude, longitude);
+        return estabelecimentos.stream()
+                .map(estabelecimentoMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public EstabelecimentoDTO getEstabelecimentoById(Integer id) {
         Estabelecimento estabelecimento = estabelecimentoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Estabelecimento not found with id " + id));

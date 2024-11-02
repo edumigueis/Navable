@@ -62,11 +62,7 @@ class LoadingApp extends StatelessWidget {
     final pickController = PickAccessibilitiesController(PickAccessibilitiesService());
     final signupController = SignupController(SignupService());
     final signinController = SigninController(SigninService());
-
     final isUserSignedIn = await signinController.isUserSignedIn();
-    if(isUserSignedIn) {
-      await profileController.fetchLoggedUser();
-    }
 
     return {
       'settingsController': settingsController,

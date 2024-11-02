@@ -31,7 +31,7 @@ class SignupService {
       print('Failed to register user: ${response.statusCode} ${response.body}');
     }
   } catch (e) {
-    print('Error occurred: $e');
+    throw Exception();
   }
   }
 }

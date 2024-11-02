@@ -9,8 +9,8 @@ public class EstabelecimentoDTO {
     private Integer idEstabelecimento;
     private Integer idTipoEstabeleci;
     private String nome;
-    private Integer latitude;
-    private Integer longitude;
+    private Double latitude;
+    private Double longitude;
     private String imagem;
     private String endereco;
 }

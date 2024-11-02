@@ -115,14 +115,18 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     );
   }
 
-  void _openAddWarningModal(BuildContext context, List<WarningType> types) {
-    showModalBottomSheet(
+  Future<void> _openAddWarningModal(BuildContext context, List<WarningType> types) async {
+    final result = await showModalBottomSheet<WarningType>(
       context: context,
       builder: (BuildContext context) {
         return AddWarningView(warnings: types);
       },
       isScrollControlled: true,
     );
+
+    if (result != null) {
+      widget.controller.createOcurrence(result);
+    }
   }
 
   void _animateMapMove(LatLng latLng, double zoom) {
