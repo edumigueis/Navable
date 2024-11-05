@@ -235,7 +235,22 @@ INSERT INTO Estabelecimento (id_tipo_estabeleci, nome, latitude, longitude, imag
 (2, 'Moda e Estilo', 123457, 654322, 'images/moda.jpg', 'Rua B, 234'),
 (3, 'Supermercado Central', 123458, 654323, 'images/supermercado.jpg', 'Rua C, 345'),
 (4, 'Colégio Nossa Senhora', 123459, 654324, 'images/colegio.jpg', 'Rua D, 456'),
-(5, 'Hospital da Cidade', 123460, 654325, 'images/hospital.jpg', 'Rua E, 567');
+(5, 'Hospital da Cidade', 123460, 654325, 'images/hospital.jpg', 'Rua E, 567'),
+(6, 'Restaurante Universitário (RU)', -22.81678209374871, -47.07163840057773, 'images/ru.jpg', 'Av. Érico Veríssimo, 50'),
+(7, 'Biblioteca Central Cesar Lattes', -22.815988330376307, -47.07033717109454, 'images/biblioteca.jpg', 'R. Sérgio Buarque de Holanda, 421'),
+(8, 'Faculdade de Educação Física', -22.814978014353226, -47.071722249901974, 'images/fef.jpg', 'Av. Érico Veríssimo, 701'),
+(9, 'Praça do Ciclo Básico', -22.817017579114346, -47.06973453314579, 'images/praca.jpg', 'R. Sérgio Buarque de Holanda, S/N'),
+(10, 'Instituto de Física Gleb Wataghin', -22.817272606585433, -47.06770885259852, 'images/ifgw.jpg', 'R. Sérgio Buarque de Holanda, 777'),
+(11, 'Instituto de Computação - IC 3 / 3.5 - Unicamp', -22.813531021175827, -47.06352688811394, 'images/ic.jpg', 'R. Saturnino de Brito, 573'),
+(12, 'Restaurante da Saturnino (RS)', -22.81519689405684, -47.06215842203571, 'images/rs.jpg', 'R. Saturnino de Brito'),
+(13, 'Centro de Convenções', -22.814632123648288, -47.070874208355804, 'images/cc.jpg', 'Avenida Érico Veríssimo, 500'),
+(14, 'Instituto de Artes - IA/Unicamp', -22.815270315044277, -47.07058299754328, 'images/ia.jpg', 'Rua Elis Regina, 50'),
+(15, 'Instituto de Geociências', -22.81330657707895, -47.068970019519725, 'images/ig.jpg', 'R. Carlos Gomes, 250'),
+(16, 'Faculdade de Engenharia Mecânica', -22.818723039906683, -47.06585748693785, 'images/fem.jpg', 'R. Mendeleyev, 200'),
+(17, 'Faculdade de Engenharia Química', -22.82007328775776, -47.064953610547356, 'images/eq.jpg', 'Av. Albert Einstein, 500'),
+(18, 'Ciclo Básico II - PB', -22.817855629693145, -47.07071132402292, 'images/pb.jpg', 'R. Sérgio Buarque de Holanda'),
+(19, 'Ciclo Básico I - CB', -22.81788369830114, -47.068504959994634, 'images/cb.jpg', 'R. Josué de Castro, 1-123'),
+(20, 'Instituto de Matemática, Estatística e Computação Científica (IMECC)', -22.815875501654062, -47.067793497540066, 'images/imecc.jpg', 'Cidade Universitária, Campinas') ;
 
 -- Insert data into Ocorrencia
 INSERT INTO Ocorrencia (id_usuario, id_tipo_ocorrencia, latitude, longitude) VALUES
@@ -243,7 +258,12 @@ INSERT INTO Ocorrencia (id_usuario, id_tipo_ocorrencia, latitude, longitude) VAL
 (2, 2, 123457, 654322),
 (3, 3, 123458, 654323),
 (4, 4, 123459, 654324),
-(5, 5, 123460, 654325);
+(5, 5, 123460, 654325),
+(5, 2, -22.81678209374871, -47.07163840057773), --rampa ingreme, no ru--
+(2, 12, -22.81519689405684, -47.06215842203571), --superficie escorregadia, rs--
+(1, 16, -22.817855629693145, -47.07071132402292), --obstaculos no caminho, pb--
+(3, 7, -22.81330657707895, -47.068970019519725), --banheiro inacessivel no ig--
+(4, 6, -22.81788369830114, -47.068504959994634); -- falta de sinalização no cb--
 
 -- Insert data into Votos
 INSERT INTO Votos (id_usuario, id_ocorrencia) VALUES
