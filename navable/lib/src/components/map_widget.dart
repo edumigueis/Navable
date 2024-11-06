@@ -18,7 +18,7 @@ class MapWidget extends StatelessWidget {
       required this.places});
 
   final MapController mapController;
-  final VoidCallback onToggleModal;
+  final void Function(Place place) onToggleModal;
   final void Function(LatLng latLng, double zoom) onMapMove;
   final LatLng initialCenter;
   final List<Warning> warnings;
@@ -67,20 +67,21 @@ class MapWidget extends StatelessWidget {
           tileBuilder: tileBuilder,
         ),
         MarkerLayer(
-          markers: [
-            Marker(
-              point: const LatLng(30, 40),
-              width: 20,
-              height: 20,
-              child: CustomPinMarker(
-                onTap: onToggleModal,
-                icon: Icons.wheelchair_pickup,
-                color: Colors.red,
-                size: 20.0,
-              ),
-            ),
-          ],
-        ),
+            markers: places
+                .map(
+                  (place) => Marker(
+                    point: LatLng(place.location.latitude, place.location.longitude),
+                    width: 20,
+                    height: 20,
+                    child: CustomPinMarker(
+                      onTap: () => onToggleModal(place),
+                      icon: Icons.wheelchair_pickup,
+                      color: Colors.red,
+                      size: 20.0,
+                    ),
+                  ),
+                )
+                .toList()),
       ],
     );
   }

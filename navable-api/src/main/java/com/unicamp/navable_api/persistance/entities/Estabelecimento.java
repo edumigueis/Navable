@@ -14,6 +14,7 @@ public class Estabelecimento {
     private Integer idEstabelecimento;
     private Integer idTipoEstabeleci;
     private String nome;
+    @Getter
     private Double latitude;
     private Double longitude;
     private String imagem;

@@ -37,7 +37,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(
-        onTapSearch: widget.controller.togglePlaceModal,
+        onTapSearch: () => _openFilterModal(context),
         onTapFilter: () => _openFilterModal(context),
       ),
       extendBodyBehindAppBar: true,
@@ -73,7 +73,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
             bottom: widget.controller.isModalOpen ? 225 : 15,
           ),
           AnimatedBuilder(
-            animation: widget.controller, // Ouve mudanças no controlador
+            animation: widget.controller,
             builder: (context, child) {
               return widget.controller.isModalOpen
                   ? Positioned(
@@ -84,17 +84,14 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                         onTap: () {
                           Navigator.pushNamed(context, "/settings");
                         },
-                        child: PlaceCard(
-                          place: Place(
-                            "name",
-                            1.5,
-                            "assets/images/flutter_logo.png",
-                            "Rua Rita Lee, 255",
-                          ),
+                        child: widget.controller.selectedPlace != null ? PlaceCard(
+                          place: widget.controller.selectedPlace!,
                           icon: Icons.insert_emoticon_sharp,
                           iconColor: Colors.green,
                           onClose: widget.controller.closePlaceModal,
-                        ),
+                        ) : const Center(
+                          child: Text("Erro"),
+                        )
                       ),
                     )
                   : const SizedBox.shrink();

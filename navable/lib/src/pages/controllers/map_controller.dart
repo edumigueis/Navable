@@ -47,6 +47,8 @@ class MapViewController with ChangeNotifier {
     notifyListeners();
   }
 
+  Place? selectedPlace;
+
   Future<void> loadCurrentLocation() async {
     await _mapService.getCurrentLocation().then((value) async {
       _currentLocation = value;
@@ -67,8 +69,9 @@ class MapViewController with ChangeNotifier {
     notifyListeners();
   }
 
-  void togglePlaceModal() {
+  void togglePlaceModal(Place place) {
     _isModalOpen = !_isModalOpen;
+    selectedPlace = place;
     notifyListeners();
   }
 

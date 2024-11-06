@@ -42,8 +42,8 @@ CREATE TABLE estabelecimento (
     id_estabelecimento SERIAL PRIMARY KEY,
     id_tipo_estabeleci INT NOT NULL,
     nome VARCHAR(50) NOT NULL,
-    latitude INT NOT NULL,
-    longitude INT NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
     imagem VARCHAR(200),
     endereco VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_tipo_estabeleci) REFERENCES tipo_estabelecimento(id_tipo_estabeleci)
@@ -61,8 +61,8 @@ CREATE TABLE ocorrencia (
     id_ocorrencia SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
     id_tipo_ocorrencia INT NOT NULL,
-    latitude INT NOT NULL,
-    longitude INT NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_tipo_ocorrencia) REFERENCES tipo_ocorrencia(id_tipo_ocorrencia)
 );
@@ -222,7 +222,7 @@ INSERT INTO Selo (nome, imagem) VALUES
 ('Veterano', 'selo_veterano.png');
 
 -- Insert data into SeloUsuario
-INSERT INTO SeloUsuario (id_usuario, id_selo, timestamp) VALUES
+INSERT INTO Selo_Usuario (id_usuario, id_selo, timestamp) VALUES
 (1, 1, '2024-01-01'),
 (2, 2, '2024-01-02'),
 (3, 3, '2024-01-03'),
@@ -247,10 +247,10 @@ INSERT INTO Estabelecimento (id_tipo_estabeleci, nome, latitude, longitude, imag
 (14, 'Instituto de Artes - IA/Unicamp', -22.815270315044277, -47.07058299754328, 'images/ia.jpg', 'Rua Elis Regina, 50'),
 (15, 'Instituto de Geociências', -22.81330657707895, -47.068970019519725, 'images/ig.jpg', 'R. Carlos Gomes, 250'),
 (16, 'Faculdade de Engenharia Mecânica', -22.818723039906683, -47.06585748693785, 'images/fem.jpg', 'R. Mendeleyev, 200'),
-(17, 'Faculdade de Engenharia Química', -22.82007328775776, -47.064953610547356, 'images/eq.jpg', 'Av. Albert Einstein, 500'),
-(18, 'Ciclo Básico II - PB', -22.817855629693145, -47.07071132402292, 'images/pb.jpg', 'R. Sérgio Buarque de Holanda'),
-(19, 'Ciclo Básico I - CB', -22.81788369830114, -47.068504959994634, 'images/cb.jpg', 'R. Josué de Castro, 1-123'),
-(20, 'Instituto de Matemática, Estatística e Computação Científica (IMECC)', -22.815875501654062, -47.067793497540066, 'images/imecc.jpg', 'Cidade Universitária, Campinas') ;
+(1, 'Faculdade de Engenharia Química', -22.82007328775776, -47.064953610547356, 'images/eq.jpg', 'Av. Albert Einstein, 500'),
+(2, 'Ciclo Básico II - PB', -22.817855629693145, -47.07071132402292, 'images/pb.jpg', 'R. Sérgio Buarque de Holanda'),
+(3, 'Ciclo Básico I - CB', -22.81788369830114, -47.068504959994634, 'images/cb.jpg', 'R. Josué de Castro, 1-123'),
+(4, 'Instituto de Matemática', -22.815875501654062, -47.067793497540066, 'images/imecc.jpg', 'Cidade Universitária, Campinas') ;
 
 -- Insert data into Ocorrencia
 INSERT INTO Ocorrencia (id_usuario, id_tipo_ocorrencia, latitude, longitude) VALUES
@@ -274,7 +274,7 @@ INSERT INTO Votos (id_usuario, id_ocorrencia) VALUES
 (5, 4);
 
 -- Insert data into UsuarioCategoria
-INSERT INTO UsuarioCategoria (categoria_ac_id, id_usuario) VALUES
+INSERT INTO Usuario_Categoria (categoria_ac_id, id_usuario) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -282,7 +282,7 @@ INSERT INTO UsuarioCategoria (categoria_ac_id, id_usuario) VALUES
 (2, 5);
 
 -- Insert data into CategoriaAceTipoEstab
-INSERT INTO CategoriaAceTipoEstab (id_tipo_estabeleci, categoria_ac_id) VALUES
+INSERT INTO Categoria_Ace_Tipo_Estab (id_tipo_estabeleci, categoria_ac_id) VALUES
 (1, 1),
 (2, 2),
 (3, 1),
@@ -298,7 +298,7 @@ INSERT INTO Avaliacao (id_usuario, id_estabelecimento, avaliacao, nota, timestam
 (5, 5, 'Muito bom.', 1, '2024-01-05');
 
 -- Insert data into AvaliacaoCategoria
-INSERT INTO AvaliacaoCategoria (categoria_ac_id, id_avaliacao) VALUES
+INSERT INTO Avaliacao_Categoria (categoria_ac_id, id_avaliacao) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
