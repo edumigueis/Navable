@@ -67,6 +67,14 @@ extension CustomStyles on TextTheme {
         color: NavableColors.gray,
       ));
 
+  // Caption style with smaller font size and lighter weight
+  TextStyle get darkCaption => GoogleFonts.urbanist(
+      textStyle: const TextStyle(
+        fontSize: 13.0,
+        fontWeight: FontWeight.w500,
+        color: NavableColors.black,
+      ));
+
   // Button style with all caps, bold, and specific color
   TextStyle get button => GoogleFonts.cabinCondensed(
           textStyle: const TextStyle(

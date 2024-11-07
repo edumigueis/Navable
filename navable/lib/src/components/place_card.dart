@@ -92,10 +92,10 @@ class PlaceCard extends StatelessWidget {
                 PlaceGradeDisplay(value: place.grade, stroke: 9),
                 Text(
                   place.grade > 1.32
-                      ? "Accessible"
+                      ? "Acessível"
                       : place.grade < 0.66
-                          ? "Not accessible"
-                          : "Partially accessible",
+                          ? "Inacessível"
+                          : "Parcialmente acessível",
                   style: Theme.of(context).textTheme.minititle,
                 ),
                 const SizedBox(height: 10),

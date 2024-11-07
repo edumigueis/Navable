@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navable/src/pages/models/place.dart';
 import 'package:navable/src/pages/models/warning.dart';
+import 'package:navable/src/util/styles.dart';
 
 import '../components/custom_pin_marker.dart';
 import '../util/animated_map_move.dart';
@@ -68,20 +69,55 @@ class MapWidget extends StatelessWidget {
         ),
         MarkerLayer(
             markers: places
-                .map(
-                  (place) => Marker(
-                    point: LatLng(place.location.latitude, place.location.longitude),
+                    .map(
+                      (place) => Marker(
+                        point: LatLng(
+                            place.location.latitude, place.location.longitude),
+                        width: 20,
+                        height: 20,
+                        child: CustomPinMarker(
+                          onTap: () => onToggleModal(place),
+                          icon: Icons.location_on_rounded,
+                          color: place.grade > 1.32
+                              ? Colors.green
+                              : place.grade < 0.66
+                                  ? Colors.red
+                                  : Colors.yellow,
+                          size: 25.0,
+                        ),
+                      ),
+                    )
+                    .toList() +
+                warnings
+                    .map(
+                      (warn) => Marker(
+                        point: LatLng(
+                            warn.location.latitude, warn.location.longitude),
+                        width: 30,
+                        height: 30,
+                        child: CustomPinMarker(
+                          onTap: () => {},
+                          icon: Icons.warning_rounded,
+                          color: NavableColors.grayAccent,
+                          size: 30.0,
+                        ),
+                      ),
+                    )
+                    .toList() +
+                [
+                  Marker(
+                    point:
+                        LatLng(initialCenter.latitude, initialCenter.longitude),
                     width: 20,
                     height: 20,
                     child: CustomPinMarker(
-                      onTap: () => onToggleModal(place),
-                      icon: Icons.wheelchair_pickup,
-                      color: Colors.red,
-                      size: 20.0,
+                      onTap: () => {},
+                      icon: Icons.person_pin_circle_rounded,
+                      color: NavableColors.blueAccent,
+                      size: 25.0,
                     ),
                   ),
-                )
-                .toList()),
+                ])
       ],
     );
   }

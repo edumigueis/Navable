@@ -31,7 +31,7 @@ class AddWarningView extends StatelessWidget {
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const CircleAvatar(
                         radius: 30,
@@ -40,7 +40,7 @@ class AddWarningView extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         el.nome.length > 20 ? '${el.nome.substring(0, 20)}...' : el.nome,
-                        style: Theme.of(context).textTheme.highlight,
+                        style: Theme.of(context).textTheme.darkCaption,
                         textAlign: TextAlign.center,
                       ),
                     ],

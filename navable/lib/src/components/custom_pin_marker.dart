@@ -20,13 +20,12 @@ class CustomPinMarker extends StatelessWidget {
     return Center(
         child: MouseRegion(
             cursor: SystemMouseCursors.click,
-            // Define o cursor como "clique" ao passar o mouse
             child: GestureDetector(
                 onTap: onTap,
                 child: Icon(
-                  Icons.location_on_rounded,
+                  icon,
                   color: color,
-                  size: size, // Adjust the icon size relative to the pin
+                  size: size,
                 )))); // Icon Inside the Pi
   }
 }
