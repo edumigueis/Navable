@@ -1,39 +1,40 @@
-# navable
+# Guia para Rodar a Aplicação Flutter
 
-A new Flutter project.
+Esta aplicação tem como objetivo apoiar pessoas com deficiência e/ou necessidades especiais, facilitando a locomoção pela cidade e a localização de estabelecimentos acessíveis. Ela permite que os usuários consultem e avaliem espaços públicos e privados, com foco em acessibilidade. O aplicativo se comunica com uma API em Java que interage com o banco de dados, armazenando informações sobre usuários, estabelecimentos, ocorrências e avaliações. Note que nem todas as funcionalidades foram completamente desenvolvidas, a exemplo das avaliações que estão apenas prototipadas.
 
-## Getting Started
+## Pré-requisitos
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/to/state-management-sample).
+Antes de rodar a aplicação Flutter, você precisa ter os seguintes itens instalados:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter**: [Instalar Flutter](https://flutter.dev/docs/get-started/install)
+- **Android Studio ou IntelliJ** (ou outro editor de sua preferência): [Instalar Android Studio](https://developer.android.com/studio)
+- **Java Development Kit (JDK)** 21: [Baixar JDK 21](https://jdk.java.net/21/)
+- **Git**: [Instalar Git](https://git-scm.com/)
 
-## Assets
+## Configurando o Ambiente
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+0. **Siga o guia oficial de instalação do Flutter**
+   [Guia](https://docs.flutter.dev/get-started/install)
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/to/resolution-aware-images).
+2. **Verificar Instalação do Flutter**:
 
-## Localization
+   Para verificar se o Flutter está corretamente instalado, execute o seguinte comando:
+```bash
+flutter doctor
+```
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+   Esse comando verifica o ambiente e pode sugerir correções caso algum pré-requisito esteja faltando.
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter apps](https://flutter.dev/to/internationalization).
+2. **Configuração do Android Emulator** (se for testar no Android):
 
-https://adobexdelements.com/wp-content/uploads/2020/11/adobe-xd-e-scooter-mobile-app.jpg
-https://media.designrush.com/inspirations/256658/conversions/1.-YouMap-preview.jpg
+   Se for usar o emulador, abra o Android Studio ou o IntelliJ e crie um novo dispositivo virtual (emulador). Recomendamos rodar mobile ou a versão web - note que a versão linux ou windows não possuem suporte a geolocalização.
 
-colors:
-5E2BFF
-EDF67D
-35605A
-04030F
-F3FAE1
+## Executando a Aplicação
+
+1. **Rodar no Emulador ou Dispositivo**:
+
+   Para rodar a aplicação, execute o seguinte comando:
+```bash
+flutter run
+```
+   O Flutter irá compilar a aplicação e iniciar o aplicativo no emulador ou no dispositivo conectado.
