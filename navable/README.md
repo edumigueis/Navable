@@ -1,4 +1,4 @@
-# Guia para Rodar a Aplicação Flutter
+# App Flutter Navable
 
 Esta aplicação tem como objetivo apoiar pessoas com deficiência e/ou necessidades especiais, facilitando a locomoção pela cidade e a localização de estabelecimentos acessíveis. Ela permite que os usuários consultem e avaliem espaços públicos e privados, com foco em acessibilidade. O aplicativo se comunica com uma API em Java que interage com o banco de dados, armazenando informações sobre usuários, estabelecimentos, ocorrências e avaliações. Note que nem todas as funcionalidades foram completamente desenvolvidas, a exemplo das avaliações que estão apenas prototipadas.
 
