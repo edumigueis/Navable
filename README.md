@@ -9,7 +9,6 @@ Este repositório contém o código da aplicação **Acessibilidade Urbana**, de
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Como Executar a Aplicação](#como-executar-a-aplicação)
 - [Arquitetura e Funcionalidades](#arquitetura-e-funcionalidades)
-- [Banco de Dados](#banco-de-dados)
 - [Contribuindo](#contribuindo)
 - [Licença](#licença)
 
