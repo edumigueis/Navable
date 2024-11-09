@@ -87,15 +87,11 @@ class _SignInViewState extends State<SignInView> {
               child: NavableButton(
                 "ENTRAR",
                 onPressed: () async {
-                  try {
-                    await widget.controller.signin(
-                      _emailController.text,
-                      _passwordController.text,
-                    );
+                  if (await widget.controller.signin(
+                    _emailController.text,
+                    _passwordController.text,
+                  )) {
                     Navigator.pushNamed(context, "/home");
-                  } catch (e) {
-                    print(e);
-                    setState(() {});
                   }
                 },
               ),
@@ -103,7 +99,7 @@ class _SignInViewState extends State<SignInView> {
             // Error message display
             if (widget.controller.errorMsg != null)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
                 child: Text(
                   widget.controller.errorMsg!,
                   style: Theme.of(context).textTheme.error,

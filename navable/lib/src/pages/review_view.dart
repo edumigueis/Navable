@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navable/src/components/accessibility_checks.dart';
 import 'package:navable/src/components/basics/navable_button.dart';
 import 'package:navable/src/components/basics/navable_text_input.dart';
 import 'package:navable/src/components/review_slider.dart';
@@ -7,20 +6,18 @@ import 'package:navable/src/pages/controllers/profile_controller.dart';
 import 'package:navable/src/pages/models/place.dart';
 import 'package:navable/src/util/styles.dart';
 
-import 'models/acc_category.dart';
-
 class ReviewView extends StatefulWidget {
-  ReviewView({super.key, required this.controller});
+  const ReviewView({super.key, required this.controller});
 
   static const routeName = '/review';
 
   final ProfileController controller;
 
   @override
-  _ReviewViewState createState() => _ReviewViewState();
+  ReviewViewState createState() => ReviewViewState();
 }
 
-class _ReviewViewState extends State<ReviewView> {
+class ReviewViewState extends State<ReviewView> {
   double sliderValue = 0;
 
   @override
@@ -34,12 +31,13 @@ class _ReviewViewState extends State<ReviewView> {
         elevation: 0,
       ),
       body: ListView(
+        shrinkWrap: true,
         children: [
           // Centered text at the top
-          Text(
-              'Avaliar ${args.name}',
-              style: Theme.of(context).textTheme.subtitle
-            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            child: Text('Avaliar', style: Theme.of(context).textTheme.subtitle),
+          ),
           // Slider with 3 possible values
           Padding(
               padding:
@@ -53,23 +51,24 @@ class _ReviewViewState extends State<ReviewView> {
                 },
               )),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
             child: NavableTextInput(
               "O que achou da acessibilidade em ${args.name}?",
               controller: TextEditingController(),
               maxLines: 6,
             ),
           ),
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
-            child: AccessibilityChecks(title: "", buttons: [
+            child: Expanded(child: AccessibilityChecks(title: "", buttons: [
               AccessibilityCategory(1, "a", "b"),
               AccessibilityCategory(1, "b", "b"),
               AccessibilityCategory(1, "c", "a")
             ], onSelectionChanged: (selectedCategories){},),
-          ),
+          )),*/
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
               child: NavableButton("AVALIAR", onPressed: () {
                 Navigator.pop(context);
               }))

@@ -73,7 +73,7 @@ class PlaceCard extends StatelessWidget {
                   );
                 } else {
                   return Image(
-                    image: AssetImage(place.image),
+                    image: AssetImage("assets/${place.image}"),
                   );
                 }
               }(),
@@ -83,12 +83,12 @@ class PlaceCard extends StatelessWidget {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 6),
                 Text(
                   place.name,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: Theme.of(context).textTheme.smalltitle
                 ),
+                const SizedBox(height: 8),
                 PlaceGradeDisplay(value: place.grade, stroke: 9),
                 Text(
                   place.grade > 1.32
@@ -96,12 +96,12 @@ class PlaceCard extends StatelessWidget {
                       : place.grade < 0.66
                           ? "Inacessível"
                           : "Parcialmente acessível",
-                  style: Theme.of(context).textTheme.minititle,
+                  style: Theme.of(context).textTheme.darkCaption,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 60),
                 Text(
                   place.address,
-                  style: Theme.of(context).textTheme.body,
+                  style: Theme.of(context).textTheme.minititle,
                 ),
               ],
             )),

@@ -16,10 +16,11 @@ class SigninController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signin(String email, String password) async {
+  Future<bool> signin(String email, String password) async {
+    bool success = false;
     try {
       // Attempt to sign in using the service
-      final success = await _service.signin(email, password);
+      success = await _service.signin(email, password);
 
       if (!success) {
         errorMsg = "Invalid email or password";
@@ -30,6 +31,7 @@ class SigninController with ChangeNotifier {
       errorMsg = "An error occurred. Please try again.";
     }
     notifyListeners();
+    return success;
   }
 
   Future<bool> isUserSignedIn() async {

@@ -207,11 +207,11 @@ INSERT INTO Tipo_Ocorrencia (nome, icone) VALUES
 
 -- Insert data into Usuario
 INSERT INTO Usuario (nome, email, senha, pontos) VALUES
-('Maria Silva', 'maria.silva@email.com', 'B23SMgJxhisIEWMb9OKe5g==', 150),
-('João Oliveira', 'joao.oliveira@email.com', 'V7R8qoHA8GRvo1YjJesmEg==', 250),
-('Ana Pereira', 'ana.pereira@email.com', '6LFFwZzPmhVrUIgArs77ew==', 300),
-('Carlos Santos', 'carlos.santos@email.com', 'N+O5Pk+tJGLgyOv0z3cVWg==', 100),
-('Juliana Costa', 'juliana.costa@email.com', 'rYGht6h7tw0msRAlRkDUZQ==', 200);
+('Maria Silva', 'maria@email.com', 'maria12==', 150),
+('João Oliveira', 'joao.oliveira@email.com', 'joao12==', 250),
+('Ana Pereira', 'ana.pereira@email.com', 'anape12==', 300),
+('Carlos Santos', 'carlos.santos@email.com', 'carlos12', 100),
+('Juliana Costa', 'juliana.costa@email.com', 'juliana12', 200);
 
 -- Insert data into Selo
 INSERT INTO Selo (nome, imagem) VALUES
