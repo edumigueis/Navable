@@ -110,4 +110,4 @@ git push origin minha-feature
 
 ## Licença
 
-Este projeto não é lienciado, peça autorização para utilizá-lo por completo.
+Este projeto não é licenciado, peça autorização para utilizá-lo por completo.
