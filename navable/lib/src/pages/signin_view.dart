@@ -19,6 +19,7 @@ class SignInView extends StatefulWidget {
 class _SignInViewState extends State<SignInView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  Future<bool>? _signinFuture;
 
   @override
   void dispose() {
@@ -84,14 +85,28 @@ class _SignInViewState extends State<SignInView> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
-              child: NavableButton(
-                "ENTRAR",
-                onPressed: () async {
-                  if (await widget.controller.signin(
-                    _emailController.text,
-                    _passwordController.text,
-                  )) {
-                    Navigator.pushNamed(context, "/home");
+              child: FutureBuilder<bool>(
+                future: _signinFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return NavableButton(
+                      "ENTRAR",
+                      onPressed: () {
+                        setState(() {
+                          _signinFuture = widget.controller.signin(
+                            _emailController.text,
+                            _passwordController.text,
+                          );
+                        });
+                        _signinFuture!.then((success) {
+                          if (success && mounted) {
+                            Navigator.pushNamed(context, "/home");
+                          }
+                        });
+                      },
+                    );
                   }
                 },
               ),

@@ -5,7 +5,7 @@ import '../models/user.dart';
 
 class SignupService {
   Future<void> registerUser(String name, String email, String password) async {
-  final String apiUrl = '${AppConfig.baseUrl}/usuarios';
+  const String apiUrl = '${AppConfig.baseUrl}/usuarios';
 
   final Map<String, dynamic> userData = {
     'nome': name,
