@@ -12,8 +12,16 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
 
     // Query to find establishments within 1km of a given latitude and longitude
     @Query(value = """
-            SELECT e.*
-            FROM Estabelecimento e
+            SELECT e.id_estabelecimento,
+                   e.id_tipo_estabeleci,
+                   e.nome,
+                   e.latitude,
+                   e.longitude,
+                   e.imagem,
+                   e.endereco,
+                   COALESCE(AVG(a.nota), 0) AS nota
+            FROM estabelecimento e
+            LEFT JOIN avaliacao a ON e.id_estabelecimento = a.id_estabelecimento
             WHERE (
                 6371 * acos(
                     cos(radians(:latitude)) * cos(radians(e.latitude)) *
@@ -21,8 +29,9 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
                     sin(radians(:latitude)) * sin(radians(e.latitude))
                 )
             ) <= 1
+            GROUP BY e.id_estabelecimento
             """, nativeQuery = true)
-    List<Estabelecimento> findNearby(@Param("latitude") double latitude, @Param("longitude") double longitude);
+    List<Object[]> findNearby(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
     // Query to find establishments by rating, category, and type
     @Query(value = """
@@ -43,4 +52,11 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
             WHERE e.nome ILIKE '%' || :nome || '%' OR :nome IS NULL
             """, nativeQuery = true)
     List<Estabelecimento> findByNome(@Param("nome") String nome);
+
+    @Query(value = """
+            SELECT AVG(a.nota)
+            FROM avaliacao a
+            WHERE a.id_estabelecimento = :idEstabelecimento
+            """, nativeQuery = true)
+    Double findAverageNotaByEstabelecimentoId(@Param("idEstabelecimento") Integer idEstabelecimento);
 }

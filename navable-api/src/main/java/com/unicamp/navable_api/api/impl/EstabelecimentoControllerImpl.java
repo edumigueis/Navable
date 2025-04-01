@@ -16,11 +16,6 @@ public class EstabelecimentoControllerImpl {
     @Autowired
     private EstabelecimentoService estabelecimentoService;
 
-    @GetMapping
-    public ResponseEntity<List<EstabelecimentoDTO>> getAllEstabelecimentos() {
-        return ResponseEntity.ok(estabelecimentoService.getAllEstabelecimentos());
-    }
-
     @GetMapping("/{latitude}/{longitude}")
     public ResponseEntity<List<EstabelecimentoDTO>> getAllEstabelecimentosNearby(@PathVariable double latitude, @PathVariable double longitude) {
         return ResponseEntity.ok(estabelecimentoService.getAllEstabelecimentosNearby(latitude, longitude));
