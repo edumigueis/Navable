@@ -19,7 +19,7 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
                    e.longitude,
                    e.imagem,
                    e.endereco,
-                   COALESCE(AVG(a.nota), 0) AS nota
+                   AVG(a.nota) AS nota
             FROM estabelecimento e
             LEFT JOIN avaliacao a ON e.id_estabelecimento = a.id_estabelecimento
             WHERE (

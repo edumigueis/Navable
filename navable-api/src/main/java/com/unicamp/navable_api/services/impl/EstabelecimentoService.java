@@ -19,10 +19,9 @@ public class EstabelecimentoService {
     private final EstabelecimentoMapper estabelecimentoMapper = EstabelecimentoMapper.INSTANCE;
 
     public EstabelecimentoDTO createEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) {
-        // Usar o mapper para converter DTO para Entidade
         Estabelecimento estabelecimento = estabelecimentoMapper.toEntity(estabelecimentoDTO);
         Estabelecimento savedEstabelecimento = estabelecimentoRepository.save(estabelecimento);
-        // Retornar o DTO a partir da entidade salva
+
         return estabelecimentoMapper.toDTO(savedEstabelecimento);
     }
 
@@ -38,7 +37,7 @@ public class EstabelecimentoService {
             dto.setLongitude((Double) row[4]);
             dto.setImagem((String) row[5]);
             dto.setEndereco((String) row[6]);
-            dto.setNota((Double) row[7]);
+            dto.setNota(row[7] != null ? ((Number) row[7]).doubleValue() : 0.0);
             return dto;
         }).collect(Collectors.toList());
     }
