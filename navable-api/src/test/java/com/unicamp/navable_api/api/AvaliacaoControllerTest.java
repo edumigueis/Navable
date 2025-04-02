@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,26 +47,28 @@ class AvaliacaoControllerTest {
     void testGetAllAvaliacoesByEstabelecimento() {
         Integer estabelecimentoId = 1;
         List<AvaliacaoDTO> avaliacoes = Arrays.asList(new AvaliacaoDTO(), new AvaliacaoDTO());
-        when(avaliacaoService.getAllAvaliacoesByEstabelecimento(anyInt())).thenReturn(avaliacoes);
+        when(avaliacaoService.getAvaliacoesByEstabelecimentoAndFilters(anyInt(), anyInt(), any(), any())).thenReturn(avaliacoes);
+        LocalDate sampleDate = LocalDate.now();
 
-        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAllAvaliacoesByEstabelecimento(estabelecimentoId);
+        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByEstabelecimento(estabelecimentoId, 0, sampleDate, sampleDate);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(avaliacoes, response.getBody());
-        verify(avaliacaoService, times(1)).getAllAvaliacoesByEstabelecimento(estabelecimentoId);
+        verify(avaliacaoService, times(1)).getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, 0, sampleDate, sampleDate);
     }
 
     @Test
     void testGetAvaliacoesByUsuario() {
         Integer usuarioId = 1;
         List<AvaliacaoDTO> avaliacoes = Arrays.asList(new AvaliacaoDTO(), new AvaliacaoDTO());
-        when(avaliacaoService.getAvaliacoesByUsuario(anyInt())).thenReturn(avaliacoes);
+        when(avaliacaoService.getAvaliacoesByUsuarioAndFilters(anyInt(), anyInt(), any(), any())).thenReturn(avaliacoes);
+        LocalDate sampleDate = LocalDate.now();
 
-        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByUsuario(usuarioId);
+        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByUsuario(usuarioId, 0, sampleDate, sampleDate);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(avaliacoes, response.getBody());
-        verify(avaliacaoService, times(1)).getAvaliacoesByUsuario(usuarioId);
+        verify(avaliacaoService, times(1)).getAvaliacoesByUsuarioAndFilters(usuarioId, 0, sampleDate, sampleDate);
     }
 
     @Test
