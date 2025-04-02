@@ -7,6 +7,7 @@ import com.unicamp.navable_api.services.mappers.AvaliacaoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,15 +26,15 @@ public class AvaliacaoService {
         return avaliacaoMapper.toDTO(savedAvaliacao);
     }
 
-    public List<AvaliacaoDTO> getAllAvaliacoesByEstabelecimento(Integer estabelecimentoId) {
-        List<Avaliacao> avaliacoes = avaliacaoRepository.findByEstabelecimentoId(estabelecimentoId);
+    public List<AvaliacaoDTO> getAvaliacoesByEstabelecimentoAndFilters(Integer estabelecimentoId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
+        List<Avaliacao> avaliacoes = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estabelecimentoId, nota, dataInicial, dataFinal);
         return avaliacoes.stream()
                 .map(avaliacaoMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<AvaliacaoDTO> getAvaliacoesByUsuario(Integer usuarioId) {
-        List<Avaliacao> avaliacoes = avaliacaoRepository.findByUsuarioId(usuarioId);
+    public List<AvaliacaoDTO> getAvaliacoesByUsuarioAndFilters(Integer usuarioId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
+        List<Avaliacao> avaliacoes = avaliacaoRepository.findByUsuarioIdAndFilters(usuarioId, nota, dataInicial, dataFinal);
         return avaliacoes.stream()
                 .map(avaliacaoMapper::toDTO)
                 .collect(Collectors.toList());
