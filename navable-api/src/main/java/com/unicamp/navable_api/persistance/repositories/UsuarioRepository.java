@@ -1,17 +1,12 @@
 package com.unicamp.navable_api.persistance.repositories;
 
-import com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade;
-import com.unicamp.navable_api.persistance.entities.Selo;
-import com.unicamp.navable_api.persistance.entities.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import com.unicamp.navable_api.persistance.entities.*;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
