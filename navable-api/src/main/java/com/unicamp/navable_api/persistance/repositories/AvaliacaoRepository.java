@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -18,13 +19,37 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
             """, nativeQuery = true)
     List<Avaliacao> findByEstabelecimentoId(@Param("id_estabelecimento") Integer idEstabelecimento);
 
-    // Query to get evaluations for a specific user
+    // Query to get evaluations for a specific establishment with optional filters for nota, dataInicial and dataFinal
     @Query(value = """
-            SELECT a.*
+            SELECT a
+            FROM Avaliacao a
+            WHERE a.id_estabelecimento = :id_estabelecimento
+            AND (:nota IS NULL OR a.nota = :nota)
+            AND (:dataInicial IS NULL OR a.timestamp >= :dataInicial)
+            AND (:dataFinal IS NULL OR a.timestamp <= :dataFinal)
+            """)
+    List<Avaliacao> findByEstabelecimentoIdAndFilters(
+            @Param("id_estabelecimento") Integer idEstabelecimento,
+            @Param("nota") Integer nota,
+            @Param("dataInicial") LocalDate dataInicial,
+            @Param("dataFinal") LocalDate dataFinal
+    );
+
+    // Query to get evaluations for a specific user with optional filters for nota, dataInicial and dataFinal
+    @Query(value = """
+            SELECT a
             FROM Avaliacao a
             WHERE a.id_usuario = :id_usuario
-            """, nativeQuery = true)
-    List<Avaliacao> findByUsuarioId(@Param("id_usuario") Integer idUsuario);
+            AND (:nota IS NULL OR a.nota = :nota)
+            AND (:dataInicial IS NULL OR a.timestamp >= :dataInicial)
+            AND (:dataFinal IS NULL OR a.timestamp <= :dataFinal)
+            """)
+    List<Avaliacao> findByUsuarioIdAndFilters(
+            @Param("id_usuario") Integer idUsuario,
+            @Param("nota") Integer nota,
+            @Param("dataInicial") LocalDate dataInicial,
+            @Param("dataFinal") LocalDate dataFinal
+    );
 
     // Query to get average ratings per establishment
     @Query(value = """
@@ -35,4 +60,3 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
             """, nativeQuery = true)
     List<Object[]> findAverageAvaliacaoByEstabelecimento();
 }
-
