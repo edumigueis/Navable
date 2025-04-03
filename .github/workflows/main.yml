@@ -28,7 +28,7 @@ jobs:
       - name: Start services with Docker
         run: |
           cd docker
-          docker-compose up -d
+          docker compose up -d
 
       - name: Build with Maven
         run: |
@@ -62,7 +62,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.5.1'
+          flutter-version: '^3.5.1'
 
       - name: Install dependencies
         run: |
