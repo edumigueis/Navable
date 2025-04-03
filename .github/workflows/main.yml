@@ -81,13 +81,13 @@ jobs:
           #cd navable
           #flutter analyze
 
-      - name: Build release APK
-        run: |
-          cd navable
-          flutter build apk --release
+      #- name: Build release APK
+        #run: |
+          #cd navable
+          #flutter build apk --release
 
-      - name: Upload frontend artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-artifact
-          path: navable/build/app/outputs/flutter-apk/app-release.apk
+      #- name: Upload frontend artifact
+        #uses: actions/upload-artifact@v4
+        #with:
+          #name: frontend-artifact
+          #path: navable/build/app/outputs/flutter-apk/app-release.apk
