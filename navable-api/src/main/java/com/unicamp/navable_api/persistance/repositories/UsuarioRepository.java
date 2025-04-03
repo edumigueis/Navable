@@ -41,11 +41,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     List<Selo> findSelosByUsuario(@Param("id_usuario") Integer idUsuario);
 
     @Query(value = """
-            SELECT ca.*
-            FROM categoria_acessibilidade AS ca
-            JOIN usuario_categoria AS uc ON ca.categoria_ac_id = uc.categoria_ac_id
-            WHERE uc.id_usuario = :id_usuario
-            """, nativeQuery = true)
+        SELECT new com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade(ca.categoriaAcId, ca.nome, ca.grupo)
+        FROM CategoriaAcessibilidade ca
+        JOIN UsuarioCategoria uc ON ca.categoriaAcId = uc.categoriaAcId
+        WHERE uc.idUsuario = :id_usuario
+    """)
     List<CategoriaAcessibilidade> findCategoriasByUsuario(@Param("id_usuario") Integer idUsuario);
 
     Optional<Usuario> findByEmail(String email);
