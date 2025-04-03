@@ -69,4 +69,9 @@ public class UsuarioControllerImpl {
     public void addCategoriaToUsuario(@PathVariable Integer usuarioId, @RequestBody List<Integer> categoriaIds) {
         usuarioService.addCategoriaToUsuario(usuarioId, categoriaIds);
     }
+
+    @PatchMapping("/{usuarioId}/categorias")
+    public void updateCategoriasToUsuario(@PathVariable Integer usuarioId, @RequestBody List<Integer> categoriaIds) {
+        usuarioService.updateCategoriasToUsuario(usuarioId, categoriaIds);
+    }
 }

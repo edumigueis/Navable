@@ -70,6 +70,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO UsuarioCategoria (usuario_id, categoria_id) VALUES (:usuarioId, :categoriaId)", nativeQuery = true)
+    @Query(value = "INSERT INTO usuario_categoria (id_usuario, categoria_ac_id) VALUES (:usuarioId, :categoriaId)", nativeQuery = true)
     void addCategoriaToUsuario(@Param("usuarioId") Integer usuarioId, @Param("categoriaId") Integer categoriaId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM usuario_categoria WHERE id_usuario = :usuarioId", nativeQuery = true)
+    void deleteCategoriasByUsuarioId(@Param("usuarioId") Integer usuarioId);
 }
