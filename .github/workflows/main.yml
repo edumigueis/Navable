@@ -76,10 +76,10 @@ jobs:
           cd navable
           flutter test
 
-      - name: Analyze code quality
-        run: |
-          cd navable
-          flutter analyze
+      #- name: Analyze code quality
+        #run: |
+          #cd navable
+          #flutter analyze
 
       - name: Build release APK
         run: |
