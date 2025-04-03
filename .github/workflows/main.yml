@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   build-backend:
@@ -22,6 +24,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Start services with Docker
+        run: |
+          cd docker
+          docker-compose up -d
 
       - name: Build with Maven
         run: |
@@ -55,7 +62,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.0'
+          flutter-version: '3.5.1'
 
       - name: Install dependencies
         run: |
