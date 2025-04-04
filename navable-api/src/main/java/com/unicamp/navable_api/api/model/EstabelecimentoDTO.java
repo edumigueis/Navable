@@ -13,4 +13,5 @@ public class EstabelecimentoDTO {
     private Double longitude;
     private String imagem;
     private String endereco;
+    private Double nota;
 }
