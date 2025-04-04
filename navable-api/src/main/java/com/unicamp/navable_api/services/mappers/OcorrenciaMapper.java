@@ -11,6 +11,7 @@ public interface OcorrenciaMapper {
     OcorrenciaMapper INSTANCE = Mappers.getMapper(OcorrenciaMapper.class);
 
     Ocorrencia toEntity(OcorrenciaDTO ocorrenciaDTO);
+
     OcorrenciaDTO toDTO(Ocorrencia ocorrencia);
 }
 

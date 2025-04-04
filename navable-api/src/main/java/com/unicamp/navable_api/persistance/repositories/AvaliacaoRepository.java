@@ -15,7 +15,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
     @Query(value = """
             SELECT a.*
             FROM Avaliacao a
-            WHERE a.id_estabelecimento = :id_estabelecimento
+            WHERE a.idEstabelecimento = :id_estabelecimento
             """, nativeQuery = true)
     List<Avaliacao> findByEstabelecimentoId(@Param("id_estabelecimento") Integer idEstabelecimento);
 
@@ -23,7 +23,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
     @Query(value = """
             SELECT a
             FROM Avaliacao a
-            WHERE a.id_estabelecimento = :id_estabelecimento
+            WHERE a.idEstabelecimento = :id_estabelecimento
             AND (:nota IS NULL OR a.nota = :nota)
             AND (:dataInicial IS NULL OR a.timestamp >= :dataInicial)
             AND (:dataFinal IS NULL OR a.timestamp <= :dataFinal)
@@ -39,7 +39,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
     @Query(value = """
             SELECT a
             FROM Avaliacao a
-            WHERE a.id_usuario = :id_usuario
+            WHERE a.idUsuario = :id_usuario
             AND (:nota IS NULL OR a.nota = :nota)
             AND (:dataInicial IS NULL OR a.timestamp >= :dataInicial)
             AND (:dataFinal IS NULL OR a.timestamp <= :dataFinal)

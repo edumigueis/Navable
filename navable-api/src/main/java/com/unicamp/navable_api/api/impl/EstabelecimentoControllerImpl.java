@@ -1,7 +1,6 @@
 package com.unicamp.navable_api.api.impl;
 
 import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
-import com.unicamp.navable_api.api.model.OcorrenciaDTO;
 import com.unicamp.navable_api.services.impl.EstabelecimentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
