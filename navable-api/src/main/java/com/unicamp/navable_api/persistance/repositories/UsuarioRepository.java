@@ -36,11 +36,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     List<Selo> findSelosByUsuario(@Param("id_usuario") Integer idUsuario);
 
     @Query(value = """
-            SELECT ca.*
-            FROM categoria_acessibilidade AS ca
-            JOIN usuario_categoria AS uc ON ca.categoria_ac_id = uc.categoria_ac_id
-            WHERE uc.id_usuario = :id_usuario
-            """, nativeQuery = true)
+        SELECT new com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade(ca.categoriaAcId, ca.nome, ca.grupo)
+        FROM CategoriaAcessibilidade ca
+        JOIN UsuarioCategoria uc ON ca.categoriaAcId = uc.categoriaAcId
+        WHERE uc.idUsuario = :id_usuario
+    """)
     List<CategoriaAcessibilidade> findCategoriasByUsuario(@Param("id_usuario") Integer idUsuario);
 
     Optional<Usuario> findByEmail(String email);
@@ -65,6 +65,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO UsuarioCategoria (usuario_id, categoria_id) VALUES (:usuarioId, :categoriaId)", nativeQuery = true)
+    @Query(value = "INSERT INTO usuario_categoria (id_usuario, categoria_ac_id) VALUES (:usuarioId, :categoriaId)", nativeQuery = true)
     void addCategoriaToUsuario(@Param("usuarioId") Integer usuarioId, @Param("categoriaId") Integer categoriaId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM usuario_categoria WHERE id_usuario = :usuarioId", nativeQuery = true)
+    void deleteCategoriasByUsuarioId(@Param("usuarioId") Integer usuarioId);
 }

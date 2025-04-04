@@ -87,4 +87,12 @@ public class UsuarioService {
             usuarioRepository.addCategoriaToUsuario(usuarioId, categoriaId);
         }
     }
+
+    @Transactional
+    public void updateCategoriasToUsuario(Integer usuarioId, List<Integer> categoriaIds) {
+        usuarioRepository.deleteCategoriasByUsuarioId(usuarioId);
+        for (Integer categoriaId : categoriaIds) {
+            usuarioRepository.addCategoriaToUsuario(usuarioId, categoriaId);
+        }
+    }
 }
