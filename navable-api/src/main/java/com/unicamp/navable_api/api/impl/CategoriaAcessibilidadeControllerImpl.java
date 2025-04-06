@@ -24,4 +24,9 @@ public class CategoriaAcessibilidadeControllerImpl {
     public CategoriaAcessibilidadeDTO getCategoriaById(@PathVariable Integer id) {
         return categoriaService.getCategoriaById(id);
     }
+
+    @PatchMapping("/{id}")
+    public CategoriaAcessibilidadeDTO updateCategoria(@PathVariable Integer id, @RequestBody CategoriaAcessibilidadeDTO categoria) {
+        return categoriaService.updateCategoria(id, categoria);
+    }
 }
