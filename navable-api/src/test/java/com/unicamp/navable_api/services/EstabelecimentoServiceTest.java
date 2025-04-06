@@ -1,4 +1,4 @@
-package com.unicamp.navable_api;
+package com.unicamp.navable_api.services;
 
 import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
 import com.unicamp.navable_api.persistance.entities.Estabelecimento;

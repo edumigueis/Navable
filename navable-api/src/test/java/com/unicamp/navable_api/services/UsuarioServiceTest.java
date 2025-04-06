@@ -1,4 +1,4 @@
-package com.unicamp.navable_api;
+package com.unicamp.navable_api.services;
 
 import com.unicamp.navable_api.api.model.UsuarioDTO;
 import com.unicamp.navable_api.persistance.entities.Usuario;
@@ -12,7 +12,6 @@ import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 import java.util.List;
-import java.util.ArrayList;
 
 
 import org.mockito.InjectMocks;
