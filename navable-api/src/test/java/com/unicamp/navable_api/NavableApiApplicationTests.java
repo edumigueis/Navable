@@ -1,4 +1,4 @@
-package com.unicamp.navable_api.services;
+package com.unicamp.navable_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
