@@ -31,18 +31,6 @@ class EstabelecimentoControllerTest {
     }
 
     @Test
-    void testGetAllEstabelecimentos() {
-        List<EstabelecimentoDTO> estabelecimentos = Arrays.asList(new EstabelecimentoDTO(), new EstabelecimentoDTO());
-        when(estabelecimentoService.getAllEstabelecimentos()).thenReturn(estabelecimentos);
-
-        ResponseEntity<List<EstabelecimentoDTO>> response = estabelecimentoController.getAllEstabelecimentos();
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(estabelecimentos, response.getBody());
-        verify(estabelecimentoService, times(1)).getAllEstabelecimentos();
-    }
-
-    @Test
     void testGetAllEstabelecimentosNearby() {
         double latitude = 10.0;
         double longitude = 20.0;

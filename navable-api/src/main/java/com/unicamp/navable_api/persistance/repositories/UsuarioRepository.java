@@ -36,11 +36,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     List<Selo> findSelosByUsuario(@Param("id_usuario") Integer idUsuario);
 
     @Query(value = """
-        SELECT new com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade(ca.categoriaAcId, ca.nome, ca.grupo)
-        FROM CategoriaAcessibilidade ca
-        JOIN UsuarioCategoria uc ON ca.categoriaAcId = uc.categoriaAcId
-        WHERE uc.idUsuario = :id_usuario
-    """)
+                SELECT new com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade(ca.categoriaAcId, ca.nome, ca.grupo)
+                FROM CategoriaAcessibilidade ca
+                JOIN UsuarioCategoria uc ON ca.categoriaAcId = uc.categoriaAcId
+                WHERE uc.idUsuario = :id_usuario
+            """)
     List<CategoriaAcessibilidade> findCategoriasByUsuario(@Param("id_usuario") Integer idUsuario);
 
     Optional<Usuario> findByEmail(String email);
@@ -50,11 +50,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     void deleteById(Integer id);
 
     @Modifying
-    @Query(value = "INSERT INTO UsuarioSelo (usuario_id, selo_id) VALUES (:usuarioId, :seloId)", nativeQuery = true)
+    @Query(value = "INSERT INTO selo_usuario (usuario_id, selo_id) VALUES (:usuarioId, :seloId)", nativeQuery = true)
     void addSeloToUsuario(@Param("usuarioId") Integer usuarioId, @Param("seloId") Integer seloId);
 
     @Modifying
-    @Query(value = "INSERT INTO OcorrenciaVote (usuario_id, ocorrencia_id) VALUES (:usuarioId, :ocorrenciaId)", nativeQuery = true)
+    @Query(value = "INSERT INTO votos (usuario_id, ocorrencia_id) VALUES (:usuarioId, :ocorrenciaId)", nativeQuery = true)
     void voteOnOcorrencia(@Param("usuarioId") Integer usuarioId, @Param("ocorrenciaId") Integer ocorrenciaId);
 
     @Modifying

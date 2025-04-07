@@ -3,16 +3,13 @@ package com.unicamp.navable_api.services;
 import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
 import com.unicamp.navable_api.persistance.entities.Estabelecimento;
 import com.unicamp.navable_api.services.impl.EstabelecimentoService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import com.unicamp.navable_api.services.mappers.EstabelecimentoMapper;
+import org.junit.jupiter.api.*;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EstabelecimentoServiceTest {
 
@@ -45,9 +42,9 @@ public class EstabelecimentoServiceTest {
 
         List<Estabelecimento> estabelecimentos = Arrays.asList(est1, est2);
         EstabelecimentoMapper mapper = EstabelecimentoMapper.INSTANCE;
-List<EstabelecimentoDTO> dtos = estabelecimentos.stream()
-        .map(mapper::toDTO)
-        .collect(Collectors.toList());
+        List<EstabelecimentoDTO> dtos = estabelecimentos.stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
 
         assertEquals(2, dtos.size());
 

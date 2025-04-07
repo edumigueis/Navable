@@ -2,6 +2,7 @@ package com.unicamp.navable_api.api.model;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -13,6 +14,6 @@ public class AvaliacaoDTO {
     private Integer idEstabelecimento;
     private String avaliacao;
     private Integer nota;
-    private Date timestamp;
+    private LocalDate timestamp;
 }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "SeloUsuario")
+@Table(name = "selo_usuario")
 public class SeloUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
