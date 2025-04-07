@@ -18,22 +18,23 @@ public class TipoOcorrenciaRepositoryTest {
     @Autowired
     private TipoOcorrenciaRepository tipoOcorrenciaRepository;
 
+    private Integer idTipoOcorrenciaSalvo;
+
     @BeforeEach
     public void setUp() {
-        TipoOcorrencia tipoOcorrencia1 = new TipoOcorrencia(1, "Incident Type 1", "a");
-        TipoOcorrencia tipoOcorrencia2 = new TipoOcorrencia(2, "Incident Type 2", "b");
-
+        TipoOcorrencia tipoOcorrencia1 = new TipoOcorrencia(null, "Incident Type 1", "a");
         tipoOcorrenciaRepository.save(tipoOcorrencia1);
-        tipoOcorrenciaRepository.save(tipoOcorrencia2);
+        tipoOcorrenciaRepository.flush();
+
+        idTipoOcorrenciaSalvo = tipoOcorrencia1.getIdTipoOcorrencia();
     }
 
     @Test
     public void testFindByIdTipoOcorrencia() {
-        Integer idTipoOcorrencia = 1;
-        Optional<TipoOcorrencia> result = tipoOcorrenciaRepository.findById(idTipoOcorrencia);
+        Optional<TipoOcorrencia> result = tipoOcorrenciaRepository.findById(idTipoOcorrenciaSalvo);
 
         assertThat(result).isPresent();
-        assertThat(result.get().getIdTipoOcorrencia()).isEqualTo(idTipoOcorrencia);
+        assertThat(result.get().getIdTipoOcorrencia()).isEqualTo(idTipoOcorrenciaSalvo);
         assertThat(result.get().getNome()).isEqualTo("Incident Type 1");
 
         Optional<TipoOcorrencia> nonExistentResult = tipoOcorrenciaRepository.findById(999);
