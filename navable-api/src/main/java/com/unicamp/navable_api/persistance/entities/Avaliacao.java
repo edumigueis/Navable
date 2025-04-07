@@ -3,7 +3,7 @@ package com.unicamp.navable_api.persistance.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -17,6 +17,6 @@ public class Avaliacao {
     private Integer idEstabelecimento;
     private String avaliacao;
     private Integer nota;
-    private Date timestamp;
+    private LocalDate timestamp;
 }
 

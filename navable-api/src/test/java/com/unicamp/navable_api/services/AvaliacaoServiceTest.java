@@ -5,18 +5,17 @@ import com.unicamp.navable_api.persistance.entities.Avaliacao;
 import com.unicamp.navable_api.persistance.repositories.AvaliacaoRepository;
 import com.unicamp.navable_api.services.impl.AvaliacaoService;
 import com.unicamp.navable_api.services.mappers.AvaliacaoMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AvaliacaoServiceTest {
 
@@ -42,7 +41,7 @@ public class AvaliacaoServiceTest {
         avaliacaoDTO.setIdEstabelecimento(3);
         avaliacaoDTO.setAvaliacao("Muito bom!");
         avaliacaoDTO.setNota(5);
-        avaliacaoDTO.setTimestamp(new Date());
+        avaliacaoDTO.setTimestamp(LocalDate.now());
 
         Avaliacao avaliacao = avaliacaoMapper.toEntity(avaliacaoDTO);
         Avaliacao savedAvaliacao = new Avaliacao();
@@ -73,7 +72,7 @@ public class AvaliacaoServiceTest {
         avaliacao.setNota(5);
         avaliacao.setIdUsuario(2);
         avaliacao.setIdEstabelecimento(3);
-        avaliacao.setTimestamp(new Date());
+        avaliacao.setTimestamp(LocalDate.now());
 
         when(avaliacaoRepository.findById(1)).thenReturn(Optional.of(avaliacao));
 

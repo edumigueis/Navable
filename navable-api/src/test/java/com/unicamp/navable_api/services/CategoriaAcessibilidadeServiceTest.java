@@ -5,19 +5,17 @@ import com.unicamp.navable_api.persistance.entities.CategoriaAcessibilidade;
 import com.unicamp.navable_api.persistance.repositories.CategoriaAcessibilidadeRepository;
 import com.unicamp.navable_api.services.impl.CategoriaAcessibilidadeService;
 import com.unicamp.navable_api.services.mappers.CategoriaAcessibilidadeMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
-import com.unicamp.navable_api.persistance.entities.Estabelecimento;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CategoriaAcessibilidadeServiceTest {
 

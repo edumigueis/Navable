@@ -41,7 +41,7 @@ public class OcorrenciaService {
                 .map(ocorrencia -> {
                     OcorrenciaDTO dto = ocorrenciaMapper.toDTO(ocorrencia);
 
-                    tipoOcorrenciaRepository.findByIdTipoOcorrencia(ocorrencia.getIdTipoOcorrencia())
+                    tipoOcorrenciaRepository.findById(ocorrencia.getIdTipoOcorrencia())
                             .ifPresent((tipo) -> dto.setTipoOcorrencia(tipoOcorrenciaMapper.toDTO(tipo)));
 
                     return dto;
