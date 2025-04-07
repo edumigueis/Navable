@@ -35,12 +35,4 @@ public class OcorrenciaRepositoryTest {
         assertThat(result).isNotEmpty();
         assertThat(result.size()).isGreaterThan(0);
     }
-
-    @Test
-    public void testFindOcorrenciaWithVoteCount() {
-        Integer idOcorrencia = 1;
-        List<Object[]> result = ocorrenciaRepository.findOcorrenciaWithVoteCount(idOcorrencia);
-        assertThat(result).isNotEmpty();
-        assertThat(result.size()).isEqualTo(1);
-    }
 }

@@ -3,7 +3,6 @@ package com.unicamp.navable_api.api.model;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor

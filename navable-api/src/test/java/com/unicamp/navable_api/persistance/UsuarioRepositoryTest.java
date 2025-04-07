@@ -1,6 +1,6 @@
 package com.unicamp.navable_api.persistance;
 
-import com.unicamp.navable_api.persistance.entities.*;
+import com.unicamp.navable_api.persistance.entities.Usuario;
 import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -30,13 +30,13 @@ public class TipoOcorrenciaRepositoryTest {
     @Test
     public void testFindByIdTipoOcorrencia() {
         Integer idTipoOcorrencia = 1;
-        Optional<TipoOcorrencia> result = tipoOcorrenciaRepository.findByIdTipoOcorrencia(idTipoOcorrencia);
+        Optional<TipoOcorrencia> result = tipoOcorrenciaRepository.findById(idTipoOcorrencia);
 
         assertThat(result).isPresent();
         assertThat(result.get().getIdTipoOcorrencia()).isEqualTo(idTipoOcorrencia);
         assertThat(result.get().getNome()).isEqualTo("Incident Type 1");
 
-        Optional<TipoOcorrencia> nonExistentResult = tipoOcorrenciaRepository.findByIdTipoOcorrencia(999);
+        Optional<TipoOcorrencia> nonExistentResult = tipoOcorrenciaRepository.findById(999);
         assertThat(nonExistentResult).isNotPresent();
     }
 }
