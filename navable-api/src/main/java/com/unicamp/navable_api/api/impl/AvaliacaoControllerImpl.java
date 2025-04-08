@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -22,14 +23,26 @@ public class AvaliacaoControllerImpl {
     }
 
     @GetMapping("/estabelecimento/{estabelecimentoId}")
-    public ResponseEntity<List<AvaliacaoDTO>> getAllAvaliacoesByEstabelecimento(@PathVariable Integer estabelecimentoId) {
-        List<AvaliacaoDTO> avaliacoes = avaliacaoService.getAllAvaliacoesByEstabelecimento(estabelecimentoId);
+    public ResponseEntity<List<AvaliacaoDTO>> getAvaliacoesByEstabelecimento(
+            @PathVariable Integer estabelecimentoId,
+            @RequestParam(required = false) Integer nota,
+            @RequestParam(required = false) LocalDate dataInicial,
+            @RequestParam(required = false) LocalDate dataFinal) {
+
+        List<AvaliacaoDTO> avaliacoes = avaliacaoService.getAvaliacoesByEstabelecimentoAndFilters(
+                estabelecimentoId, nota, dataInicial, dataFinal);
         return ResponseEntity.ok(avaliacoes);
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<AvaliacaoDTO>> getAvaliacoesByUsuario(@PathVariable Integer usuarioId) {
-        List<AvaliacaoDTO> avaliacoes = avaliacaoService.getAvaliacoesByUsuario(usuarioId);
+    public ResponseEntity<List<AvaliacaoDTO>> getAvaliacoesByUsuario(
+            @PathVariable Integer usuarioId,
+            @RequestParam(required = false) Integer nota,
+            @RequestParam(required = false) LocalDate dataInicial,
+            @RequestParam(required = false) LocalDate dataFinal) {
+
+        List<AvaliacaoDTO> avaliacoes = avaliacaoService.getAvaliacoesByUsuarioAndFilters(
+                usuarioId, nota, dataInicial, dataFinal);
         return ResponseEntity.ok(avaliacoes);
     }
 

@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +31,19 @@ public class CategoriaAcessibilidadeService {
         CategoriaAcessibilidade categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Categoria not found with id " + id));
         return categoriaMapper.toDTO(categoria);
+    }
+
+
+    public CategoriaAcessibilidadeDTO updateCategoria(Integer id, CategoriaAcessibilidadeDTO categoria) {
+        CategoriaAcessibilidade categoriaEntity = categoriaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Categoria not found with id " + id));
+
+        Optional.ofNullable(categoria.getNome()).ifPresent(categoriaEntity::setNome);
+        Optional.ofNullable(categoria.getGrupo()).ifPresent(categoriaEntity::setGrupo);
+
+        categoriaRepository.save(categoriaEntity);
+
+        return categoriaMapper.toDTO(categoriaEntity);
     }
 
 }
