@@ -13,9 +13,9 @@ O objetivo foi compreender as necessidades, expectativas e dores dos usuários e
 
 ## 3. Perfil dos Entrevistados
 
-- Perfil: [PREENCHER]
+- Perfil: O entrevistado foi Anderson Santos, um estagiário de 25 anos, residente da cidade de São Paulo.  No momento da entrevista, ele estava com mobilidade reduzida temporária devido a um acidente que resultou na fratura do pé, exigindo o uso de muletas e cadeira de rodas.
 
-- Critérios de seleção: [PREENCHER]
+- Critérios de seleção: O entrevistado foi selecionado por estar vivenciando, ainda que temporariamente, desafios relacionados à mobilidade urbana. Essa condição proporcionou uma perspectiva real e atualizada sobre os obstáculos enfrentados por pessoas com mobilidade reduzida, especialmente em relação à acessibilidade de espaços públicos e privados — foco central do aplicativo. Além disso, o entrevistado possui familiaridade com uso de aplicativos, o que o torna apto a avaliar propostas digitais como o Navable.
 
 ---
 
