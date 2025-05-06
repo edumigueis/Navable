@@ -1,6 +1,6 @@
 ## 1. Técnica de Elicitação Utilizada
 
-**Entrevista Estruturada**  
+**Entrevista Estruturada**
 A técnica escolhida para a elicitação de requisitos foi a entrevista estruturada. Essa abordagem é caracterizada pelo uso de um roteiro fixo de perguntas, permitindo a coleta padronizada de informações. Essa padronização facilita o levantamento sistemático de requisitos, garantindo que todos os pontos de interesse sejam abordados de maneira consistente.
 
 ---
@@ -24,7 +24,7 @@ O objetivo foi compreender as necessidades, expectativas e dores dos usuários e
 - Roteiro da entrevista: https://docs.google.com/document/d/1dtlaUzq6_IMrE5YH1PD5P025FymDhzhY3gS_kYXDQCE/edit?usp=drive_link
 - Áudio da entrevista: https://drive.google.com/file/d/1yFv3YTV_2A64X3-ehzqnMJdYdTqw3KB2/view?usp=drive_link
 - Transcrição da entrevista: https://docs.google.com/document/d/1Mh1ap1TX5_BpulUFj8k33BKZTOr_WWvFIOaYGgTd-T4/edit?usp=drive_link
-
+- Brainstorm da entrevista: https://drive.google.com/file/d/1TVf76pe4_7ZyJKWLn-alum2SQpDlRd3w/view?usp=drive_link
 ---
 
 ## 5. Principais Requisitos Levantados
