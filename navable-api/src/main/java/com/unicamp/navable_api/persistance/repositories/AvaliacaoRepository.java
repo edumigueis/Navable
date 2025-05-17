@@ -19,6 +19,38 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
             """, nativeQuery = true)
     List<Avaliacao> findByEstabelecimentoId(@Param("id_estabelecimento") Integer idEstabelecimento);
 
+    // Query to get evaluations for a specific establishment with optional filters for nota, dataInicial and dataFinal
+    @Query(value = """
+            SELECT a
+            FROM Avaliacao a
+            WHERE a.idEstabelecimento = :id_estabelecimento
+            AND (:nota IS NULL OR a.nota = :nota)
+            AND (:dataInicial IS NULL OR a.timestamp >= :dataInicial)
+            AND (:dataFinal IS NULL OR a.timestamp <= :dataFinal)
+            """)
+    List<Avaliacao> findByEstabelecimentoIdAndFilters(
+            @Param("id_estabelecimento") Integer idEstabelecimento,
+            @Param("nota") Integer nota,
+            @Param("dataInicial") LocalDate dataInicial,
+            @Param("dataFinal") LocalDate dataFinal
+    );
+    
+    // Query to get evaluations for a specific user with optional filters for nota, dataInicial and dataFinal
+    @Query(value = """
+            SELECT a
+            FROM Avaliacao a
+            WHERE a.idUsuario = :id_usuario
+            AND (:nota IS NULL OR a.nota = :nota)
+            AND (:data_inicial IS NULL OR a.timestamp >= :dataInicial)
+            AND (:data_final IS NULL OR a.timestamp <= :dataFinal)
+            """)
+    List<Avaliacao> findByUsuarioIdAndFilters(
+            @Param("id_usuario") Integer idUsuario,
+            @Param("nota") Integer nota,
+            @Param("dataInicial") LocalDate dataInicial,
+            @Param("dataFinal") LocalDate dataFinal
+    );
+    
     @Query(value = """
         SELECT a
         FROM Avaliacao a
