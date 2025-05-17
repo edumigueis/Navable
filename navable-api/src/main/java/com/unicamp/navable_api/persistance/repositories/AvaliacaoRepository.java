@@ -34,7 +34,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
             @Param("dataInicial") LocalDate dataInicial,
             @Param("dataFinal") LocalDate dataFinal
     );
-
+    
     // Query to get evaluations for a specific user with optional filters for nota, dataInicial and dataFinal
     @Query(value = """
             SELECT a
@@ -50,6 +50,14 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
             @Param("dataInicial") LocalDate dataInicial,
             @Param("dataFinal") LocalDate dataFinal
     );
+    
+    @Query(value = """
+        SELECT a
+        FROM Avaliacao a
+        WHERE a.idUsuario = :id_usuario
+        """)
+    List<Avaliacao> findByUsuarioId(@Param("id_usuario") Integer idUsuario);
+
 
     // Query to get average ratings per establishment
     @Query(value = """
