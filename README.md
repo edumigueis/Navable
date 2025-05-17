@@ -31,6 +31,16 @@ Este repositório está organizado da seguinte forma:
 - **navable/**: Diretório que contém o código do frontend, que é responsável pela interface de usuário (UI) e interação com a API.
 - **navable-api/**: Diretório que contém o código do backend (API), que gerencia as requisições e interage com o banco de dados.
 
+## Principais componentes
+
+**Usuário:** O componente Usuário é responsável pela gestão dos dados dos usuários da aplicação. Ele permite o cadastro, autenticação (login), recuperação e exclusão de usuários. Além disso, gerencia funcionalidades relacionadas à gamificação e personalização, como o vínculo de selos, categorias de acessibilidade e votos em ocorrências.
+
+**Ocorrência:** O componente Ocorrência trata do registro e consulta de problemas relacionados à acessibilidade em locais da universidade. Os usuários podem criar novas ocorrências informando tipo, localização e descrição. Também é possível buscar ocorrências próximas a uma determinada coordenada geográfica, visualizar detalhes de cada uma e consultar o número de votos recebidos.
+
+**Estabelecimento:** O componente Estabelecimento representa os locais físicos da universidade (como prédios, departamentos ou áreas externas). Ele armazena informações básicas sobre esses locais e serve de base para que usuários possam avaliá-los quanto à acessibilidade. Também pode ser usado para agregar dados estatísticos e facilitar a localização de pontos com boa ou má acessibilidade.
+
+**Avaliação:** O componente Avaliação permite que os usuários registrem opiniões e atribuam notas sobre a acessibilidade de um estabelecimento. Cada avaliação inclui uma descrição e um valor numérico, sendo associada a um usuário e a um local específico. Esse componente é essencial para coletar feedback da comunidade e apoiar decisões de melhoria na infraestrutura.
+
 ## Tecnologias Utilizadas
 
 - **Frontend**: 
