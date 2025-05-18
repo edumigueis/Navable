@@ -16,7 +16,7 @@ public class EstabelecimentoService {
     @Autowired
     private EstabelecimentoRepository estabelecimentoRepository;
 
-    private final EstabelecimentoMapper estabelecimentoMapper = EstabelecimentoMapper.INSTANCE;
+    private static final EstabelecimentoMapper estabelecimentoMapper = EstabelecimentoMapper.INSTANCE;
 
     public EstabelecimentoDTO createEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) {
         Estabelecimento estabelecimento = estabelecimentoMapper.toEntity(estabelecimentoDTO);
@@ -26,20 +26,11 @@ public class EstabelecimentoService {
     }
 
     public List<EstabelecimentoDTO> getAllEstabelecimentosNearby(double latitude, double longitude) {
-        List<Object[]> results = estabelecimentoRepository.findNearby(latitude, longitude);
+        List<Estabelecimento> nearbyResults = estabelecimentoRepository.findNearby(latitude, longitude);
 
-        return results.stream().map(row -> {
-            EstabelecimentoDTO dto = new EstabelecimentoDTO();
-            dto.setIdEstabelecimento((Integer) row[0]);
-            dto.setIdTipoEstabeleci((Integer) row[1]);
-            dto.setNome((String) row[2]);
-            dto.setLatitude((Double) row[3]);
-            dto.setLongitude((Double) row[4]);
-            dto.setImagem((String) row[5]);
-            dto.setEndereco((String) row[6]);
-            dto.setNota(row[7] != null ? ((Number) row[7]).doubleValue() : 0.0);
-            return dto;
-        }).collect(Collectors.toList());
+        return nearbyResults.stream()
+                .map(estabelecimentoMapper::toDTO)
+                .toList();
     }
 
     public EstabelecimentoDTO getEstabelecimentoById(Integer id) {
@@ -58,6 +49,6 @@ public class EstabelecimentoService {
         List<Estabelecimento> estabelecimentos = estabelecimentoRepository.findByNotaAndCategoriaAndTipo(nota, categorias, tipoId);
         return estabelecimentos.stream()
                 .map(estabelecimentoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

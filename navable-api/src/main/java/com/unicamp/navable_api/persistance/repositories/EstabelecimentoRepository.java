@@ -31,7 +31,7 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
             ) <= 1
             GROUP BY e.id_estabelecimento
             """, nativeQuery = true)
-    List<Object[]> findNearby(@Param("latitude") double latitude, @Param("longitude") double longitude);
+    List<Estabelecimento> findNearby(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
     // Query to find establishments by rating, category, and type
     @Query(value = """

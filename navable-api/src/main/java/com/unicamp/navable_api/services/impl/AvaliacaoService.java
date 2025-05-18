@@ -30,14 +30,14 @@ public class AvaliacaoService {
         List<Avaliacao> avaliacoes = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estabelecimentoId, nota, dataInicial, dataFinal);
         return avaliacoes.stream()
                 .map(avaliacaoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<AvaliacaoDTO> getAvaliacoesByUsuarioAndFilters(Integer usuarioId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
         List<Avaliacao> avaliacoes = avaliacaoRepository.findByUsuarioIdAndFilters(usuarioId, nota, dataInicial, dataFinal);
         return avaliacoes.stream()
                 .map(avaliacaoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public AvaliacaoDTO getAvaliacaoById(Integer avaliacaoId) {
