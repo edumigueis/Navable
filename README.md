@@ -31,16 +31,93 @@ Este repositório está organizado da seguinte forma:
 - **navable/**: Diretório que contém o código do frontend, que é responsável pela interface de usuário (UI) e interação com a API.
 - **navable-api/**: Diretório que contém o código do backend (API), que gerencia as requisições e interage com o banco de dados.
 
-## Principais componentes
+## Arquitetura do Sistema
 
-**Usuário:** O componente Usuário é responsável pela gestão dos dados dos usuários da aplicação. Ele permite o cadastro, autenticação (login), recuperação e exclusão de usuários. Além disso, gerencia funcionalidades relacionadas à gamificação e personalização, como o vínculo de selos, categorias de acessibilidade e votos em ocorrências.
+- diagrama
 
-**Ocorrência:** O componente Ocorrência trata do registro e consulta de problemas relacionados à acessibilidade em locais da universidade. Os usuários podem criar novas ocorrências informando tipo, localização e descrição. Também é possível buscar ocorrências próximas a uma determinada coordenada geográfica, visualizar detalhes de cada uma e consultar o número de votos recebidos.
+### Arquitetura Controller-Service-Repository
 
-**Estabelecimento:** O componente Estabelecimento representa os locais físicos da universidade (como prédios, departamentos ou áreas externas). Ele armazena informações básicas sobre esses locais e serve de base para que usuários possam avaliá-los quanto à acessibilidade. Também pode ser usado para agregar dados estatísticos e facilitar a localização de pontos com boa ou má acessibilidade.
+- O backend utiliza uma variação da arquitetura MVC, isolando a lógica de domínio das interações externas.
+- Os Controllers atuam como a camada de entrada, enquanto os Repositories funcionam como a camada de saída.
+- Entre elas temos os services, que encapsulam a lógica de negócios central, independente de infraestrutura externa.
 
-**Avaliação:** O componente Avaliação permite que os usuários registrem opiniões e atribuam notas sobre a acessibilidade de um estabelecimento. Cada avaliação inclui uma descrição e um valor numérico, sendo associada a um usuário e a um local específico. Esse componente é essencial para coletar feedback da comunidade e apoiar decisões de melhoria na infraestrutura.
+### Repository Pattern
 
+- Implementado explicitamente no backend, abstraindo o acesso aos dados e permitindo a troca de tecnologias de persistência sem afetar a lógica de negócios.
+- Repositories expõem interfaces de alto nível para manipular as entidades, ocultando detalhes da implementação do banco de dados.
+
+### Dependency Injection
+
+- Utilizado extensivamente no Spring Boot para gerenciar dependências entre componentes.
+- Facilita testes unitários e melhora a modularidade, permitindo substituir implementações conforme necessário.
+
+### Service Layer Pattern
+
+- Orquestra operações complexas que envolvem múltiplos repositórios e regras de negócios.
+- Centraliza a lógica de domínio, aplicando validações e regras de negócio antes de persistir dados.
+
+### Façade Pattern
+
+- Os Controllers da API funcionam como fachadas, simplificando o acesso aos serviços do backend.
+- Expõem uma interface REST coerente que oculta a complexidade interna do sistema.
+
+### Provider Pattern (no Flutter)
+
+- Implementado para gerenciamento de estado e injeção de dependências no frontend.
+- Permite compartilhar dados entre widgets e gerenciar o ciclo de vida dos componentes.
+
+## Principais Componentes
+
+### Frontend (Flutter)
+
+- **UI Components**: Componentes de interface reutilizáveis como botões, cards e elementos de formulário adaptados para acessibilidade.
+- **Pages**: Telas da aplicação que organizam os componentes de UI e conectam-se aos controllers, implementando layouts específicos para cada funcionalidade.
+- **Controllers**: Responsáveis pela lógica de apresentação, gerenciamento do estado da UI e tratamento de eventos do usuário.
+- **Services**: Lidam com a lógica de negócios do cliente e comunicação com a API, processando e transformando dados.
+- **Data Transfer Objects (DTO)**: Estruturas de dados para comunicação entre camadas e serialização/deserialização de JSON.
+- **HTTP Client**: Responsável pela comunicação com o backend através de requisições HTTP, gerenciando erros e retentativas.
+
+### Backend (Spring Boot)
+
+- **REST API Controllers**: Expõem endpoints da API, validam entradas e direcionam requisições para os serviços apropriados.
+- **Service Layer**: Contém a lógica de negócios, orquestrando operações e garantindo a integridade dos dados entre diferentes entidades.
+- **Repository Layer**: Provê abstração para acesso ao banco de dados e implementa operações CRUD específicas para cada domínio.
+- **Entity Models**: Representam as entidades do domínio e são mapeadas para tabelas do banco de dados através de JPA/Hibernate.
+- **JPA/Hibernate**: Framework ORM para mapeamento objeto-relacional e abstração do acesso ao banco de dados.
+
+### Core Components de Domínio
+
+#### Usuário
+
+- Gerencia o ciclo de vida dos usuários (cadastro, autenticação, recuperação e exclusão)
+- Mantém perfis com necessidades específicas de acessibilidade
+- Controla a gamificação (selos por contribuições)
+- Armazena preferências e configurações personalizadas
+- Gerencia relações com avaliações e ocorrências criadas pelo usuário
+
+#### Ocorrência
+
+- Registra problemas de acessibilidade com geolocalização
+- Permite categorização por tipos de barreiras
+- Implementa sistema de votos para priorização
+- Fornece consultas baseadas em proximidade geográfica
+- Mantém status de resolução e histórico de atualizações
+
+#### Estabelecimento
+
+- Armazena informações de locais com suas coordenadas geográficas
+- Categoriza estabelecimentos por tipo e serviços oferecidos
+- Calcula e mantém métricas de acessibilidade baseadas em avaliações
+- Permite buscas por proximidade e filtros por recursos de acessibilidade
+- Vincula-se às ocorrências registradas no local
+
+#### Avaliação
+
+- Registra feedback dos usuários sobre estabelecimentos
+- Utiliza sistema de pontuação para diferentes aspectos de acessibilidade
+- Permite comentários detalhados e upload de imagens
+- Fornece mecanismos de moderação e denúncia
+- Calcula métricas consolidadas de acessibilidade
 ## Tecnologias Utilizadas
 
 - **Frontend**: 
