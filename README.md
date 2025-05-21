@@ -33,7 +33,7 @@ Este repositório está organizado da seguinte forma:
 
 ## Arquitetura do Sistema
 
-- diagrama
+- Diagrama em nível de componentes (C4 - Nível 3) para a arquitetura do projeto: https://drive.google.com/drive/folders/17x3mZ-DcIVnIoU82DQ-MqkFcYDOdCPEi?usp=drive_link
 
 ### Arquitetura Controller-Service-Repository
 
