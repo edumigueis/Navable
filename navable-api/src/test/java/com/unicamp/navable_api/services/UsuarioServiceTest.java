@@ -3,6 +3,9 @@ package com.unicamp.navable_api.services;
 import com.unicamp.navable_api.api.model.UsuarioDTO;
 import com.unicamp.navable_api.persistance.entities.Usuario;
 import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
+import com.unicamp.navable_api.services.auth.AuthService;
+import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
+import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
 import com.unicamp.navable_api.services.impl.UsuarioService;
 import com.unicamp.navable_api.services.mappers.UsuarioMapper;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,8 +32,14 @@ class UsuarioServiceTest {
     @Mock
     private UsuarioRepository usuarioRepository;
 
+    
+    @Mock
+private AuthService authService;
+
     @InjectMocks
     private UsuarioService usuarioService;
+
+    
 
     @Test
     void testCreateUsuario() {
@@ -80,41 +90,39 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void testSignIn_success() throws AuthenticationException {
+    void testAuthenticate_success() throws CredencialesInvalidasException, UsuarioNoEncontradoException {
         Usuario usuario = new Usuario();
         usuario.setEmail("alex@teste.com");
-        usuario.setSenha("abc123"); // senha armazenada
+        usuario.setSenha("abc123"); // contraseña guardada
 
         when(usuarioRepository.findByEmail("alex@teste.com")).thenReturn(Optional.of(usuario));
 
-        UsuarioDTO result = usuarioService.signIn("alex@teste.com", "abc123");
+        UsuarioDTO usuarioDTO = authService.authenticate("alex@teste.com", "abc123");
 
-        assertNotNull(result);
-        assertEquals("alex@teste.com", result.getEmail());
+        assertNotNull(usuarioDTO);
+        assertEquals("alex@teste.com", usuarioDTO.getEmail());
     }
 
     @Test
-    void testSignIn_wrongPassword() {
+    void testAuthenticate_wrongPassword() {
         Usuario usuario = new Usuario();
         usuario.setEmail("alex@teste.com");
         usuario.setSenha("abc123");
 
         when(usuarioRepository.findByEmail("alex@teste.com")).thenReturn(Optional.of(usuario));
 
-        assertThrows(AuthenticationException.class, () -> {
-            usuarioService.signIn("alex@teste.com", "wrongpass");
+        assertThrows(CredencialesInvalidasException.class, () -> {
+            authService.authenticate("alex@teste.com", "wrongpass");
         });
     }
 
     @Test
-    void testSignIn_userNotFound() {
+    void testAuthenticate_userNotFound() {
         when(usuarioRepository.findByEmail("naoexiste@teste.com")).thenReturn(Optional.empty());
 
-        Exception ex = assertThrows(IllegalArgumentException.class, () -> {
-            usuarioService.signIn("naoexiste@teste.com", "senha");
+        assertThrows(UsuarioNoEncontradoException.class, () -> {
+            authService.authenticate("naoexiste@teste.com", "senha");
         });
-
-        assertTrue(ex.getMessage().contains("User not found"));
     }
 
     @Test

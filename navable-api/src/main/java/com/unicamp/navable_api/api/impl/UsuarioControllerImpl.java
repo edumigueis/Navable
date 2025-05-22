@@ -1,12 +1,18 @@
 package com.unicamp.navable_api.api.impl;
 
 import com.unicamp.navable_api.api.model.*;
+import com.unicamp.navable_api.services.auth.AuthService;
+import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
+import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
 import com.unicamp.navable_api.services.impl.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.AuthenticationException;
+import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
+import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
+import com.unicamp.navable_api.services.auth.AuthService;
+
 import java.util.List;
 
 @RestController
@@ -15,6 +21,8 @@ public class UsuarioControllerImpl {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private AuthService authService;
 
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
@@ -33,12 +41,12 @@ public class UsuarioControllerImpl {
 
     @PostMapping("/signin")
     public ResponseEntity<UsuarioDTO> signIn(@RequestParam String email, @RequestParam String password) {
-        try {
-            return ResponseEntity.ok(usuarioService.signIn(email, password));
-        } catch (AuthenticationException ex) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+    try {
+        return ResponseEntity.ok(authService.authenticate(email, password));
+    } catch (CredencialesInvalidasException | UsuarioNoEncontradoException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+}
 
     @GetMapping("/{id}")
     public UsuarioDTO getUsuarioById(@PathVariable Integer id) {
