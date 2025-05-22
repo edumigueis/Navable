@@ -55,6 +55,17 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuario);
     }
 
+    public UsuarioDTO signIn(String email, String password) throws AuthenticationException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email " + email));
+
+        if (password.matches(usuario.getSenha())) {
+            return usuarioMapper.toDTO(usuario);
+        } else {
+            throw new AuthenticationException();
+        }
+    }
+
     @Transactional
     public void deleteUsuario(Integer id) {
         usuarioRepository.deleteById(id);

@@ -7,12 +7,6 @@ import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.http.ResponseEntity;
 
-
-import com.unicamp.navable_api.services.auth.AuthService;
-import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
-import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
-
-
 import javax.naming.AuthenticationException;
 import java.util.*;
 
@@ -30,9 +24,6 @@ class UsuarioControllerTest {
 
     @Mock
     private UsuarioService usuarioService;
-
-    @Mock
-    private AuthService authService;
 
     @BeforeEach
     void setUp() {
@@ -74,51 +65,31 @@ class UsuarioControllerTest {
         verify(usuarioService, times(1)).getCategoriasByUserId(userId);
     }
 
-@Test
-    void testSignIn() {
+    @Test
+    void testSignIn() throws AuthenticationException {
         String email = "test@example.com";
         String password = "password";
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-
-        when(authService.authenticate(email, password)).thenReturn(usuarioDTO);
+        when(usuarioService.signIn(email, password)).thenReturn(usuarioDTO);
 
         ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(usuarioDTO, response.getBody());
-
-        verify(authService, times(1)).authenticate(email, password);
+        verify(usuarioService, times(1)).signIn(email, password);
     }
 
     @Test
-    void testSignInCredencialesInvalidas() {
+    void testSignInAuthenticationException() throws AuthenticationException {
         String email = "test@test.com";
         String password = "wrongpassword";
-
-        
-        when(authService.authenticate(email, password)).thenThrow(new CredencialesInvalidasException());
+        when(usuarioService.signIn(email, password)).thenThrow(new AuthenticationException());
 
         ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
 
         assertEquals(403, response.getStatusCodeValue());
-
-        verify(authService, times(1)).authenticate(email, password);
+        verify(usuarioService, times(1)).signIn(email, password);
     }
-
-    @Test
-    void testSignInUsuarioNoEncontrado() {
-        String email = "notfound@example.com";
-        String password = "password";
-
-        when(authService.authenticate(email, password)).thenThrow(new UsuarioNoEncontradoException(email));
-
-        ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
-
-        assertEquals(403, response.getStatusCodeValue());
-
-        verify(authService, times(1)).authenticate(email, password);
-    }
-
 
     @Test
     void testGetUsuarioById() {
