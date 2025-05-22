@@ -32,21 +32,21 @@ public class UsuarioService {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios.stream()
                 .map(usuarioMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<SeloDTO> getSelosByUserId(Integer id) {
         List<Selo> selos = usuarioRepository.findSelosByUsuario(id);
         return selos.stream()
                 .map(selosMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<CategoriaAcessibilidadeDTO> getCategoriasByUserId(Integer id) {
         List<CategoriaAcessibilidade> categorias = usuarioRepository.findCategoriasByUsuario(id);
         return categorias.stream()
                 .map(categoriaMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public UsuarioDTO getUsuarioById(Integer id) {

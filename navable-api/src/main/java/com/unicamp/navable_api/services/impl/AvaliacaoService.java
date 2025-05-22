@@ -44,7 +44,7 @@ public class AvaliacaoService {
                 .toList();
         return filtradas.stream()
                 .map(avaliacaoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<AvaliacaoDTO> getAvaliacoesByUsuarioAndFilters(Integer usuarioId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
@@ -61,7 +61,7 @@ public class AvaliacaoService {
 
         return filtradas.stream()
                 .map(avaliacaoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public AvaliacaoDTO getAvaliacaoById(Integer avaliacaoId) {

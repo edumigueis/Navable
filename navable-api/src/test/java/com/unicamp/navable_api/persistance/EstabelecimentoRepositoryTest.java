@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class EstabelecimentoRepositoryTest {
+class EstabelecimentoRepositoryTest {
 
     @Autowired
     private EstabelecimentoRepository estabelecimentoRepository;
@@ -23,10 +23,10 @@ public class EstabelecimentoRepositoryTest {
     private AvaliacaoRepository avaliacaoRepository;
 
     @BeforeEach
-    public void setUp() {
-        Estabelecimento est1 = new Estabelecimento(1, 1, "Establishment 1", -23.5505, -46.6333, "image1.png", "Address 1");
-        Estabelecimento est2 = new Estabelecimento(2, 1, "Establishment 2", -23.5510, -46.6340, "image2.png", "Address 2");
-        Estabelecimento est3 = new Estabelecimento(3, 2, "Establishment 3", -23.5520, -46.6350, "image3.png", "Address 3");
+    void setUp() {
+        Estabelecimento est1 = new Estabelecimento(1, 1, "Establishment 1", -23.5505, -46.6333, "image1.png", "Address 1", 0);
+        Estabelecimento est2 = new Estabelecimento(2, 1, "Establishment 2", -23.5510, -46.6340, "image2.png", "Address 2", 0);
+        Estabelecimento est3 = new Estabelecimento(3, 2, "Establishment 3", -23.5520, -46.6350, "image3.png", "Address 3", 0);
 
         estabelecimentoRepository.saveAll(Arrays.asList(est1, est2, est3));
 
@@ -38,28 +38,25 @@ public class EstabelecimentoRepositoryTest {
     }
 
     @Test
-    public void testFindNearby() {
+    void testFindNearby() {
         double latitude = -23.5505;
         double longitude = -46.6333;
-        List<Object[]> result = estabelecimentoRepository.findNearby(latitude, longitude);
-        assertThat(result).isNotEmpty();
-        assertThat(result.size()).isGreaterThan(0);
+        List<Estabelecimento> result = estabelecimentoRepository.findNearby(latitude, longitude);
+        assertThat(result).isNotEmpty().hasSizeGreaterThan(0);
     }
 
     @Test
-    public void testFindByNome() {
+    void testFindByNome() {
         String nome = "Establishment 1";
         List<Estabelecimento> result = estabelecimentoRepository.findByNome(nome);
-        assertThat(result).isNotEmpty();
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).isNotEmpty().hasSize(1);
         assertThat(result.get(0).getNome()).isEqualTo("Establishment 1");
     }
 
     @Test
-    public void testFindAverageNotaByEstabelecimentoId() {
+    void testFindAverageNotaByEstabelecimentoId() {
         Integer estId = 1;
         Double averageNota = estabelecimentoRepository.findAverageNotaByEstabelecimentoId(estId);
-        assertThat(averageNota).isNotNull();
-        assertThat(averageNota).isEqualTo(1); // Assuming the average of the ratings for establishment 1
+        assertThat(averageNota).isNotNull().isEqualTo(1); // Assuming the average of the ratings for establishment 1
     }
 }

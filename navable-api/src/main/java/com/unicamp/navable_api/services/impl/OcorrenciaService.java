@@ -18,8 +18,8 @@ public class OcorrenciaService {
     @Autowired
     private TipoOcorrenciaRepository tipoOcorrenciaRepository;
 
-    private final OcorrenciaMapper ocorrenciaMapper = OcorrenciaMapper.INSTANCE;
-    private final TipoOcorrenciaMapper tipoOcorrenciaMapper = TipoOcorrenciaMapper.INSTANCE;
+    private static final OcorrenciaMapper ocorrenciaMapper = OcorrenciaMapper.INSTANCE;
+    private static final TipoOcorrenciaMapper tipoOcorrenciaMapper = TipoOcorrenciaMapper.INSTANCE;
 
     public OcorrenciaDTO createOcorrencia(OcorrenciaDTO ocorrenciaDTO) {
         Ocorrencia ocorrencia = ocorrenciaMapper.toEntity(ocorrenciaDTO);
@@ -31,7 +31,7 @@ public class OcorrenciaService {
         List<TipoOcorrencia> types = tipoOcorrenciaRepository.findAll();
         return types.stream()
                 .map(tipoOcorrenciaMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<OcorrenciaDTO> getAllOcorrencias(double latitude, double longitude) {
@@ -46,7 +46,7 @@ public class OcorrenciaService {
 
                     return dto;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public OcorrenciaDTO getOcorrenciaById(Integer id) {
