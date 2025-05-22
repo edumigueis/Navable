@@ -37,12 +37,16 @@ public class EstabelecimentoService {
         Estabelecimento estabelecimento = estabelecimentoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Estabelecimento not found with id " + id));
 
-        Double nota = estabelecimentoRepository.findAverageNotaByEstabelecimentoId(id);
+        Double nota = getAverageNotaByEstabelecimentoId(id);
 
         EstabelecimentoDTO estabelecimentoDTO = estabelecimentoMapper.toDTO(estabelecimento);
         estabelecimentoDTO.setNota(nota);
 
         return estabelecimentoDTO;
+    }
+
+    private Double getAverageNotaByEstabelecimentoId(Integer id) {
+        return estabelecimentoRepository.findAverageNotaByEstabelecimentoId(id);
     }
 
     public List<EstabelecimentoDTO> filtrar(Float nota, List<Integer> categorias, Integer tipoId) {
