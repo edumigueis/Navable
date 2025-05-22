@@ -304,3 +304,6 @@ INSERT INTO Avaliacao_Categoria (categoria_ac_id, id_avaliacao) VALUES
 (3, 3),
 (4, 4),
 (5, 5);
+
+
+
