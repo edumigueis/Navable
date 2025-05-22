@@ -27,19 +27,22 @@ public class EstabelecimentoService {
 
     public List<EstabelecimentoDTO> getAllEstabelecimentosNearby(double latitude, double longitude) {
         List<Object[]> results = estabelecimentoRepository.findNearby(latitude, longitude);
+        return results.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
 
-        return results.stream().map(row -> {
-            EstabelecimentoDTO dto = new EstabelecimentoDTO();
-            dto.setIdEstabelecimento((Integer) row[0]);
-            dto.setIdTipoEstabeleci((Integer) row[1]);
-            dto.setNome((String) row[2]);
-            dto.setLatitude((Double) row[3]);
-            dto.setLongitude((Double) row[4]);
-            dto.setImagem((String) row[5]);
-            dto.setEndereco((String) row[6]);
-            dto.setNota(row[7] != null ? ((Number) row[7]).doubleValue() : 0.0);
-            return dto;
-        }).collect(Collectors.toList());
+    private EstabelecimentoDTO mapToDTO(Object[] row) {
+        EstabelecimentoDTO dto = new EstabelecimentoDTO();
+        dto.setIdEstabelecimento((Integer) row[0]);
+        dto.setIdTipoEstabeleci((Integer) row[1]);
+        dto.setNome((String) row[2]);
+        dto.setLatitude((Double) row[3]);
+        dto.setLongitude((Double) row[4]);
+        dto.setImagem((String) row[5]);
+        dto.setEndereco((String) row[6]);
+        dto.setNota(row[7] != null ? ((Number) row[7]).doubleValue() : 0.0);
+        return dto;
     }
 
     public EstabelecimentoDTO getEstabelecimentoById(Integer id) {
