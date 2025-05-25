@@ -2,6 +2,7 @@ package com.unicamp.navable_api.persistance;
 
 import com.unicamp.navable_api.persistance.entities.*;
 import com.unicamp.navable_api.persistance.repositories.*;
+import com.unicamp.navable_api.persistance.support.GeoLocationSupport;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -41,7 +42,7 @@ class EstabelecimentoRepositoryTest {
     void testFindNearby() {
         double latitude = -23.5505;
         double longitude = -46.6333;
-        List<Estabelecimento> result = estabelecimentoRepository.findNearby(latitude, longitude);
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
         assertThat(result).isNotEmpty().hasSizeGreaterThan(0);
     }
 
