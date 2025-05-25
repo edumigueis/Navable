@@ -3,17 +3,15 @@ package com.unicamp.navable_api.services;
 import com.unicamp.navable_api.api.model.UsuarioDTO;
 import com.unicamp.navable_api.persistance.entities.Usuario;
 import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
-import com.unicamp.navable_api.services.auth.AuthService;
 import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
 import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
-import com.unicamp.navable_api.services.impl.UsuarioService;
+import com.unicamp.navable_api.services.impl.*;
 import com.unicamp.navable_api.services.mappers.UsuarioMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.naming.AuthenticationException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,7 +94,7 @@ private AuthService authService;
 
         when(usuarioRepository.findByEmail("alex@teste.com")).thenReturn(Optional.of(usuario));
 
-        UsuarioDTO usuarioDTO = authService.authenticate("alex@teste.com", "abc123");
+        UsuarioDTO usuarioDTO = authService.authenticate("alex@teste.com", "abc123").getUsuario();
 
         assertNotNull(usuarioDTO);
         assertEquals("alex@teste.com", usuarioDTO.getEmail());

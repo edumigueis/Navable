@@ -1,9 +1,8 @@
-package com.unicamp.navable_api.api.controller;
+package com.unicamp.navable_api.api.impl;
 
-import com.unicamp.navable_api.api.model.UsuarioDTO;
 import com.unicamp.navable_api.api.model.auth.LoginRequest;
 import com.unicamp.navable_api.api.model.auth.LoginResponse;
-import com.unicamp.navable_api.services.auth.AuthService;
+import com.unicamp.navable_api.services.impl.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ public class AuthControllerImpl {
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
-        UsuarioDTO usuario = authService.authenticate(request.getEmail(), request.getPassword());
-        return new LoginResponse(usuario);
+        return authService.authenticate(request.getEmail(), request.getPassword());
     }
 }

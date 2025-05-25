@@ -3,6 +3,7 @@ package com.unicamp.navable_api.services.impl;
 import com.unicamp.navable_api.api.model.EstabelecimentoDTO;
 import com.unicamp.navable_api.persistance.entities.Estabelecimento;
 import com.unicamp.navable_api.persistance.repositories.EstabelecimentoRepository;
+import com.unicamp.navable_api.persistance.support.GeoLocationSupport;
 import com.unicamp.navable_api.services.mappers.EstabelecimentoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class EstabelecimentoService {
     }
 
     public List<EstabelecimentoDTO> getAllEstabelecimentosNearby(double latitude, double longitude) {
-        List<Estabelecimento> nearbyResults = estabelecimentoRepository.findNearby(latitude, longitude);
+        List<Estabelecimento> nearbyResults = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
 
         return nearbyResults.stream()
                 .map(estabelecimentoMapper::toDTO)

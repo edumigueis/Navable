@@ -9,30 +9,24 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento, Integer> {
-    // Revised to use constant
     @Query(value = "SELECT e.id_estabelecimento, " +
-           "e.id_tipo_estabeleci, " +
-           "e.nome, " +
-           "e.latitude, " +
-           "e.longitude, " +
-           "e.imagem, " +
-           "e.endereco, " +
-           "AVG(a.nota) AS nota " +
-           "FROM estabelecimento e " +
-           "LEFT JOIN avaliacao a ON e.id_estabelecimento = a.id_estabelecimento " +
-           "WHERE " + GeoLocationSupport.ESTABELECIMENTO_HAVERSINE_DISTANCE + " " +
-           "GROUP BY e.id_estabelecimento", 
-           nativeQuery = true)
-    List<Object[]> findNearbyWithRatings(
-        @Param("latitude") double latitude,
-        @Param("longitude") double longitude,
-        @Param("distance") double distance
+            "e.id_tipo_estabeleci, " +
+            "e.nome, " +
+            "e.latitude, " +
+            "e.longitude, " +
+            "e.imagem, " +
+            "e.endereco, " +
+            "AVG(a.nota) AS nota " +
+            "FROM estabelecimento e " +
+            "LEFT JOIN avaliacao a ON e.id_estabelecimento = a.id_estabelecimento " +
+            "WHERE " + GeoLocationSupport.ESTABELECIMENTO_HAVERSINE_DISTANCE + " " +
+            "GROUP BY e.id_estabelecimento",
+            nativeQuery = true)
+    List<Estabelecimento> findNearbyWithRatings(
+            @Param("latitude") double latitude,
+            @Param("longitude") double longitude,
+            @Param("distance") double distance
     );
-    
-    // Providing a convenience method with default distance
-    default List<Object[]> findNearbyWithRatings(double latitude, double longitude) {
-        return findNearbyWithRatings(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
-    }
 
     @Query(value = """
             SELECT e.*

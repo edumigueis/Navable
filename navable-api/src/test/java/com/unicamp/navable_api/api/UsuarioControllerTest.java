@@ -2,13 +2,13 @@ package com.unicamp.navable_api.api;
 
 import com.unicamp.navable_api.api.impl.UsuarioControllerImpl;
 import com.unicamp.navable_api.api.model.*;
-import com.unicamp.navable_api.services.impl.UsuarioService;
+import com.unicamp.navable_api.api.model.auth.LoginResponse;
+import com.unicamp.navable_api.services.impl.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.http.ResponseEntity;
 
 
-import com.unicamp.navable_api.services.auth.AuthService;
 import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
 import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
 
@@ -80,7 +80,7 @@ class UsuarioControllerTest {
         String password = "password";
         UsuarioDTO usuarioDTO = new UsuarioDTO();
 
-        when(authService.authenticate(email, password)).thenReturn(usuarioDTO);
+        when(authService.authenticate(email, password)).thenReturn(new LoginResponse(usuarioDTO, "token"));
 
         ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
 
