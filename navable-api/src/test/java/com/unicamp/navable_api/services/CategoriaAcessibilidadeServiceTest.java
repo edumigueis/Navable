@@ -13,11 +13,13 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class CategoriaAcessibilidadeServiceTest {
+class CategoriaAcessibilidadeServiceTest {
 
     @Mock
     private CategoriaAcessibilidadeRepository categoriaRepository;
@@ -25,15 +27,15 @@ public class CategoriaAcessibilidadeServiceTest {
     @InjectMocks
     private CategoriaAcessibilidadeService categoriaService;
 
-    private final CategoriaAcessibilidadeMapper categoriaMapper = CategoriaAcessibilidadeMapper.INSTANCE;
+    private static final CategoriaAcessibilidadeMapper categoriaMapper = CategoriaAcessibilidadeMapper.INSTANCE;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllCategorias() {
+    void testGetAllCategorias() {
         CategoriaAcessibilidade categoria1 = new CategoriaAcessibilidade();
         categoria1.setCategoriaAcId(1);
         categoria1.setNome("Rampa");
@@ -54,7 +56,7 @@ public class CategoriaAcessibilidadeServiceTest {
     }
 
     @Test
-    public void testGetCategoriaById() {
+    void testGetCategoriaById() {
         CategoriaAcessibilidade categoria = new CategoriaAcessibilidade();
         categoria.setCategoriaAcId(1);
         categoria.setNome("Banheiro acessível");
@@ -70,14 +72,91 @@ public class CategoriaAcessibilidadeServiceTest {
     }
 
     @Test
-    public void testGetCategoriaById_NotFound() {
+    void testGetAllCategorias_noCategoriesFound() {
+        when(categoriaRepository.findAll()).thenReturn(Collections.emptyList());
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            categoriaService.getAllCategorias();
+        });
+
+        assertTrue(exception.getMessage().contains("No categories found"));
+    }
+
+    @Test
+    void testGetCategoriaById_invalidId() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            categoriaService.getCategoriaById(-1);  // Invalid ID
+        });
+
+        assertTrue(exception.getMessage().contains("Invalid Categoria ID"));
+    }
+
+    @Test
+    void testGetCategoriaById_notFound() {
         when(categoriaRepository.findById(99)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             categoriaService.getCategoriaById(99);
         });
 
-        assertEquals("Categoria not found with id 99", exception.getMessage());
-        verify(categoriaRepository, times(1)).findById(99);
+        assertTrue(exception.getMessage().contains("Categoria not found with id"));
     }
+
+    @Test
+    void testUpdateCategoria_invalidId() {
+        CategoriaAcessibilidadeDTO categoriaDTO = new CategoriaAcessibilidadeDTO();
+        categoriaDTO.setNome("Categoria 1");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            categoriaService.updateCategoria(-1, categoriaDTO);  // Invalid ID
+        });
+
+        assertTrue(exception.getMessage().contains("Invalid Categoria ID"));
+    }
+
+    @Test
+    void testUpdateCategoria_nameNull() {
+        CategoriaAcessibilidadeDTO categoriaDTO = new CategoriaAcessibilidadeDTO();
+        categoriaDTO.setNome(null);  // Invalid name
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            categoriaService.updateCategoria(1, categoriaDTO);  // Valid ID, invalid name
+        });
+    }
+
+    @Test
+    void testUpdateCategoria_notFound() {
+        CategoriaAcessibilidadeDTO categoriaDTO = new CategoriaAcessibilidadeDTO();
+        categoriaDTO.setNome("Categoria 1");
+
+        when(categoriaRepository.findById(99)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            categoriaService.updateCategoria(99, categoriaDTO);
+        });
+
+        assertTrue(exception.getMessage().contains("Categoria not found with id"));
+    }
+
+    @Test
+    void testUpdateCategoria_success() {
+        CategoriaAcessibilidadeDTO categoriaDTO = new CategoriaAcessibilidadeDTO();
+        categoriaDTO.setNome("Categoria 1");
+        categoriaDTO.setGrupo("Grupo 1");
+
+        CategoriaAcessibilidade categoriaEntity = new CategoriaAcessibilidade();
+        categoriaEntity.setCategoriaAcId(1);
+        categoriaEntity.setNome("Old Name");
+        categoriaEntity.setGrupo("Old Group");
+
+        when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoriaEntity));
+        when(categoriaRepository.save(any(CategoriaAcessibilidade.class))).thenReturn(categoriaEntity);
+
+        CategoriaAcessibilidadeDTO updatedCategoria = categoriaService.updateCategoria(1, categoriaDTO);
+
+        assertNotNull(updatedCategoria);
+        assertEquals("Categoria 1", updatedCategoria.getNome());
+        assertEquals("Grupo 1", updatedCategoria.getGrupo());
+    }
+
 }

@@ -15,6 +15,7 @@ public class OcorrenciaService {
 
     @Autowired
     private OcorrenciaRepository ocorrenciaRepository;
+
     @Autowired
     private TipoOcorrenciaRepository tipoOcorrenciaRepository;
 
@@ -22,6 +23,9 @@ public class OcorrenciaService {
     private static final TipoOcorrenciaMapper tipoOcorrenciaMapper = TipoOcorrenciaMapper.INSTANCE;
 
     public OcorrenciaDTO createOcorrencia(OcorrenciaDTO ocorrenciaDTO) {
+        if (ocorrenciaDTO == null || ocorrenciaDTO.getIdTipoOcorrencia() == null) {
+            throw new IllegalArgumentException("Invalid Ocorrencia details provided");
+        }
         Ocorrencia ocorrencia = ocorrenciaMapper.toEntity(ocorrenciaDTO);
         Ocorrencia savedOcorrencia = ocorrenciaRepository.save(ocorrencia);
         return ocorrenciaMapper.toDTO(savedOcorrencia);
@@ -37,6 +41,10 @@ public class OcorrenciaService {
     public List<OcorrenciaDTO> getAllOcorrencias(double latitude, double longitude) {
         List<Ocorrencia> ocorrencias = ocorrenciaRepository.findNearby(latitude, longitude);
 
+        if (ocorrencias.isEmpty()) {
+            throw new IllegalArgumentException("No Ocorrencias found near the provided location");
+        }
+
         return ocorrencias.stream()
                 .map(ocorrencia -> {
                     OcorrenciaDTO dto = ocorrenciaMapper.toDTO(ocorrencia);
@@ -50,8 +58,12 @@ public class OcorrenciaService {
     }
 
     public OcorrenciaDTO getOcorrenciaById(Integer id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid Ocorrencia ID");
+        }
+
         Ocorrencia ocorrencia = ocorrenciaRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Ocorrencia not found with id " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Ocorrencia not found with id " + id));
         return ocorrenciaMapper.toDTO(ocorrencia);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EstabelecimentoService {
@@ -20,6 +19,9 @@ public class EstabelecimentoService {
     private static final EstabelecimentoMapper estabelecimentoMapper = EstabelecimentoMapper.INSTANCE;
 
     public EstabelecimentoDTO createEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) {
+        if (estabelecimentoDTO == null || estabelecimentoDTO.getNome() == null || estabelecimentoDTO.getNome().isEmpty()) {
+            throw new IllegalArgumentException("Invalid Estabelecimento details provided");
+        }
         Estabelecimento estabelecimento = estabelecimentoMapper.toEntity(estabelecimentoDTO);
         Estabelecimento savedEstabelecimento = estabelecimentoRepository.save(estabelecimento);
 
@@ -28,6 +30,9 @@ public class EstabelecimentoService {
 
     public List<EstabelecimentoDTO> getAllEstabelecimentosNearby(double latitude, double longitude) {
         List<Estabelecimento> nearbyResults = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
+        if (nearbyResults.isEmpty()) {
+            throw new IllegalArgumentException("No establishments found near the provided location");
+        }
 
         return nearbyResults.stream()
                 .map(estabelecimentoMapper::toDTO)
@@ -35,6 +40,10 @@ public class EstabelecimentoService {
     }
 
     public EstabelecimentoDTO getEstabelecimentoById(Integer id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid Estabelecimento ID");
+        }
+
         Estabelecimento estabelecimento = estabelecimentoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Estabelecimento not found with id " + id));
 
@@ -51,6 +60,10 @@ public class EstabelecimentoService {
     }
 
     public List<EstabelecimentoDTO> filtrar(Float nota, List<Integer> categorias, Integer tipoId) {
+        if (nota == null || categorias == null || tipoId == null) {
+            throw new IllegalArgumentException("Invalid filter parameters provided");
+        }
+
         List<Estabelecimento> estabelecimentos = estabelecimentoRepository.findByNotaAndCategoriaAndTipo(nota, categorias, tipoId);
         return estabelecimentos.stream()
                 .map(estabelecimentoMapper::toDTO)
