@@ -81,4 +81,43 @@ class OcorrenciaControllerTest {
         assertEquals(createdOcorrencia, response.getBody());
         verify(ocorrenciaService, times(1)).createOcorrencia(ocorrenciaDTO);
     }
+
+    @Test
+    void testGetAllOcorrenciasValorLimite() {
+        double latitude = 90.0;
+        double longitude = 180.0;
+        List<OcorrenciaDTO> ocorrencias = List.of(new OcorrenciaDTO());
+        when(ocorrenciaService.getAllOcorrencias(latitude, longitude)).thenReturn(ocorrencias);
+
+        ResponseEntity<List<OcorrenciaDTO>> response = ocorrenciaController.getAllOcorrencias(latitude, longitude);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(ocorrencias, response.getBody());
+        verify(ocorrenciaService).getAllOcorrencias(latitude, longitude);
+    }
+
+    @Test
+    void testGetAllOcorrenciasComLatitudeInvalida() {
+        double latitude = 999.0; // inválido
+        double longitude = 50.0;
+        when(ocorrenciaService.getAllOcorrencias(latitude, longitude)).thenReturn(Collections.emptyList());
+
+        ResponseEntity<List<OcorrenciaDTO>> response = ocorrenciaController.getAllOcorrencias(latitude, longitude);
+
+        assertEquals(200, response.getStatusCodeValue()); // Se o service retorna vazio, isso pode mudar se você validar input
+        assertEquals(Collections.emptyList(), response.getBody());
+    }
+
+    @Test
+    void testCreateOcorrenciaComEntradaInvalida() {
+        OcorrenciaDTO ocorrenciaInvalida = new OcorrenciaDTO(); // suponha que falte campos obrigatórios
+        when(ocorrenciaService.createOcorrencia(ocorrenciaInvalida)).thenThrow(new IllegalArgumentException("Dados inválidos"));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ocorrenciaController.createOcorrencia(ocorrenciaInvalida);
+        });
+
+        verify(ocorrenciaService).createOcorrencia(ocorrenciaInvalida);
+    }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -51,4 +52,42 @@ class CategoriaAcessibilidadeControllerTest {
         assertEquals(categoria, response);
         verify(categoriaService, times(1)).getCategoriaById(id);
     }
+
+    @Test
+    void testUpdateCategoria() {
+        Integer id = 1;
+        CategoriaAcessibilidadeDTO input = new CategoriaAcessibilidadeDTO();
+        CategoriaAcessibilidadeDTO updated = new CategoriaAcessibilidadeDTO();
+
+        when(categoriaService.updateCategoria(id, input)).thenReturn(updated);
+
+        CategoriaAcessibilidadeDTO response = categoriaController.updateCategoria(id, input);
+
+        assertEquals(updated, response);
+        verify(categoriaService, times(1)).updateCategoria(id, input);
+    }
+
+    @Test
+    void testGetCategoriaByIdValorLimiteInferior() {
+        Integer id = 1; // limite inferior válido
+        CategoriaAcessibilidadeDTO categoria = new CategoriaAcessibilidadeDTO();
+        when(categoriaService.getCategoriaById(id)).thenReturn(categoria);
+
+        CategoriaAcessibilidadeDTO response = categoriaController.getCategoriaById(id);
+
+        assertEquals(categoria, response);
+        verify(categoriaService).getCategoriaById(id);
+    }
+
+    @Test
+    void testGetCategoriaByIdValorInvalido() {
+        Integer id = -1; // valor inválido (classe de equivalência inválida)
+        when(categoriaService.getCategoriaById(id)).thenReturn(null); // Suponha que o service retorna null para id inválido
+
+        CategoriaAcessibilidadeDTO response = categoriaController.getCategoriaById(id);
+
+        assertNull(response);
+        verify(categoriaService).getCategoriaById(id);
+    }
+
 }

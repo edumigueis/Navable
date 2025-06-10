@@ -83,4 +83,68 @@ class AvaliacaoControllerTest {
         assertEquals(avaliacao, response.getBody());
         verify(avaliacaoService, times(1)).getAvaliacaoById(avaliacaoId);
     }
+
+    @Test
+    void testGetAvaliacoesByEstabelecimentoNotaLimiteInferiorValida() {
+        Integer estabelecimentoId = 1;
+        Integer nota = 1; // valor limite inferior válido
+        LocalDate data = LocalDate.now();
+        List<AvaliacaoDTO> avaliacoes = List.of(new AvaliacaoDTO());
+
+        when(avaliacaoService.getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, nota, data, data)).thenReturn(avaliacoes);
+
+        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByEstabelecimento(estabelecimentoId, nota, data, data);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(avaliacoes, response.getBody());
+        verify(avaliacaoService).getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, nota, data, data);
+    }
+
+    @Test
+    void testGetAvaliacoesByEstabelecimentoNotaLimiteSuperiorValida() {
+        Integer estabelecimentoId = 1;
+        Integer nota = 5; // valor limite superior válido
+        LocalDate data = LocalDate.now();
+        List<AvaliacaoDTO> avaliacoes = List.of(new AvaliacaoDTO());
+
+        when(avaliacaoService.getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, nota, data, data)).thenReturn(avaliacoes);
+
+        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByEstabelecimento(estabelecimentoId, nota, data, data);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(avaliacoes, response.getBody());
+        verify(avaliacaoService).getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, nota, data, data);
+    }
+
+    @Test
+    void testGetAvaliacoesByEstabelecimentoNotaForaDoLimiteInferior() {
+        Integer estabelecimentoId = 1;
+        Integer notaInvalida = 0; // fora da faixa válida (classe inválida)
+        LocalDate data = LocalDate.now();
+
+        when(avaliacaoService.getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, notaInvalida, data, data))
+                .thenReturn(Collections.emptyList());
+
+        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByEstabelecimento(estabelecimentoId, notaInvalida, data, data);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(Collections.emptyList(), response.getBody());
+        verify(avaliacaoService).getAvaliacoesByEstabelecimentoAndFilters(estabelecimentoId, notaInvalida, data, data);
+    }
+
+    @Test
+    void testGetAvaliacoesByUsuarioNotaForaDoLimiteSuperior() {
+        Integer usuarioId = 1;
+        Integer notaInvalida = 6; // valor inválido
+        LocalDate data = LocalDate.now();
+
+        when(avaliacaoService.getAvaliacoesByUsuarioAndFilters(usuarioId, notaInvalida, data, data))
+                .thenReturn(Collections.emptyList());
+
+        ResponseEntity<List<AvaliacaoDTO>> response = avaliacaoController.getAvaliacoesByUsuario(usuarioId, notaInvalida, data, data);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(Collections.emptyList(), response.getBody());
+        verify(avaliacaoService).getAvaliacoesByUsuarioAndFilters(usuarioId, notaInvalida, data, data);
+    }
 }
