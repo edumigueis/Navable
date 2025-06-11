@@ -41,8 +41,8 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
             FROM Avaliacao a
             WHERE a.idUsuario = :id_usuario
             AND (:nota IS NULL OR a.nota = :nota)
-            AND (:data_inicial IS NULL OR a.timestamp >= :dataInicial)
-            AND (:data_final IS NULL OR a.timestamp <= :dataFinal)
+            AND (:dataInicial IS NULL OR a.timestamp >= :dataInicial)
+            AND (:dataFinal IS NULL OR a.timestamp <= :dataFinal)
             """)
     List<Avaliacao> findByUsuarioIdAndFilters(
             @Param("id_usuario") Integer idUsuario,

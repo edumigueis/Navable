@@ -243,26 +243,147 @@ class EstabelecimentoRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should find establishment exactly on the boundary of radius")
-    void testFindNearbyWithRatings_OnRadiusBoundary() {
+    @DisplayName("Should find establishments with whitespace in name")
+    void testFindByNome_WithWhitespace() {
+        String nome = " establishment ";
+
+        List<Estabelecimento> result = estabelecimentoRepository.findByNome(nome);
+
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Should handle very long search names")
+    void testFindByNome_VeryLongName() {
+        String longName = "a".repeat(1000);
+
+        List<Estabelecimento> result = estabelecimentoRepository.findByNome(longName);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should find establishments with unicode characters")
+    void testFindByNome_UnicodeCharacters() {
+        String nome = "Café";
+
+        List<Estabelecimento> result = estabelecimentoRepository.findByNome(nome);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getNome()).contains("Café");
+    }
+
+    @Test
+    @DisplayName("Should calculate average rating with mixed values")
+    void testFindAverageNotaByEstabelecimentoId_MixedRatings() {
+        Integer estId = 1;
+
+        Double averageNota = estabelecimentoRepository.findAverageNotaByEstabelecimentoId(estId);
+
+        assertThat(averageNota).isNotNull();
+        assertThat(averageNota).isEqualTo(3.25);
+    }
+
+    @Test
+    @DisplayName("Should handle zero ratings correctly")
+    void testFindAverageNotaByEstabelecimentoId_ZeroId() {
+        Integer estId = 0;
+
+        Double averageNota = estabelecimentoRepository.findAverageNotaByEstabelecimentoId(estId);
+
+        assertThat(averageNota).isNull();
+    }
+
+    @Test
+    @DisplayName("Should handle negative ID")
+    void testFindAverageNotaByEstabelecimentoId_NegativeId() {
+        Integer estId = -1;
+
+        Double averageNota = estabelecimentoRepository.findAverageNotaByEstabelecimentoId(estId);
+
+        assertThat(averageNota).isNull();
+    }
+
+    @Test
+    @DisplayName("Should find nearby establishments with zero distance")
+    void testFindNearbyWithRatings_ZeroDistance() {
         double latitude = -23.5505;
         double longitude = -46.6333;
         double radius = 0.0;
 
-        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, radius);
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(
+                latitude, longitude, radius);
 
-        assertThat(result).isNotEmpty(); 
+
+        assertThat(result).hasSize(1);
     }
 
     @Test
-    @DisplayName("Should handle invalid geolocation values gracefully")
-    void testFindNearbyWithRatings_InvalidInputs() {
-        double latitude = 999; // inválido
-        double longitude = 999;
-        double radius = -10; // inválido
+    @DisplayName("Should handle extreme coordinates")
+    void testFindNearbyWithRatings_ExtremeCoordinates() {
+        double latitude = 90.0;
+        double longitude = 180.0;
+        double radius = 1000.0;
 
-        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, radius);
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(
+                latitude, longitude, radius);
 
-        assertThat(result).isEmpty(); 
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should handle invalid coordinates")
+    void testFindNearbyWithRatings_InvalidCoordinates() {
+        double latitude = 200.0;
+        double longitude = 200.0;
+        double radius = 10.0;
+
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(
+                latitude, longitude, radius);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should handle negative radius")
+    void testFindNearbyWithRatings_NegativeRadius() {
+        double latitude = -23.5505;
+        double longitude = -46.6333;
+        double radius = -10.0;
+
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(
+                latitude, longitude, radius);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should verify rating calculation in nearby search")
+    void testFindNearbyWithRatings_VerifyRatingCalculation() {
+        double latitude = -23.5505;
+        double longitude = -46.6333;
+        double radius = 10.0;
+
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(
+                latitude, longitude, radius);
+
+        result.forEach(estabelecimento -> {
+            if (estabelecimento.getNota() != null) {
+                assertThat(estabelecimento.getNota()).isBetween(0, 5);
+            }
+        });
+    }
+
+    @Test
+    @DisplayName("Should maintain precision in distance calculations")
+    void testFindNearbyWithRatings_PrecisionTest() {
+        double latitude = -23.5505;
+        double longitude = -46.6333;
+        double smallRadius = 0.001;
+
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(
+                latitude, longitude, smallRadius);
+
+        assertThat(result).hasSizeLessThanOrEqualTo(1);
     }
 }

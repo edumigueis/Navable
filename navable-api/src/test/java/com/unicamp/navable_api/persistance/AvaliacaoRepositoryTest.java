@@ -127,38 +127,132 @@ public class AvaliacaoRepositoryTest {
     }
 
     @Test
-    public void testFindByEstabelecimentoIdAndFilters_WithNotaLowerBoundary() {
-        Integer estId = 2; 
-        Integer nota = 1;
+     void testFindByEstabelecimentoIdAndFilters_WithSpecificDateRange() {
+        Integer estId = 1;
+        LocalDate dataInicial = LocalDate.now().minusDays(2);
+        LocalDate dataFinal = LocalDate.now().minusDays(1);
 
-        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estId, nota, null, null);
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(
+                estId, null, dataInicial, dataFinal);
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getNota()).isEqualTo(1);
+        assertThat(result).hasSize(2);
     }
 
     @Test
-    public void testFindByEstabelecimentoIdAndFilters_WithInvalidNota() {
-        Integer estId = 2;
-        Integer nota = 6; 
+     void testFindByEstabelecimentoIdAndFilters_CombinedFilters() {
+        Integer estId = 1;
+        Integer nota = 5;
+        LocalDate dataInicial = LocalDate.now().minusDays(2);
+        LocalDate dataFinal = LocalDate.now();
 
-        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estId, nota, null, null);
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(
+                estId, nota, dataInicial, dataFinal);
+
+        assertThat(result).hasSize(1);
+    }
+
+    @Test
+     void testDateBoundaryConditions() {
+        Integer estId = 1;
+        LocalDate exactDate = LocalDate.now().minusDays(1);
+
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(
+                estId, null, exactDate, exactDate);
+
+        assertThat(result).hasSize(1);
+    }
+
+    @Test
+     void testFindByEstabelecimentoIdAndFilters_NoResults() {
+        Integer estId = 1;
+        Integer nota = 2;
+
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(
+                estId, nota, null, null);
 
         assertThat(result).isEmpty();
     }
 
+    @Test
+    void testFindByUsuarioIdAndFilters_WithAllFilters() {
+        Integer userId = 1;
+        Integer nota = 5;
+        LocalDate dataInicial = LocalDate.now().minusDays(10);
+        LocalDate dataFinal = LocalDate.now();
+
+        List<Avaliacao> result = avaliacaoRepository.findByUsuarioIdAndFilters(
+                userId, nota, dataInicial, dataFinal);
+
+        assertThat(result).isNotEmpty();
+        assertThat(result).hasSize(1);
+        assertThat(result).allMatch(a -> a.getIdUsuario().equals(userId) && a.getNota().equals(nota));
+    }
 
     @Test
-    public void testFindByEstabelecimentoIdAndFilters_WithDateEqualsToBoundary() {
-        Integer estId = 1;
+    void testFindByUsuarioIdAndFilters_WithNullFilters() {
+        Integer userId = 1;
 
-        LocalDate boundaryDate = LocalDate.now().minusDays(5);
+        List<Avaliacao> result = avaliacaoRepository.findByUsuarioIdAndFilters(
+                userId, null, null, null);
 
-        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estId, null, boundaryDate, boundaryDate);
+        assertThat(result).hasSize(2);
+        assertThat(result).allMatch(a -> a.getIdUsuario().equals(userId));
+    }
+
+    @Test
+    void testFindByUsuarioIdAndFilters_WithNotaFilter() {
+        Integer userId = 1;
+        Integer nota = 1;
+
+        List<Avaliacao> result = avaliacaoRepository.findByUsuarioIdAndFilters(
+                userId, nota, null, null);
 
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getTimestamp()).isEqualTo(boundaryDate);
+        assertThat(result.get(0).getNota()).isEqualTo(1);
+        assertThat(result.get(0).getIdUsuario()).isEqualTo(userId);
     }
+
+    @Test
+    void testFindByUsuarioIdAndFilters_NoResultsForFilters() {
+        Integer userId = 1;
+        Integer nota = 2;
+
+        List<Avaliacao> result = avaliacaoRepository.findByUsuarioIdAndFilters(
+                userId, nota, null, null);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void testFindByUsuarioIdAndFilters_DateRangeInverted() {
+        Integer userId = 1;
+        LocalDate dataInicial = LocalDate.now();
+        LocalDate dataFinal = LocalDate.now().minusDays(5);
+
+        List<Avaliacao> result = avaliacaoRepository.findByUsuarioIdAndFilters(
+                userId, null, dataInicial, dataFinal);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void testFindByUsuarioIdAndFilters_WhenUsuarioDoesNotExist() {
+        Integer userId = 999;
+        List<Avaliacao> result = avaliacaoRepository.findByUsuarioIdAndFilters(
+                userId, null, null, null);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void testFindAverageAvaliacaoByEstabelecimento_WhenNoReviewsExist() {
+        avaliacaoRepository.deleteAll();
+
+        List<Object[]> result = avaliacaoRepository.findAverageAvaliacaoByEstabelecimento();
+
+        assertThat(result).isEmpty();
+    }
+
 
 
     @AfterEach
