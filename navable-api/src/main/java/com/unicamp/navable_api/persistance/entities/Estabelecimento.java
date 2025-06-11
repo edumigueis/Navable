@@ -19,4 +19,6 @@ public class Estabelecimento {
     private Double longitude;
     private String imagem;
     private String endereco;
+    @Transient
+    private Integer nota;
 }

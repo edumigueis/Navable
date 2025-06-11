@@ -24,7 +24,7 @@ public class CategoriaAcessibilidadeService {
         List<CategoriaAcessibilidade> categorias = categoriaRepository.findAll();
         return categorias.stream()
                 .map(categoriaMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CategoriaAcessibilidadeDTO getCategoriaById(Integer id) {

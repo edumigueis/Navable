@@ -44,7 +44,7 @@ public class EstabelecimentoServiceTest {
         EstabelecimentoMapper mapper = EstabelecimentoMapper.INSTANCE;
         List<EstabelecimentoDTO> dtos = estabelecimentos.stream()
                 .map(mapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
 
         assertEquals(2, dtos.size());
 

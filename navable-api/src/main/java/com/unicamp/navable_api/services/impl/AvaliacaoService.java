@@ -4,14 +4,20 @@ import com.unicamp.navable_api.api.model.AvaliacaoDTO;
 import com.unicamp.navable_api.persistance.entities.Avaliacao;
 import com.unicamp.navable_api.persistance.repositories.AvaliacaoRepository;
 import com.unicamp.navable_api.services.mappers.AvaliacaoMapper;
+import com.unicamp.navable_api.services.filters.FiltroAvaliacaoStrategy;
+import com.unicamp.navable_api.services.filters.FiltroPorNota;
+import com.unicamp.navable_api.services.filters.FiltroPorDataInicial;
+import com.unicamp.navable_api.services.filters.FiltroPorDataFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AvaliacaoService {
 
     @Autowired
@@ -27,17 +33,35 @@ public class AvaliacaoService {
     }
 
     public List<AvaliacaoDTO> getAvaliacoesByEstabelecimentoAndFilters(Integer estabelecimentoId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
-        List<Avaliacao> avaliacoes = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estabelecimentoId, nota, dataInicial, dataFinal);
-        return avaliacoes.stream()
+        List<Avaliacao> avaliacoes = avaliacaoRepository.findByEstabelecimentoId(estabelecimentoId);
+        List<FiltroAvaliacaoStrategy> filtros = List.of(
+                new FiltroPorNota(nota),
+                new FiltroPorDataInicial(dataInicial),
+                new FiltroPorDataFinal(dataFinal)
+        );
+        List<Avaliacao> filtradas = avaliacoes.stream()
+                .filter(a -> filtros.stream().allMatch(f -> f.aplicar(a)))
+                .toList();
+        return filtradas.stream()
                 .map(avaliacaoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<AvaliacaoDTO> getAvaliacoesByUsuarioAndFilters(Integer usuarioId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
-        List<Avaliacao> avaliacoes = avaliacaoRepository.findByUsuarioIdAndFilters(usuarioId, nota, dataInicial, dataFinal);
-        return avaliacoes.stream()
+        List<Avaliacao> avaliacoes = avaliacaoRepository.findByUsuarioId(usuarioId);
+        List<FiltroAvaliacaoStrategy> filtros = List.of(
+                new FiltroPorNota(nota),
+                new FiltroPorDataInicial(dataInicial),
+                new FiltroPorDataFinal(dataFinal)
+        );
+
+        List<Avaliacao> filtradas = avaliacoes.stream()
+                .filter(a -> filtros.stream().allMatch(f -> f.aplicar(a)))
+                .toList();
+
+        return filtradas.stream()
                 .map(avaliacaoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public AvaliacaoDTO getAvaliacaoById(Integer avaliacaoId) {
