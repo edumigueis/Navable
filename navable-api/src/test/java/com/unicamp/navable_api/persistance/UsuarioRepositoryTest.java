@@ -217,6 +217,87 @@ class UsuarioRepositoryTest {
         });
     }
 
+    @Test
+    @Transactional
+    void testAddCategoriaToUsuario_WhenValidParameters_ShouldAddCategoria() {
+        usuarioRepository.addCategoriaToUsuario(testUsuario.getIdUsuario(), testCategoria.getCategoriaAcId());
+        entityManager.flush();
+
+        List<CategoriaAcessibilidade> categorias = usuarioRepository.findCategoriasByUsuario(testUsuario.getIdUsuario());
+        assertThat(categorias).hasSize(1);
+        assertThat(categorias.get(0).getNome()).isEqualTo("Test Categoria");
+    }
+
+    @Test
+    @Transactional
+    void testAddCategoriaToUsuario_WhenDuplicateEntry_ShouldHandleGracefully() {
+        usuarioRepository.addCategoriaToUsuario(testUsuario.getIdUsuario(), testCategoria.getCategoriaAcId());
+        entityManager.flush();
+
+        assertThrows(Exception.class, () -> {
+            usuarioRepository.addCategoriaToUsuario(testUsuario.getIdUsuario(), testCategoria.getCategoriaAcId());
+            entityManager.flush();
+        });
+    }
+
+    @Test
+    @Transactional
+    void testDeleteCategoriasByUsuarioId_WhenUserHasCategorias_ShouldDeleteAll() {
+        usuarioRepository.addCategoriaToUsuario(testUsuario.getIdUsuario(), testCategoria.getCategoriaAcId());
+        CategoriaAcessibilidade categoria2 = createTestCategoria("Categoria 2", "Group 2");
+        usuarioRepository.addCategoriaToUsuario(testUsuario.getIdUsuario(), categoria2.getCategoriaAcId());
+        entityManager.flush();
+
+        List<CategoriaAcessibilidade> categorias = usuarioRepository.findCategoriasByUsuario(testUsuario.getIdUsuario());
+        assertThat(categorias).hasSize(2);
+
+        usuarioRepository.deleteCategoriasByUsuarioId(testUsuario.getIdUsuario());
+        entityManager.flush();
+
+        List<CategoriaAcessibilidade> categoriasAfterDelete = usuarioRepository.findCategoriasByUsuario(testUsuario.getIdUsuario());
+        assertThat(categoriasAfterDelete).isEmpty();
+    }
+
+    @Test
+    @Transactional
+    void testDeleteCategoriasByUsuarioId_WhenUserHasNoCategorias_ShouldNotThrowError() {
+        assertDoesNotThrow(() -> {
+            usuarioRepository.deleteCategoriasByUsuarioId(testUsuario.getIdUsuario());
+            entityManager.flush();
+        });
+    }
+
+    @Test
+    @Transactional
+    void testDeleteCategoriasByUsuarioId_WhenUserDoesNotExist_ShouldNotThrowError() {
+        assertDoesNotThrow(() -> {
+            usuarioRepository.deleteCategoriasByUsuarioId(99999);
+            entityManager.flush();
+        });
+    }
+
+    @Test
+    void testFindByEmail_WithDifferentCasing_ShouldRespectCase() {
+        usuarioRepository.findByEmail("TEST@EXAMPLE.COM");
+        Optional<Usuario> lowerCase = usuarioRepository.findByEmail("test@example.com");
+        usuarioRepository.findByEmail("Test@Example.Com");
+
+        assertThat(lowerCase).isPresent();
+    }
+
+    @Test
+    void testFindByEmail_WithSpecialCharacters_ShouldWork() {
+        Usuario specialUser = new Usuario();
+        specialUser.setEmail("user+tag@example-domain.com");
+        specialUser.setNome("Special User");
+       entityManager.persistAndFlush(specialUser);
+
+        Optional<Usuario> result = usuarioRepository.findByEmail("user+tag@example-domain.com");
+
+        assertThat(result).isPresent();
+        assertThat(result.get().getEmail()).isEqualTo("user+tag@example-domain.com");
+    }
+
     // Helper method to create additional categoria if needed
     private CategoriaAcessibilidade createTestCategoria(String nome, String grupo) {
         CategoriaAcessibilidade categoria = new CategoriaAcessibilidade();

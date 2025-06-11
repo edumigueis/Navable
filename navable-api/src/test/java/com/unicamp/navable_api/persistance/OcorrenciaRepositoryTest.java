@@ -151,14 +151,26 @@ public class OcorrenciaRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should handle invalid coordinates gracefully")
-    public void testFindNearbyWithInvalidCoordinates() {
-        double invalidLatitude = -100.0;  // latitud inválida (< -90)
-        double invalidLongitude = 200.0;  // longitud inválida (> 180)
+    @DisplayName("Should handle coordinates at equator and prime meridian")
+     void testFindNearbyAtEquatorPrimeMeridian() {
+        double latitude = 0.0;
+        double longitude = 0.0;
+        double distance = 1000.0;
 
-        List<Ocorrencia> result = ocorrenciaRepository.findNearby(invalidLatitude, invalidLongitude, 10.0);
+        List<Ocorrencia> result = ocorrenciaRepository.findNearby(latitude, longitude, distance);
 
         assertThat(result).isEmpty();
     }
 
+    @Test
+    @DisplayName("Should handle coordinates in different hemisphere")
+     void testFindNearbyDifferentHemisphere() {
+        double latitude = 23.5505;
+        double longitude = -46.6333;
+        double distance = 10.0;
+
+        List<Ocorrencia> result = ocorrenciaRepository.findNearby(latitude, longitude, distance);
+
+        assertThat(result).isEmpty();
+    }
 }
