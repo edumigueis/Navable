@@ -71,4 +71,34 @@ class EstabelecimentoControllerTest {
         assertEquals(estabelecimentos, response.getBody());
         verify(estabelecimentoService, times(1)).filtrar(nota, categorias, tipoId);
     }
+
+    @Test
+    void testGetAllEstabelecimentosNearbyLimiteSuperior() {
+        double latitude = 90.0;
+        double longitude = 180.0;
+        List<EstabelecimentoDTO> estabelecimentos = List.of(new EstabelecimentoDTO());
+        when(estabelecimentoService.getAllEstabelecimentosNearby(latitude, longitude)).thenReturn(estabelecimentos);
+
+        ResponseEntity<List<EstabelecimentoDTO>> response = estabelecimentoController.getAllEstabelecimentosNearby(latitude, longitude);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(estabelecimentos, response.getBody());
+        verify(estabelecimentoService).getAllEstabelecimentosNearby(latitude, longitude);
+    }
+
+    @Test
+    void testGetEstabelecimentosByTipoComTipoIdInvalido() {
+        Float nota = 4.0f;
+        List<Integer> categorias = List.of(1, 2);
+        Integer tipoId = -1;
+
+        when(estabelecimentoService.filtrar(nota, categorias, tipoId))
+                .thenThrow(new IllegalArgumentException("Tipo inválido"));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            estabelecimentoController.getEstabelecimentosByTipo(nota, categorias, tipoId);
+        });
+
+        verify(estabelecimentoService).filtrar(nota, categorias, tipoId);
+    }
 }

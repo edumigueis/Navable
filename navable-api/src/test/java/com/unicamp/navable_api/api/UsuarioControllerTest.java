@@ -152,4 +152,14 @@ class UsuarioControllerTest {
 
         verify(usuarioService, times(1)).addCategoriaToUsuario(usuarioId, categoriaIds);
     }
+
+    @Test
+    void testUpdateCategoriasToUsuario() {
+        Integer usuarioId = 1;
+        List<Integer> categoriaIds = Arrays.asList(4, 5, 6);
+
+        usuarioController.updateCategoriasToUsuario(usuarioId, categoriaIds);
+
+        verify(usuarioService, times(1)).updateCategoriasToUsuario(usuarioId, categoriaIds);
+    }
 }
