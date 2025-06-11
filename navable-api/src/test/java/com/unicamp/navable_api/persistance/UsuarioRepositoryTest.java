@@ -225,4 +225,47 @@ class UsuarioRepositoryTest {
         categoria.setGrupo(grupo);
         return entityManager.persistAndFlush(categoria);
     }
+
+    @Test
+    void testSaveUsuario_WithEmailLength255_ShouldPersistCorrectly() {
+        String longEmail = "a".repeat(243) + "@test.com"; // total 255
+
+        Usuario usuario = new Usuario();
+        usuario.setEmail(longEmail);
+        usuario.setNome("User Max");
+        usuario.setSenha("123");
+        usuario.setPontos(0);
+
+        Usuario saved = entityManager.persistAndFlush(usuario);
+
+        assertThat(saved.getEmail()).isEqualTo(longEmail);
+    }
+
+    @Test
+    void testSaveUsuario_WithOneCharacterName_ShouldPersistCorrectly() {
+        // Given
+        Usuario usuario = new Usuario();
+        usuario.setEmail("shortname@example.com");
+        usuario.setNome("A");
+
+        // When
+        Usuario saved = entityManager.persistAndFlush(usuario);
+
+        // Then
+        assertThat(saved.getNome()).isEqualTo("A");
+    }
+
+    @Test
+    void testSaveUsuario_WithEmptyEmail_ShouldPersist() {
+        Usuario usuario = new Usuario();
+        usuario.setEmail("");
+        usuario.setNome("Empty Email");
+        usuario.setSenha("123");
+        usuario.setPontos(0);
+
+        Usuario saved = entityManager.persistAndFlush(usuario);
+
+        assertThat(saved.getEmail()).isEmpty();
+    }
+
 }

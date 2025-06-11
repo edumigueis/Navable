@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @ActiveProfiles("test")
 public class TipoOcorrenciaRepositoryTest {
-
+    
     @Autowired
     private TipoOcorrenciaRepository tipoOcorrenciaRepository;
 
@@ -232,5 +232,23 @@ public class TipoOcorrenciaRepositoryTest {
         assertThat(tipoOcorrenciaRepository.count()).isEqualTo(0);
         assertThat(tipoOcorrenciaRepository.findById(1)).isNotPresent();
         assertThat(tipoOcorrenciaRepository.existsById(1)).isFalse();
+    }
+
+    /*Limits*/
+    @Test
+    @DisplayName("Should save TipoOcorrencia with 1-character name (boundary test)")
+    public void testSave_MinLengthName() {
+        TipoOcorrencia tipo = new TipoOcorrencia(null, "a", "x");
+        TipoOcorrencia saved = tipoOcorrenciaRepository.save(tipo);
+        assertThat(saved.getNome()).isEqualTo("a");
+    }
+
+    @Test
+    @DisplayName("Should save TipoOcorrencia with long name (boundary test)")
+    public void testSave_MaxLengthName() {
+        String longName = "a".repeat(255); 
+        TipoOcorrencia tipo = new TipoOcorrencia(null, longName, "y");
+        TipoOcorrencia saved = tipoOcorrenciaRepository.save(tipo);
+        assertThat(saved.getNome()).isEqualTo(longName);
     }
 }

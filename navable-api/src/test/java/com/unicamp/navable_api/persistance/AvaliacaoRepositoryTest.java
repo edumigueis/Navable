@@ -126,6 +126,41 @@ public class AvaliacaoRepositoryTest {
         assertThat(result).isEmpty();
     }
 
+    @Test
+    public void testFindByEstabelecimentoIdAndFilters_WithNotaLowerBoundary() {
+        Integer estId = 2; 
+        Integer nota = 1;
+
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estId, nota, null, null);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getNota()).isEqualTo(1);
+    }
+
+    @Test
+    public void testFindByEstabelecimentoIdAndFilters_WithInvalidNota() {
+        Integer estId = 2;
+        Integer nota = 6; 
+
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estId, nota, null, null);
+
+        assertThat(result).isEmpty();
+    }
+
+
+    @Test
+    public void testFindByEstabelecimentoIdAndFilters_WithDateEqualsToBoundary() {
+        Integer estId = 1;
+
+        LocalDate boundaryDate = LocalDate.now().minusDays(5);
+
+        List<Avaliacao> result = avaliacaoRepository.findByEstabelecimentoIdAndFilters(estId, null, boundaryDate, boundaryDate);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getTimestamp()).isEqualTo(boundaryDate);
+    }
+
+
     @AfterEach
     public void tearDown() {
         avaliacaoRepository.deleteAll();

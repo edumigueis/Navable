@@ -241,4 +241,28 @@ class EstabelecimentoRepositoryTest {
         assertThat(average1).isNotNull();
         assertThat(result2).isNotNull();
     }
+
+    @Test
+    @DisplayName("Should find establishment exactly on the boundary of radius")
+    void testFindNearbyWithRatings_OnRadiusBoundary() {
+        double latitude = -23.5505;
+        double longitude = -46.6333;
+        double radius = 0.0;
+
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, radius);
+
+        assertThat(result).isNotEmpty(); 
+    }
+
+    @Test
+    @DisplayName("Should handle invalid geolocation values gracefully")
+    void testFindNearbyWithRatings_InvalidInputs() {
+        double latitude = 999; // inválido
+        double longitude = 999;
+        double radius = -10; // inválido
+
+        List<Estabelecimento> result = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, radius);
+
+        assertThat(result).isEmpty(); 
+    }
 }

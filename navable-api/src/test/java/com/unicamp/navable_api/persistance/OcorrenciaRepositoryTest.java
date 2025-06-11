@@ -149,4 +149,16 @@ public class OcorrenciaRepositoryTest {
         assertThat(result).isNotEmpty();
         assertThat(endTime - startTime).isLessThan(1000); // Should complete in less than 1 second
     }
+
+    @Test
+    @DisplayName("Should handle invalid coordinates gracefully")
+    public void testFindNearbyWithInvalidCoordinates() {
+        double invalidLatitude = -100.0;  // latitud inválida (< -90)
+        double invalidLongitude = 200.0;  // longitud inválida (> 180)
+
+        List<Ocorrencia> result = ocorrenciaRepository.findNearby(invalidLatitude, invalidLongitude, 10.0);
+
+        assertThat(result).isEmpty();
+    }
+
 }
