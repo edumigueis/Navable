@@ -2,18 +2,11 @@ package com.unicamp.navable_api.api;
 
 import com.unicamp.navable_api.api.impl.UsuarioControllerImpl;
 import com.unicamp.navable_api.api.model.*;
-import com.unicamp.navable_api.api.model.auth.LoginResponse;
 import com.unicamp.navable_api.services.impl.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.jwt.Jwt;
 
-
-import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
-import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
-
-
-import javax.naming.AuthenticationException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +32,16 @@ class UsuarioControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    private Jwt mockJwtWithUserId(int id, String email) {
+        return Jwt.withTokenValue("mock-token")
+                .header("alg", "none")
+                .claims(claims -> {
+                    claims.put("id", id);
+                    claims.put("sub", email);
+                }) // ✅ correct use of Consumer
+                .build();
+    }
+
     @Test
     void testGetAllUsuarios() {
         List<UsuarioDTO> usuarios = Arrays.asList(new UsuarioDTO(), new UsuarioDTO());
@@ -49,76 +52,6 @@ class UsuarioControllerTest {
         assertEquals(usuarios, response);
         verify(usuarioService, times(1)).getAllUsuarios();
     }
-
-    @Test
-    void testGetAllSelosByUsuario() {
-        Integer userId = 1;
-        List<SeloDTO> selos = Arrays.asList(new SeloDTO(), new SeloDTO());
-        when(usuarioService.getSelosByUserId(anyInt())).thenReturn(selos);
-
-        List<SeloDTO> response = usuarioController.getAllSelosByUsuario(userId);
-
-        assertEquals(selos, response);
-        verify(usuarioService, times(1)).getSelosByUserId(userId);
-    }
-
-    @Test
-    void testGetAllCategoriasByUsuario() {
-        Integer userId = 1;
-        List<CategoriaAcessibilidadeDTO> categorias = Arrays.asList(new CategoriaAcessibilidadeDTO(), new CategoriaAcessibilidadeDTO());
-        when(usuarioService.getCategoriasByUserId(anyInt())).thenReturn(categorias);
-
-        List<CategoriaAcessibilidadeDTO> response = usuarioController.getAllCategoriasByUsuario(userId);
-
-        assertEquals(categorias, response);
-        verify(usuarioService, times(1)).getCategoriasByUserId(userId);
-    }
-
-@Test
-    void testSignIn() {
-        String email = "test@example.com";
-        String password = "password";
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-
-        when(authService.authenticate(email, password)).thenReturn(new LoginResponse(usuarioDTO, "token"));
-
-        ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(usuarioDTO, response.getBody());
-
-        verify(authService, times(1)).authenticate(email, password);
-    }
-
-    @Test
-    void testSignInCredencialesInvalidas() {
-        String email = "test@test.com";
-        String password = "wrongpassword";
-
-        
-        when(authService.authenticate(email, password)).thenThrow(new CredencialesInvalidasException());
-
-        ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
-
-        assertEquals(403, response.getStatusCodeValue());
-
-        verify(authService, times(1)).authenticate(email, password);
-    }
-
-    @Test
-    void testSignInUsuarioNoEncontrado() {
-        String email = "notfound@example.com";
-        String password = "password";
-
-        when(authService.authenticate(email, password)).thenThrow(new UsuarioNoEncontradoException(email));
-
-        ResponseEntity<UsuarioDTO> response = usuarioController.signIn(email, password);
-
-        assertEquals(403, response.getStatusCodeValue());
-
-        verify(authService, times(1)).authenticate(email, password);
-    }
-
 
     @Test
     void testGetUsuarioById() {
@@ -133,6 +66,15 @@ class UsuarioControllerTest {
     }
 
     @Test
+    void testDeleteUsuario() {
+        Integer userId = 1;
+
+        usuarioController.deleteUsuario(userId);
+
+        verify(usuarioService, times(1)).deleteUsuario(userId);
+    }
+
+    @Test
     void testCreateUsuario() {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         when(usuarioService.createUsuario(any(UsuarioDTO.class))).thenReturn(usuarioDTO);
@@ -144,41 +86,88 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void testDeleteUsuario() {
-        Integer userId = 1;
+    void testGetMyProfile() {
+        String email = "user@example.com";
+        Jwt jwt = mockJwtWithUserId(1, email);
+        UsuarioDTO usuario = new UsuarioDTO();
 
-        usuarioController.deleteUsuario(userId);
+        when(usuarioService.getUsuarioByEmail(email)).thenReturn(usuario);
 
-        verify(usuarioService, times(1)).deleteUsuario(userId);
+        UsuarioDTO response = usuarioController.getMyProfile(jwt);
+
+        assertEquals(usuario, response);
+        verify(usuarioService, times(1)).getUsuarioByEmail(email);
     }
 
     @Test
-    void testAddSeloToUsuario() {
-        Integer usuarioId = 1;
-        Integer seloId = 2;
+    void testGetMySelos() {
+        int userId = 1;
+        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
+        List<SeloDTO> selos = Arrays.asList(new SeloDTO(), new SeloDTO());
 
-        usuarioController.addSeloToUsuario(usuarioId, seloId);
+        when(usuarioService.getSelosByUserId(userId)).thenReturn(selos);
 
-        verify(usuarioService, times(1)).addSeloToUsuario(usuarioId, seloId);
+        List<SeloDTO> response = usuarioController.getMySelos(jwt);
+
+        assertEquals(selos, response);
+        verify(usuarioService, times(1)).getSelosByUserId(userId);
     }
 
     @Test
-    void testVoteOnOcorrencia() {
-        Integer usuarioId = 1;
-        Integer ocorrenciaId = 2;
+    void testGetMyCategorias() {
+        int userId = 1;
+        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
+        List<CategoriaAcessibilidadeDTO> categorias = Arrays.asList(new CategoriaAcessibilidadeDTO(), new CategoriaAcessibilidadeDTO());
 
-        usuarioController.voteOnOcorrencia(usuarioId, ocorrenciaId);
+        when(usuarioService.getCategoriasByUserId(userId)).thenReturn(categorias);
 
-        verify(usuarioService, times(1)).voteOnOcorrencia(usuarioId, ocorrenciaId);
+        List<CategoriaAcessibilidadeDTO> response = usuarioController.getMyCategorias(jwt);
+
+        assertEquals(categorias, response);
+        verify(usuarioService, times(1)).getCategoriasByUserId(userId);
     }
 
     @Test
-    void testAddCategoriaToUsuario() {
-        Integer usuarioId = 1;
+    void testAddSelo() {
+        int userId = 1;
+        int seloId = 10;
+        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
+
+        usuarioController.addSelo(jwt, seloId);
+
+        verify(usuarioService, times(1)).addSeloToUsuario(userId, seloId);
+    }
+
+    @Test
+    void testVote() {
+        int userId = 1;
+        int ocorrenciaId = 20;
+        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
+
+        usuarioController.vote(jwt, ocorrenciaId);
+
+        verify(usuarioService, times(1)).voteOnOcorrencia(userId, ocorrenciaId);
+    }
+
+    @Test
+    void testAddCategoria() {
+        int userId = 1;
         List<Integer> categoriaIds = Arrays.asList(1, 2, 3);
+        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
 
-        usuarioController.addCategoriaToUsuario(usuarioId, categoriaIds);
+        usuarioController.addCategoria(jwt, categoriaIds);
 
-        verify(usuarioService, times(1)).addCategoriaToUsuario(usuarioId, categoriaIds);
+        verify(usuarioService, times(1)).addCategoriaToUsuario(userId, categoriaIds);
+    }
+
+    @Test
+    void testUpdateCategorias() {
+        int userId = 1;
+        List<Integer> categoriaIds = Arrays.asList(4, 5);
+        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
+
+        usuarioController.updateCategorias(jwt, categoriaIds);
+
+        verify(usuarioService, times(1)).updateCategoriasToUsuario(userId, categoriaIds);
     }
 }

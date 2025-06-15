@@ -127,4 +127,10 @@ public class UsuarioService {
             usuarioRepository.addCategoriaToUsuario(usuarioId, categoriaId);
         }
     }
+
+    public UsuarioDTO getUsuarioByEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNoEncontradoException(email));
+        return usuarioMapper.toDTO(usuario);
+    }
 }
