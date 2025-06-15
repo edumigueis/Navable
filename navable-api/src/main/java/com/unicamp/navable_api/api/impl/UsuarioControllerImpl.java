@@ -1,11 +1,10 @@
 package com.unicamp.navable_api.api.impl;
 
 import com.unicamp.navable_api.api.model.*;
-import com.unicamp.navable_api.services.exceptions.CredencialesInvalidasException;
-import com.unicamp.navable_api.services.exceptions.UsuarioNoEncontradoException;
 import com.unicamp.navable_api.services.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,41 +15,67 @@ public class UsuarioControllerImpl {
 
     @Autowired
     private UsuarioService usuarioService;
+
     @Autowired
     private AuthService authService;
 
+    @PostMapping
+    public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        return usuarioService.createUsuario(usuarioDTO);
+    }
+
+    // Authenticated user actions
+    @GetMapping("/profile")
+    public UsuarioDTO getMyProfile(@AuthenticationPrincipal Jwt jwt) {
+        String email = jwt.getSubject();
+        return usuarioService.getUsuarioByEmail(email);
+    }
+
+    @GetMapping("/selos")
+    public List<SeloDTO> getMySelos(@AuthenticationPrincipal Jwt jwt) {
+        int userId = getUserIdFromToken(jwt);
+        return usuarioService.getSelosByUserId(userId);
+    }
+
+    @GetMapping("/categorias")
+    public List<CategoriaAcessibilidadeDTO> getMyCategorias(@AuthenticationPrincipal Jwt jwt) {
+        int userId = getUserIdFromToken(jwt);
+        return usuarioService.getCategoriasByUserId(userId);
+    }
+
+    @PostMapping("/selo/{seloId}")
+    public void addSelo(@AuthenticationPrincipal Jwt jwt, @PathVariable Integer seloId) {
+        int userId = getUserIdFromToken(jwt);
+        usuarioService.addSeloToUsuario(userId, seloId);
+    }
+
+    @PostMapping("/vote/{ocorrenciaId}")
+    public void vote(@AuthenticationPrincipal Jwt jwt, @PathVariable Integer ocorrenciaId) {
+        int userId = getUserIdFromToken(jwt);
+        usuarioService.voteOnOcorrencia(userId, ocorrenciaId);
+    }
+
+    @PostMapping("/categoria")
+    public void addCategoria(@AuthenticationPrincipal Jwt jwt, @RequestBody List<Integer> categoriaIds) {
+        int userId = getUserIdFromToken(jwt);
+        usuarioService.addCategoriaToUsuario(userId, categoriaIds);
+    }
+
+    @PatchMapping("/categorias")
+    public void updateCategorias(@AuthenticationPrincipal Jwt jwt, @RequestBody List<Integer> categoriaIds) {
+        int userId = getUserIdFromToken(jwt);
+        usuarioService.updateCategoriasToUsuario(userId, categoriaIds);
+    }
+
+    // Optional: Admin-only endpoints
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
     }
 
-    @GetMapping("/selos/{id}")
-    public List<SeloDTO> getAllSelosByUsuario(@PathVariable Integer id) {
-        return usuarioService.getSelosByUserId(id);
-    }
-
-    @GetMapping("/categorias/{id}")
-    public List<CategoriaAcessibilidadeDTO> getAllCategoriasByUsuario(@PathVariable Integer id) {
-        return usuarioService.getCategoriasByUserId(id);
-    }
-
-    @PostMapping("/signin")
-    public ResponseEntity<UsuarioDTO> signIn(@RequestParam String email, @RequestParam String password) {
-    try {
-        return ResponseEntity.ok(authService.authenticate(email, password).getUsuario());
-    } catch (CredencialesInvalidasException | UsuarioNoEncontradoException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-    }
-}
-
     @GetMapping("/{id}")
     public UsuarioDTO getUsuarioById(@PathVariable Integer id) {
         return usuarioService.getUsuarioById(id);
-    }
-
-    @PostMapping
-    public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return usuarioService.createUsuario(usuarioDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -58,23 +83,8 @@ public class UsuarioControllerImpl {
         usuarioService.deleteUsuario(id);
     }
 
-    @PostMapping("/{usuarioId}/selo/{seloId}")
-    public void addSeloToUsuario(@PathVariable Integer usuarioId, @PathVariable Integer seloId) {
-        usuarioService.addSeloToUsuario(usuarioId, seloId);
-    }
-
-    @PostMapping("/{usuarioId}/vote/{ocorrenciaId}")
-    public void voteOnOcorrencia(@PathVariable Integer usuarioId, @PathVariable Integer ocorrenciaId) {
-        usuarioService.voteOnOcorrencia(usuarioId, ocorrenciaId);
-    }
-
-    @PostMapping("/{usuarioId}/categoria")
-    public void addCategoriaToUsuario(@PathVariable Integer usuarioId, @RequestBody List<Integer> categoriaIds) {
-        usuarioService.addCategoriaToUsuario(usuarioId, categoriaIds);
-    }
-
-    @PatchMapping("/{usuarioId}/categorias")
-    public void updateCategoriasToUsuario(@PathVariable Integer usuarioId, @RequestBody List<Integer> categoriaIds) {
-        usuarioService.updateCategoriasToUsuario(usuarioId, categoriaIds);
+    // Helper method
+    private int getUserIdFromToken(Jwt jwt) {
+        return jwt.getClaim("id");
     }
 }
