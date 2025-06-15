@@ -51,7 +51,7 @@ class AvaliacaoServiceTest {
 
     @Test
     void testGetAvaliacoesByEstabelecimentoAndFilters_notFound() {
-        when(avaliacaoRepository.findByEstabelecimentoIdAndFilters(any(), any(), any(), any()))
+        when(avaliacaoRepository.findByEstabelecimentoId(any()))
                 .thenReturn(Collections.emptyList());
         LocalDate curr = LocalDate.now();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {

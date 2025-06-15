@@ -3,11 +3,8 @@ package com.unicamp.navable_api.services.impl;
 import com.unicamp.navable_api.api.model.AvaliacaoDTO;
 import com.unicamp.navable_api.persistance.entities.Avaliacao;
 import com.unicamp.navable_api.persistance.repositories.AvaliacaoRepository;
+import com.unicamp.navable_api.services.filters.*;
 import com.unicamp.navable_api.services.mappers.AvaliacaoMapper;
-import com.unicamp.navable_api.services.filters.FiltroAvaliacaoStrategy;
-import com.unicamp.navable_api.services.filters.FiltroPorNota;
-import com.unicamp.navable_api.services.filters.FiltroPorDataInicial;
-import com.unicamp.navable_api.services.filters.FiltroPorDataFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +51,8 @@ public class AvaliacaoService {
         List<Avaliacao> filtradas = avaliacoes.stream()
                 .filter(a -> filtros.stream().allMatch(f -> f.aplicar(a)))
                 .toList();
-        return filtradas.stream()
+        return filtradas.stream().map(avaliacaoMapper::toDTO)
+                .toList();
     }
 
     public List<AvaliacaoDTO> getAvaliacoesByUsuarioAndFilters(Integer usuarioId, Integer nota, LocalDate dataInicial, LocalDate dataFinal) {
@@ -75,7 +73,8 @@ public class AvaliacaoService {
                 .filter(a -> filtros.stream().allMatch(f -> f.aplicar(a)))
                 .toList();
 
-        return filtradas.stream()
+        return filtradas.stream().map(avaliacaoMapper::toDTO)
+                .toList();
     }
 
     public AvaliacaoDTO getAvaliacaoById(Integer avaliacaoId) {
