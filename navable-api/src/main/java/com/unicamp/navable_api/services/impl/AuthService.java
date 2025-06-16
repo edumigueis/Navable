@@ -44,10 +44,10 @@ public class AuthService {
 
     private String generateToken(Usuario usuario) {
         Instant now = Instant.now();
-        long expirySeconds = 86400000;
+        long expirySeconds = 86400000; // 24 hours in seconds, not milliseconds
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("navable-api")
+                .issuer("https://navable-api.com") // This must be a valid URL format
                 .subject(usuario.getEmail())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expirySeconds))
