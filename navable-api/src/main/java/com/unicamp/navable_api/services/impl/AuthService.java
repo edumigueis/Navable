@@ -44,10 +44,11 @@ public class AuthService {
 
     private String generateToken(Usuario usuario) {
         Instant now = Instant.now();
-        long expirySeconds = 3600; // 1 hour
+        long expirySeconds = 86400000;
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .subject(usuario.getEmail()) // unique identifier
+                .issuer("navable-api")
+                .subject(usuario.getEmail())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expirySeconds))
                 .claim("id", usuario.getIdUsuario())

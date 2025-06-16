@@ -6,6 +6,7 @@ import com.unicamp.navable_api.persistance.repositories.UsuarioRepository;
 import com.unicamp.navable_api.services.exceptions.*;
 import com.unicamp.navable_api.services.mappers.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final UsuarioMapper usuarioMapper = UsuarioMapper.INSTANCE;
     private final SelosMapper selosMapper = SelosMapper.INSTANCE;
@@ -33,6 +36,9 @@ public class UsuarioService {
         if (usuarioDTO.getSenha() == null || usuarioDTO.getSenha().length() < 3) {
             throw new IllegalArgumentException("Password is too short");
         }
+
+        // Encode password before saving
+        usuarioDTO.setSenha(passwordEncoder.encode(usuarioDTO.getSenha()));
 
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
