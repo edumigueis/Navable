@@ -14,6 +14,7 @@ class MapWidget extends StatelessWidget {
       required this.mapController,
       required this.onToggleModal,
       required this.onMapMove,
+      required this.onToggleWarningModal,
       required this.initialCenter,
       required this.warnings,
       required this.places});
@@ -21,6 +22,7 @@ class MapWidget extends StatelessWidget {
   final MapController mapController;
   final void Function(Place place) onToggleModal;
   final void Function(LatLng latLng, double zoom) onMapMove;
+  final void Function(Warning warning) onToggleWarningModal;
   final LatLng initialCenter;
   final List<Warning> warnings;
   final List<Place> places;
@@ -96,7 +98,7 @@ class MapWidget extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: CustomPinMarker(
-                          onTap: () => {},
+                          onTap: () => onToggleWarningModal(warn),
                           icon: Icons.warning_rounded,
                           color: NavableColors.grayAccent,
                           size: 30.0,

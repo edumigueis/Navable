@@ -66,7 +66,7 @@ class Navable extends StatelessWidget {
                 if (routeSettings.name == '/') {
                   return isUserSignedIn
                       ? MapView(controller: mapController)
-                      : const Landing();
+                      : MapView(controller: mapController);
                 }
                 switch (routeSettings.name) {
                   case SettingsView.routeName:

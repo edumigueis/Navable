@@ -47,7 +47,9 @@ class MapViewController with ChangeNotifier {
     notifyListeners();
   }
 
+  // Modified to track selected items
   Place? selectedPlace;
+  Warning? selectedWarning;
 
   Future<void> loadCurrentLocation() async {
     await _mapService.getCurrentLocation().then((value) async {
@@ -69,14 +71,27 @@ class MapViewController with ChangeNotifier {
     notifyListeners();
   }
 
+  // Updated to clear any selected warning
   void togglePlaceModal(Place place) {
     _isModalOpen = !_isModalOpen;
     selectedPlace = place;
+    selectedWarning = null; // Clear any selected warning
     notifyListeners();
   }
 
-  void closePlaceModal() {
+  // New method to handle warning selection
+  void toggleWarningModal(Warning warning) {
+    _isModalOpen = !_isModalOpen;
+    selectedWarning = warning;
+    selectedPlace = null; // Clear any selected place
+    notifyListeners();
+  }
+
+  // Renamed to be more generic since it closes both types of modals
+  void closeModal() {
     _isModalOpen = false;
+    selectedPlace = null;
+    selectedWarning = null;
     notifyListeners();
   }
 }

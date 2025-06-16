@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navable/src/pages/models/warning.dart';
 
+import '../components/WarningCard.dart';
 import '../components/action_bar.dart';
 import '../components/map_widget.dart';
 import '../components/place_card.dart';
@@ -34,6 +35,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(
@@ -58,6 +60,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 mapController: _mapController,
                 initialCenter: widget.controller.currentLocation,
                 onToggleModal: widget.controller.togglePlaceModal,
+                onToggleWarningModal: widget.controller.toggleWarningModal, // Add this parameter
                 warnings: widget.controller.warnings,
                 places: widget.controller.places,
                 onMapMove: (LatLng latLng, double zoom) {
@@ -77,29 +80,43 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
             builder: (context, child) {
               return widget.controller.isModalOpen
                   ? Positioned(
-                      bottom: 10,
-                      left: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, "/settings");
-                        },
-                        child: widget.controller.selectedPlace != null ? PlaceCard(
-                          place: widget.controller.selectedPlace!,
-                          icon: Icons.insert_emoticon_sharp,
-                          iconColor: Colors.green,
-                          onClose: widget.controller.closePlaceModal,
-                        ) : const Center(
-                          child: Text("Erro"),
-                        )
-                      ),
-                    )
+                bottom: 10,
+                left: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/settings");
+                  },
+                  child: _buildModalContent(),
+                ),
+              )
                   : const SizedBox.shrink();
             },
           ),
         ],
       ),
     );
+  }
+
+// Add this method to determine which card to show
+  Widget _buildModalContent() {
+    if (widget.controller.selectedPlace != null) {
+      return PlaceCard(
+        place: widget.controller.selectedPlace!,
+        icon: Icons.insert_emoticon_sharp,
+        iconColor: Colors.green,
+        onClose: widget.controller.closeModal, // renamed method
+      );
+    } else if (widget.controller.selectedWarning != null) {
+      return WarningCard( // You'll need to create this component
+        warning: widget.controller.selectedWarning!,
+        onClose: widget.controller.closeModal, // renamed method
+      );
+    } else {
+      return const Center(
+        child: Text("Erro"),
+      );
+    }
   }
 
   void _openFilterModal(BuildContext context) {
