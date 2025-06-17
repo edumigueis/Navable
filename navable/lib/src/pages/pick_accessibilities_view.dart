@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../components/accessibility_checks.dart';
 import '../components/basics/navable_button.dart';
 import '../util/styles.dart';
@@ -41,7 +40,7 @@ class PickAccessibilitiesView extends StatelessWidget {
                 }
                 if (snapshot.hasError) {
                   print(snapshot.error);
-                  return const Center(child: Text("Erro ao carregar"));
+                  return const Center(child: Text("Erro ao carregar categorias"));
                 }
                 return Expanded(
                   child: AccessibilityChecks(
@@ -54,14 +53,23 @@ class PickAccessibilitiesView extends StatelessWidget {
                 );
               },
             ),
+            if (controller.errorMessage != null) // Display error message
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  controller.errorMessage!,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 20.0),
               child: NavableButton(
                 "NEXT",
                 onPressed: () {
-                  controller.registerCategories().whenComplete((){
+                  controller.registerCategories();
+                  if (controller.errorMessage == null) {
                     Navigator.pushNamed(context, "/home");
-                  });
+                  }
                 },
               ),
             ),

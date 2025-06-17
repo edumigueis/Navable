@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:navable/src/pages/services/signin_service.dart';
 import '../../util/config/app_config.dart';
 import '../models/user.dart';
 
@@ -27,6 +28,8 @@ class SignupService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('User registered successfully: ${response.body}');
+      final signin = SigninService();
+      signin.signin(email, password);
     } else {
       print('Failed to register user: ${response.statusCode} ${response.body}');
     }
