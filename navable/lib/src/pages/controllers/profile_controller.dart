@@ -32,11 +32,13 @@ class ProfileController with ChangeNotifier {
   }
 
   Future<void> fetchUserCategories() async {
-    badges = await _service.getUserBadges(userId);
+    categories = await _service.getUserCategories(userId);
+    print(categories);
   }
 
   Future<void> fetchUserAccessibilityBadges() async {
-    categories = await _service.getUserCategories(userId);
+    badges = await _service.getUserBadges(userId);
+    print(badges);
   }
 
   Future<void> fetchLoggedUser() async {

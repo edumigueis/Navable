@@ -59,7 +59,7 @@ class ProfileService {
         final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
         return data.map((json) => AccessibilityBadge.fromJson(json)).toList();
       } else {
-        throw Exception('Failed to load categories');
+        throw Exception('Failed to load badges');
       }
     } catch (e) {
       throw Exception('Error fetching categories: $e');

@@ -106,13 +106,20 @@ class ProfileView extends StatelessWidget {
             return const Center(
                 child: Text("Você ainda não selecionou nenhuma categoria."));
           } else {
-            return AccessibilityChecks(
-              title: "",
-              buttons: controller.categories,
-              onSelectionChanged: (selectedCategories) {
-                controller.categories = selectedCategories;
-              },
-            );
+            return Center(
+                child: SizedBox(
+                    height: 200.0,
+                    child: AccessibilityChecks(
+                      title: "",
+                      buttons: controller.categories,
+                      onSelectionChanged: (selectedCategories) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (selectedCategories != controller.categories) {
+                            controller.categories = selectedCategories;
+                          }
+                        });
+                      },
+                    )));
           }
         },
       ),
@@ -132,7 +139,7 @@ class ProfileView extends StatelessWidget {
             } else if (snapshot.hasError) {
               print(snapshot.error);
               return const Center(child: Text("Error loading badges"));
-            } else if (controller.categories.isEmpty) {
+            } else if (controller.badges.isEmpty) {
               return const Center(
                   child: Text("Você ainda não ganhou nenhum selo."));
             } else {
@@ -140,6 +147,7 @@ class ProfileView extends StatelessWidget {
                 spacing: 15,
                 children: controller.badges.map((badge) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const CircleAvatar(
                         radius: 30,

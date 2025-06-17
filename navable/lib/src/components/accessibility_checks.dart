@@ -72,19 +72,18 @@ class AccessibilityChecksState extends State<AccessibilityChecks> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          // Toggle selection
           if (isSelected) {
             _selectedCategories.remove(button);
           } else {
             _selectedCategories.add(button);
           }
+          // Only notify if selected status has changed to avoid infinite calls
           widget.onSelectionChanged(_selectedCategories);
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 5,
-          horizontal: 15,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
           color: isSelected ? NavableColors.blueAccent : NavableColors.gray,
           borderRadius: BorderRadius.circular(8),
