@@ -3,8 +3,6 @@ package com.unicamp.navable_api.api.impl;
 import com.unicamp.navable_api.api.model.*;
 import com.unicamp.navable_api.services.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,46 +22,38 @@ public class UsuarioControllerImpl {
         return usuarioService.createUsuario(usuarioDTO);
     }
 
-    // Authenticated user actions
-    @GetMapping("/profile")
-    public UsuarioDTO getMyProfile(@AuthenticationPrincipal Jwt jwt) {
-        String email = jwt.getSubject();
-        return usuarioService.getUsuarioByEmail(email);
+    @GetMapping("/{userId}")
+    public UsuarioDTO getMyProfile(@PathVariable Integer userId) {
+        return usuarioService.getUsuarioById(userId);
     }
 
-    @GetMapping("/selos")
-    public List<SeloDTO> getMySelos(@AuthenticationPrincipal Jwt jwt) {
-        int userId = getUserIdFromToken(jwt);
+    @GetMapping("/selos/{userId}")
+    public List<SeloDTO> getMySelos(@PathVariable Integer userId) {
         return usuarioService.getSelosByUserId(userId);
     }
 
-    @GetMapping("/categorias")
-    public List<CategoriaAcessibilidadeDTO> getMyCategorias(@AuthenticationPrincipal Jwt jwt) {
-        int userId = getUserIdFromToken(jwt);
+    @GetMapping("/categorias/{userId}")
+    public List<CategoriaAcessibilidadeDTO> getMyCategorias(@PathVariable Integer userId) {
         return usuarioService.getCategoriasByUserId(userId);
     }
 
-    @PostMapping("/selo/{seloId}")
-    public void addSelo(@AuthenticationPrincipal Jwt jwt, @PathVariable Integer seloId) {
-        int userId = getUserIdFromToken(jwt);
+    @PostMapping("/selo/{userId}/{seloId}")
+    public void addSelo(@PathVariable Integer userId, @PathVariable Integer seloId) {
         usuarioService.addSeloToUsuario(userId, seloId);
     }
 
-    @PostMapping("/vote/{ocorrenciaId}")
-    public void vote(@AuthenticationPrincipal Jwt jwt, @PathVariable Integer ocorrenciaId) {
-        int userId = getUserIdFromToken(jwt);
+    @PostMapping("/vote/{userId}/{ocorrenciaId}")
+    public void vote(@PathVariable Integer userId, @PathVariable Integer ocorrenciaId) {
         usuarioService.voteOnOcorrencia(userId, ocorrenciaId);
     }
 
-    @PostMapping("/categoria")
-    public void addCategoria(@AuthenticationPrincipal Jwt jwt, @RequestBody List<Integer> categoriaIds) {
-        int userId = getUserIdFromToken(jwt);
+    @PostMapping("/categoria/{userId}")
+    public void addCategoria(@PathVariable Integer userId, @RequestBody List<Integer> categoriaIds) {
         usuarioService.addCategoriaToUsuario(userId, categoriaIds);
     }
 
-    @PatchMapping("/categorias")
-    public void updateCategorias(@AuthenticationPrincipal Jwt jwt, @RequestBody List<Integer> categoriaIds) {
-        int userId = getUserIdFromToken(jwt);
+    @PatchMapping("/categorias/{userId}")
+    public void updateCategorias(@PathVariable Integer userId, @RequestBody List<Integer> categoriaIds) {
         usuarioService.updateCategoriasToUsuario(userId, categoriaIds);
     }
 
@@ -73,18 +63,8 @@ public class UsuarioControllerImpl {
         return usuarioService.getAllUsuarios();
     }
 
-    @GetMapping("/{id}")
-    public UsuarioDTO getUsuarioById(@PathVariable Integer id) {
-        return usuarioService.getUsuarioById(id);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteUsuario(@PathVariable Integer id) {
         usuarioService.deleteUsuario(id);
-    }
-
-    // Helper method
-    private int getUserIdFromToken(Jwt jwt) {
-        return jwt.getClaim("id");
     }
 }

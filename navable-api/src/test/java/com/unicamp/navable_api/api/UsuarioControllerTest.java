@@ -5,7 +5,6 @@ import com.unicamp.navable_api.api.model.*;
 import com.unicamp.navable_api.services.impl.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.*;
 
@@ -30,16 +29,6 @@ class UsuarioControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    private Jwt mockJwtWithUserId(int id, String email) {
-        return Jwt.withTokenValue("mock-token")
-                .header("alg", "none")
-                .claims(claims -> {
-                    claims.put("id", id);
-                    claims.put("sub", email);
-                }) // ✅ correct use of Consumer
-                .build();
     }
 
     @Test
@@ -87,27 +76,24 @@ class UsuarioControllerTest {
 
     @Test
     void testGetMyProfile() {
-        String email = "user@example.com";
-        Jwt jwt = mockJwtWithUserId(1, email);
+        Integer userId = 1;
         UsuarioDTO usuario = new UsuarioDTO();
+        when(usuarioService.getUsuarioById(userId)).thenReturn(usuario);
 
-        when(usuarioService.getUsuarioByEmail(email)).thenReturn(usuario);
-
-        UsuarioDTO response = usuarioController.getMyProfile(jwt);
+        UsuarioDTO response = usuarioController.getMyProfile(userId);
 
         assertEquals(usuario, response);
-        verify(usuarioService, times(1)).getUsuarioByEmail(email);
+        verify(usuarioService, times(1)).getUsuarioById(userId);
     }
 
     @Test
     void testGetMySelos() {
         int userId = 1;
-        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
         List<SeloDTO> selos = Arrays.asList(new SeloDTO(), new SeloDTO());
 
         when(usuarioService.getSelosByUserId(userId)).thenReturn(selos);
 
-        List<SeloDTO> response = usuarioController.getMySelos(jwt);
+        List<SeloDTO> response = usuarioController.getMySelos(userId);
 
         assertEquals(selos, response);
         verify(usuarioService, times(1)).getSelosByUserId(userId);
@@ -116,12 +102,11 @@ class UsuarioControllerTest {
     @Test
     void testGetMyCategorias() {
         int userId = 1;
-        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
         List<CategoriaAcessibilidadeDTO> categorias = Arrays.asList(new CategoriaAcessibilidadeDTO(), new CategoriaAcessibilidadeDTO());
 
         when(usuarioService.getCategoriasByUserId(userId)).thenReturn(categorias);
 
-        List<CategoriaAcessibilidadeDTO> response = usuarioController.getMyCategorias(jwt);
+        List<CategoriaAcessibilidadeDTO> response = usuarioController.getMyCategorias(userId);
 
         assertEquals(categorias, response);
         verify(usuarioService, times(1)).getCategoriasByUserId(userId);
@@ -131,9 +116,8 @@ class UsuarioControllerTest {
     void testAddSelo() {
         int userId = 1;
         int seloId = 10;
-        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
 
-        usuarioController.addSelo(jwt, seloId);
+        usuarioController.addSelo(userId, seloId);
 
         verify(usuarioService, times(1)).addSeloToUsuario(userId, seloId);
     }
@@ -142,9 +126,8 @@ class UsuarioControllerTest {
     void testVote() {
         int userId = 1;
         int ocorrenciaId = 20;
-        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
 
-        usuarioController.vote(jwt, ocorrenciaId);
+        usuarioController.vote(userId, ocorrenciaId);
 
         verify(usuarioService, times(1)).voteOnOcorrencia(userId, ocorrenciaId);
     }
@@ -153,9 +136,8 @@ class UsuarioControllerTest {
     void testAddCategoria() {
         int userId = 1;
         List<Integer> categoriaIds = Arrays.asList(1, 2, 3);
-        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
 
-        usuarioController.addCategoria(jwt, categoriaIds);
+        usuarioController.addCategoria(userId, categoriaIds);
 
         verify(usuarioService, times(1)).addCategoriaToUsuario(userId, categoriaIds);
     }
@@ -164,9 +146,8 @@ class UsuarioControllerTest {
     void testUpdateCategorias() {
         int userId = 1;
         List<Integer> categoriaIds = Arrays.asList(4, 5);
-        Jwt jwt = mockJwtWithUserId(userId, "user@example.com");
 
-        usuarioController.updateCategorias(jwt, categoriaIds);
+        usuarioController.updateCategorias(userId, categoriaIds);
 
         verify(usuarioService, times(1)).updateCategoriasToUsuario(userId, categoriaIds);
     }

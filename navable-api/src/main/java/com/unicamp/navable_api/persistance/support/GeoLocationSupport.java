@@ -1,8 +1,7 @@
 package com.unicamp.navable_api.persistance.support;
 
 public interface GeoLocationSupport {
-    // Constants for commonly used values
-    double DEFAULT_SEARCH_RADIUS_KM = 1.0;
+    double DEFAULT_SEARCH_RADIUS_KM = 30.0;
     
     // Haversine formula for Ocorrencia entity
     String OCORRENCIA_HAVERSINE_DISTANCE = """

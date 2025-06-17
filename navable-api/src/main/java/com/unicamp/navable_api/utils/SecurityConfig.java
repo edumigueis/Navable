@@ -26,8 +26,6 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests(auth -> auth
                         .antMatchers("/auth/**", "/usuarios", "/usuarios/**").permitAll()
-                        .antMatchers("/usuarios/profile", "/usuarios/selos", "/usuarios/categorias", "/usuarios/selo/**", "/usuarios/vote/**", "/usuarios/categoria", "/usuarios/categorias")
-                        .authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt());

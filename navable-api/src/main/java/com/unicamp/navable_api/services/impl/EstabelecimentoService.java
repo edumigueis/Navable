@@ -30,9 +30,6 @@ public class EstabelecimentoService {
 
     public List<EstabelecimentoDTO> getAllEstabelecimentosNearby(double latitude, double longitude) {
         List<Estabelecimento> nearbyResults = estabelecimentoRepository.findNearbyWithRatings(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
-        if (nearbyResults.isEmpty()) {
-            throw new IllegalArgumentException("No establishments found near the provided location");
-        }
 
         return nearbyResults.stream()
                 .map(estabelecimentoMapper::toDTO)
