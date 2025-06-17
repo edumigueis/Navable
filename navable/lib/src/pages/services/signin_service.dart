@@ -6,8 +6,6 @@ import '../models/user.dart';
 
 class SigninService {
   final _storage = const FlutterSecureStorage();
-  static const _userIdKey = 'userId';
-  static const _tokenKey = 'authToken';
 
   Future<bool> signin(String email, String password) async {
     final url = Uri.parse('${AppConfig.baseUrl}/auth/login');
@@ -32,8 +30,8 @@ class SigninService {
         final usuario = data['usuario'];
         if (usuario != null && token != null) {
           final userId = usuario['idUsuario'];
-          await _storage.write(key: _userIdKey, value: userId.toString());
-          await _storage.write(key: _tokenKey, value: token);
+          await _storage.write(key: AppConfig.userIdKey, value: userId.toString());
+          await _storage.write(key: AppConfig.tokenKey, value: token);
           return true;
         } else {
           return false;
@@ -50,17 +48,12 @@ class SigninService {
   }
 
   Future<bool> isUserSignedIn() async {
-    final userId = await _storage.read(key: _userIdKey);
-    final token = await _storage.read(key: _tokenKey);
+    final userId = await _storage.read(key: AppConfig.userIdKey);
+    final token = await _storage.read(key: AppConfig.tokenKey);
     return userId != null && token != null;
   }
 
   Future<String?> getAuthToken() async {
-    return await _storage.read(key: _tokenKey);
-  }
-
-  Future<void> signOut() async {
-    await _storage.delete(key: _userIdKey);
-    await _storage.delete(key: _tokenKey);
+    return await _storage.read(key: AppConfig.tokenKey);
   }
 }

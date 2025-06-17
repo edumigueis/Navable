@@ -25,7 +25,7 @@ class SignupService {
       body: jsonBody,
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('User registered successfully: ${response.body}');
     } else {
       print('Failed to register user: ${response.statusCode} ${response.body}');

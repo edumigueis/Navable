@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navable/src/pages/models/warning.dart';
 
-import '../components/WarningCard.dart';
+import '../components/warning_card.dart';
 import '../components/action_bar.dart';
 import '../components/map_widget.dart';
 import '../components/place_card.dart';

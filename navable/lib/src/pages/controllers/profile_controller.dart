@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navable/src/pages/models/user.dart';
+import 'package:navable/src/util/config/app_config.dart';
 
 import '../models/acc_category.dart';
 import '../models/badge.dart';
@@ -39,7 +40,7 @@ class ProfileController with ChangeNotifier {
   }
 
   Future<void> fetchLoggedUser() async {
-      final id = await storage.read(key: 'userId');
+      final id = await storage.read(key: AppConfig.userIdKey);
       if (id == null) {
         throw Exception('User ID not found in storage');
       } else {

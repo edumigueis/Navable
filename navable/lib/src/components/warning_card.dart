@@ -11,14 +11,14 @@ class WarningCard extends StatelessWidget {
   final VoidCallback onUpvote; // Callback for handling upvotes
 
   const WarningCard({
-    Key? key,
+    super.key,
     required this.warning,
     required this.onClose,
     this.icon = Icons.warning_rounded,
     this.iconColor = Colors.orange,
     this.upvotes = 0, // Default value if not provided
     this.onUpvote = _defaultOnUpvote,
-  }) : super(key: key);
+  });
 
   static void _defaultOnUpvote() {
     // Default empty implementation

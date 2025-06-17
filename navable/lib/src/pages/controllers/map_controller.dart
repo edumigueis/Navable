@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:navable/src/pages/models/place.dart';
+import 'package:navable/src/util/config/app_config.dart';
 
 import '../models/warning.dart';
 import '../services/map_service.dart';
@@ -62,7 +63,7 @@ class MapViewController with ChangeNotifier {
   }
 
   Future<void> createOcurrence(WarningType warning) async {
-    final id = await storage.read(key: 'userId');
+    final id = await storage.read(key: AppConfig.userIdKey);
     if (id == null) {
       throw Exception('User ID not found in storage');
     } else {
