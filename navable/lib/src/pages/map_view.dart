@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:navable/src/pages/models/acc_category.dart';
 import 'package:navable/src/pages/models/warning.dart';
 
 import '../components/warning_card.dart';
@@ -27,14 +28,16 @@ class MapView extends StatefulWidget {
 
 class MapViewState extends State<MapView> with TickerProviderStateMixin {
   final MapController _mapController = MapController();
+  double _ratingFilter = 2; // State for rating filter
+  List<AccessibilityCategory> _accessibilityFilters = []; // Selected accessibility categories
+  List<AccessibilityCategory> _establishmentFilters = []; // Selected establishment types
 
   @override
   void initState() {
     super.initState();
-    widget.controller.loadCurrentLocation();
+    widget.controller.loadCurrentLocation(); // Load the current location
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +63,9 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
                 mapController: _mapController,
                 initialCenter: widget.controller.currentLocation,
                 onToggleModal: widget.controller.togglePlaceModal,
-                onToggleWarningModal: widget.controller.toggleWarningModal, // Add this parameter
+                onToggleWarningModal: widget.controller.toggleWarningModal,
                 warnings: widget.controller.warnings,
-                places: widget.controller.places,
+                places: _applyFilters(widget.controller.places),
                 onMapMove: (LatLng latLng, double zoom) {
                   _animateMapMove(latLng, zoom);
                 },
@@ -98,19 +101,19 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     );
   }
 
-// Add this method to determine which card to show
+  // Method to build modal content based on selected item
   Widget _buildModalContent() {
     if (widget.controller.selectedPlace != null) {
       return PlaceCard(
         place: widget.controller.selectedPlace!,
         icon: Icons.insert_emoticon_sharp,
         iconColor: Colors.green,
-        onClose: widget.controller.closeModal, // renamed method
+        onClose: widget.controller.closeModal,
       );
     } else if (widget.controller.selectedWarning != null) {
-      return WarningCard( // You'll need to create this component
+      return WarningCard(
         warning: widget.controller.selectedWarning!,
-        onClose: widget.controller.closeModal, // renamed method
+        onClose: widget.controller.closeModal,
       );
     } else {
       return const Center(
@@ -119,17 +122,43 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
     }
   }
 
+  // Open the filter modal
   void _openFilterModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const FilterView();
+        return FilterView(
+          onApplyFilters: (String filters) {
+            // Update filter states based on user selection
+            setState(() {
+
+            });
+            updateFilteredLists(); // Update the displayed lists
+          },
+        );
       },
       isScrollControlled: true,
     );
   }
 
-  Future<void> _openAddWarningModal(BuildContext context, List<WarningType> types) async {
+  List<Place> _applyFilters(List<Place> places) {
+    // Filter the list of places based on the current filters
+    return places.where((place) {
+      // Apply your filtering criteria
+      return true; // Placeholder logic
+    }).toList();
+  }
+
+  // Refresh data based on the filter criteria
+  void updateFilteredLists() {
+    // Assume you have methods to fetch the filtered data
+    // This could involve making API calls or filtering a local list
+    setState(() {
+      // Perform the necessary changes
+    });
+  }
+
+  void _openAddWarningModal(BuildContext context, List<WarningType> types) async {
     final result = await showModalBottomSheet<WarningType>(
       context: context,
       builder: (BuildContext context) {

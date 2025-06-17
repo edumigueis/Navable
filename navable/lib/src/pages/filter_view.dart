@@ -7,50 +7,104 @@ import '../components/basics/expandable_section.dart';
 import '../components/review_slider.dart';
 import 'models/acc_category.dart';
 
-class FilterView extends StatelessWidget {
-  const FilterView({super.key});
+class FilterView extends StatefulWidget {
+  final Function(String) onApplyFilters; // Callback when applying filters
+
+  const FilterView({super.key, required this.onApplyFilters});
+
+  @override
+  _FilterViewState createState() => _FilterViewState();
+}
+
+class _FilterViewState extends State<FilterView> {
+  double _rating = 2; // State for rating filter
+  List<AccessibilityCategory> _selectedAccessibilityCategories = [];
+  List<AccessibilityCategory> _selectedEstablishmentTypes = [];
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 400,
       child: ListView(
-        shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Text('Filtrar',
-                    style: Theme.of(context).textTheme.subtitle)),
+          Text(
+            'Filtrar',
+            style: Theme.of(context).textTheme.subtitle,
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ReviewSlider(
-                initialValue: 2,
-                onChanged: (newValue) {},
-              )),
-          ExpandableSection(
-              title: 'Acessibilidade',
-              child: AccessibilityChecks(title: "a", buttons: [
-                AccessibilityCategory(1, "a", "b"),
-                AccessibilityCategory(1, "b", "b"),
-                AccessibilityCategory(1, "c", "a")
-              ], onSelectionChanged: (selectedCategories){},)),
-          ExpandableSection(
-              title: 'Tipos de estabeleciemento',
-              child: AccessibilityChecks(title: "a", buttons: [
-                AccessibilityCategory(1, "a", "b"),
-                AccessibilityCategory(1, "b", "b"),
-                AccessibilityCategory(1, "c", "a")
-              ], onSelectionChanged: (selectedCategories) => {},)),
+          SizedBox(height: 10),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Text("Avaliação"),
+                  Slider(
+                    value: _rating,
+                    min: 1,
+                    max: 5,
+                    divisions: 4,
+                    label: _rating.toString(),
+                    onChanged: (double value) {
+                      setState(() {
+                        _rating = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ExpandableSection(
+                title: 'Acessibilidade',
+                child: AccessibilityChecks(
+                  title: "Acessibilidade",
+                  buttons: [
+                    AccessibilityCategory(1, "a", "b"),
+                    AccessibilityCategory(1, "b", "b"),
+                    AccessibilityCategory(1, "c", "a")
+                  ],
+                  onSelectionChanged: (selectedCategories) {
+                    setState(() {
+                      _selectedAccessibilityCategories = selectedCategories;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ExpandableSection(
+                title: 'Tipos de estabeleciemento',
+                child: AccessibilityChecks(
+                  title: "Tipos",
+                  buttons: [
+                    AccessibilityCategory(1, "a", "b"),
+                    AccessibilityCategory(1, "b", "b"),
+                    AccessibilityCategory(1, "c", "a")
+                  ],
+                  onSelectionChanged: (selectedCategories) {
+                    setState(() {
+                      _selectedEstablishmentTypes = selectedCategories;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 30),
           NavableButton(
             "APLICAR",
             onPressed: () {
-              String selectedData = "Some Filter Data";
-              Navigator.pop(context, selectedData); // Pass data back
+              String selectedData = // Prepare your filter criteria based on state variables
+                  'Rating: $_rating, Accessibility: ${_selectedAccessibilityCategories.join(", ")}, Establishments: ${_selectedEstablishmentTypes.join(", ")}';
+              widget.onApplyFilters(selectedData);
+              Navigator.pop(context);
             },
           ),
         ],

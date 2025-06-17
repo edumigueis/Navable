@@ -57,7 +57,6 @@ public class UsuarioControllerImpl {
         usuarioService.updateCategoriasToUsuario(userId, categoriaIds);
     }
 
-    // Optional: Admin-only endpoints
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
