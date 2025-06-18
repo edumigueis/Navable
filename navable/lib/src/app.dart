@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:navable/src/pages/controllers/map_controller.dart';
 import 'package:navable/src/pages/controllers/pick_accessibilities_controller.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
+import 'package:navable/src/pages/controllers/review_controller.dart';
 import 'package:navable/src/pages/controllers/signin_controller.dart';
 import 'package:navable/src/pages/controllers/signup_controller.dart';
 import 'package:navable/src/pages/landing_view.dart';
@@ -26,6 +27,7 @@ class Navable extends StatelessWidget {
     required this.pickController,
     required this.signupController,
     required this.signinController,
+    required this.reviewController,
     required this.isUserSignedIn,
   });
 
@@ -35,6 +37,7 @@ class Navable extends StatelessWidget {
   final PickAccessibilitiesController pickController;
   final SignupController signupController;
   final SigninController signinController;
+  final ReviewController reviewController;
   final bool isUserSignedIn;
 
   @override
@@ -82,7 +85,7 @@ class Navable extends StatelessWidget {
                   case PickAccessibilitiesView.routeName:
                     return PickAccessibilitiesView(controller: pickController);
                   case ReviewView.routeName:
-                    return ReviewView(controller: profileController);
+                    return ReviewView(controller: reviewController);
                   default:
                     return const Landing();
                 }

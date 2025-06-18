@@ -83,15 +83,10 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
             builder: (context, child) {
               return widget.controller.isModalOpen
                   ? Positioned(
-                bottom: 10,
+                bottom: 0,
                 left: 0,
                 right: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "/settings");
-                  },
-                  child: _buildModalContent(),
-                ),
+                child: _buildBottomSheet(),
               )
                   : const SizedBox.shrink();
             },
@@ -102,7 +97,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
   }
 
   // Method to build modal content based on selected item
-  Widget _buildModalContent() {
+  Widget _buildBottomSheet() {
     if (widget.controller.selectedPlace != null) {
       return PlaceCard(
         place: widget.controller.selectedPlace!,
@@ -116,9 +111,7 @@ class MapViewState extends State<MapView> with TickerProviderStateMixin {
         onClose: widget.controller.closeModal,
       );
     } else {
-      return const Center(
-        child: Text("Erro"),
-      );
+      return const Center(child: Text("Erro"));
     }
   }
 

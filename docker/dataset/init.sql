@@ -291,11 +291,11 @@ INSERT INTO Categoria_Ace_Tipo_Estab (id_tipo_estabeleci, categoria_ac_id) VALUE
 
 -- Insert data into Avaliacao
 INSERT INTO Avaliacao (id_usuario, id_estabelecimento, avaliacao, nota, timestamp) VALUES
-(1, 1, 'Ótima experiência!', 2, '2024-01-01'),
-(2, 2, 'Bom atendimento.', 1, '2024-01-02'),
-(3, 3, 'Pode melhorar.', 0, '2024-01-03'),
-(4, 4, 'Excelente!', 2, '2024-01-04'),
-(5, 5, 'Muito bom.', 1, '2024-01-05');
+(15, 11, 'Ótima experiência!', 2, '2024-01-01'),
+(2, 11, 'Bom atendimento.', 1, '2024-01-02'),
+(3, 11, 'Pode melhorar.', 0, '2024-01-03'),
+(4, 11, 'Excelente!', 2, '2024-01-04'),
+(5, 11, 'Muito bom.', 1, '2024-01-05');
 
 -- Insert data into AvaliacaoCategoria
 INSERT INTO Avaliacao_Categoria (categoria_ac_id, id_avaliacao) VALUES

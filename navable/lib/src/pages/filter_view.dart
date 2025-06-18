@@ -4,7 +4,6 @@ import 'package:navable/src/util/styles.dart';
 
 import '../components/accessibility_checks.dart';
 import '../components/basics/expandable_section.dart';
-import '../components/review_slider.dart';
 import 'models/acc_category.dart';
 
 class FilterView extends StatefulWidget {
@@ -59,29 +58,8 @@ class _FilterViewState extends State<FilterView> {
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: ExpandableSection(
-                title: 'Acessibilidade',
-                child: AccessibilityChecks(
-                  title: "Acessibilidade",
-                  buttons: [
-                    AccessibilityCategory(1, "a", "b"),
-                    AccessibilityCategory(1, "b", "b"),
-                    AccessibilityCategory(1, "c", "a")
-                  ],
-                  onSelectionChanged: (selectedCategories) {
-                    setState(() {
-                      _selectedAccessibilityCategories = selectedCategories;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: ExpandableSection(
                 title: 'Tipos de estabeleciemento',
-                child: AccessibilityChecks(
+                child: Center(child: AccessibilityChecks(
                   title: "Tipos",
                   buttons: [
                     AccessibilityCategory(1, "a", "b"),
@@ -93,7 +71,7 @@ class _FilterViewState extends State<FilterView> {
                       _selectedEstablishmentTypes = selectedCategories;
                     });
                   },
-                ),
+                )),
               ),
             ),
           ),

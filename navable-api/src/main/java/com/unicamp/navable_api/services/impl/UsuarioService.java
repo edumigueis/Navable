@@ -54,9 +54,6 @@ public class UsuarioService {
 
     public List<SeloDTO> getSelosByUserId(Integer id) {
         List<Selo> selos = usuarioRepository.findSelosByUsuario(id);
-        if (selos == null || selos.isEmpty()) {
-            throw new IllegalArgumentException("No selos found for user with id " + id);
-        }
         return selos.stream()
                 .map(selosMapper::toDTO)
                 .toList();

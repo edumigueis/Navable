@@ -3,11 +3,13 @@ import 'package:navable/src/components/splash.dart';
 import 'package:navable/src/pages/controllers/map_controller.dart';
 import 'package:navable/src/pages/controllers/pick_accessibilities_controller.dart';
 import 'package:navable/src/pages/controllers/profile_controller.dart';
+import 'package:navable/src/pages/controllers/review_controller.dart';
 import 'package:navable/src/pages/controllers/signin_controller.dart';
 import 'package:navable/src/pages/controllers/signup_controller.dart';
 import 'package:navable/src/pages/services/map_service.dart';
 import 'package:navable/src/pages/services/pick_accessibilities_service.dart';
 import 'package:navable/src/pages/services/profile_service.dart';
+import 'package:navable/src/pages/services/review_service.dart';
 import 'package:navable/src/pages/services/signin_service.dart';
 import 'package:navable/src/pages/services/signup_service.dart';
 
@@ -44,6 +46,7 @@ class LoadingApp extends StatelessWidget {
               pickController: controllers['pickController'],
               signupController: controllers['signupController'],
               signinController: controllers['signinController'],
+              reviewController: controllers['reviewController'],
               isUserSignedIn: controllers['isUserSignedIn'],
             );
           }
@@ -62,6 +65,7 @@ class LoadingApp extends StatelessWidget {
     final pickController = PickAccessibilitiesController(PickAccessibilitiesService());
     final signupController = SignupController(SignupService());
     final signinController = SigninController(SigninService());
+    final reviewController = ReviewController(ReviewService());
     final isUserSignedIn = await signinController.isUserSignedIn();
 
     return {
@@ -71,6 +75,7 @@ class LoadingApp extends StatelessWidget {
       'pickController': pickController,
       'signupController': signupController,
       'signinController': signinController,
+      'reviewController': reviewController,
       'isUserSignedIn': isUserSignedIn,
     };
   }

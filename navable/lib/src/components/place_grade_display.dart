@@ -1,78 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:navable/src/util/styles.dart';
 
-class PlaceGradeDisplay extends StatefulWidget {
-  final double value; // Value from 0 to 2
-  final double stroke;
+class PlaceGradeDisplay extends StatelessWidget {
+  final double value; // Value from 0 to 2 (will be converted to percentage)
+  final double stroke; // Height of the bar
 
-  const PlaceGradeDisplay(
-      {super.key, required this.value, required this.stroke});
+  const PlaceGradeDisplay({
+    Key? key,
+    required this.value,
+    required this.stroke,
+  }) : super(key: key);
 
-  @override
-  PlaceGradeDisplayState createState() => PlaceGradeDisplayState();
-}
-
-class PlaceGradeDisplayState extends State<PlaceGradeDisplay> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 180,
-      height: widget.stroke,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          // Calculate the position of the arrow based on the value
-          double arrowPosition = (widget.value / 2) * constraints.maxWidth;
+    // Convert value (0-2) to percentage (0-100)
+    final double percentage = (value / 2) * 100;
 
-          return Stack(
-            alignment: Alignment.centerLeft,
+    // Determine color based on percentage
+    Color progressColor;
+    if (percentage >= 77) {
+      progressColor = Colors.green;
+    } else if (percentage <= 33) {
+      progressColor = Colors.red;
+    } else {
+      progressColor = Colors.yellow;
+    }
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double maxWidth = constraints.maxWidth;
+        final double progressWidth = (percentage / 100) * maxWidth;
+
+        return Container(
+          width: maxWidth, // Takes 100% of available width
+          height: stroke,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(stroke / 2),
+          ),
+          child: Stack(
             children: [
-              // Background divided into three parts: gray when inactive, colored when active
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  // Apply border radius
-                  child: Row(children: [
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        color: widget.value <= 0.66
-                            ? Colors.red
-                            : Colors.grey, // Red or gray depending on the value
-                      ),
-                    ),
-                    const SizedBox(width: 1),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        color: widget.value > 0.66 && widget.value <= 1.32
-                            ? Colors.yellow
-                            : Colors
-                                .grey, // Yellow or gray depending on the value
-                      ),
-                    ),
-                    const SizedBox(width: 1),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        color: widget.value > 1.32
-                            ? Colors.green
-                            : Colors
-                                .grey, // Green or gray depending on the value
-                      ),
-                    ),
-                  ])),
-              // Arrow positioned proportionally
-              Positioned(
-                left: arrowPosition - widget.stroke,
-                // Offset arrow to center it
-                child: Icon(
-                  Icons.circle,
-                  size: widget.stroke,
-                  color: Colors.black,
+              // Background bar
+              Container(
+                width: maxWidth,
+                decoration: BoxDecoration(
+                  color: NavableColors.gray,
+                  borderRadius: BorderRadius.circular(stroke / 2),
+                ),
+              ),
+              // Progress bar
+              Container(
+                width: progressWidth, // This will be a percentage of parent width
+                decoration: BoxDecoration(
+                  color: progressColor,
+                  borderRadius: BorderRadius.circular(stroke / 2),
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
