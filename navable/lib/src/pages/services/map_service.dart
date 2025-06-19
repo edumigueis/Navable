@@ -29,7 +29,6 @@ class MapService {
     }
 
     Position position = await Geolocator.getCurrentPosition();
-    return LatLng(-22.813366, -47.063731);
     return LatLng(position.latitude, position.longitude);
   }
 
