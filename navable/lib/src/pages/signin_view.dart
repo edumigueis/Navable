@@ -102,7 +102,7 @@ class _SignInViewState extends State<SignInView> {
                         });
                         _signinFuture!.then((success) {
                           if (success && mounted) {
-                            Navigator.pushNamed(context, "/home");
+                            Navigator.pushNamed(context, "/");
                           }
                         });
                       },

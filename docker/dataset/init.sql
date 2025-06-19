@@ -241,7 +241,7 @@ INSERT INTO Estabelecimento (id_tipo_estabeleci, nome, latitude, longitude, imag
 (8, 'Faculdade de Educação Física', -22.814978014353226, -47.071722249901974, 'images/fef.jpg', 'Av. Érico Veríssimo, 701'),
 (9, 'Praça do Ciclo Básico', -22.817017579114346, -47.06973453314579, 'images/praca.jpg', 'R. Sérgio Buarque de Holanda, S/N'),
 (10, 'Instituto de Física Gleb Wataghin', -22.817272606585433, -47.06770885259852, 'images/ifgw.jpg', 'R. Sérgio Buarque de Holanda, 777'),
-(11, 'Instituto de Computação - IC 3 / 3.5 - Unicamp', -22.813531021175827, -47.06352688811394, 'images/ic.jpg', 'R. Saturnino de Brito, 573'),
+(11, 'Instituto de Computação - IC 3 / 3.5 - Unicamp', -22.813531021175827, -47.06352688811394, 'https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqG5xR6Mvb22mq2tR1xU7YLnyRTkJHmg7k-gIRWBhka-J4bOICFmlJdkISKmCTEUmDgjTs8s3h40l-Nvi1SjyA5kfnrb89ZLqHT3RAtasSKAsO9qS4Utnc9VAfj91JqzSTA4W58=w408-h544-k-no', 'R. Saturnino de Brito, 573'),
 (12, 'Restaurante da Saturnino (RS)', -22.81519689405684, -47.06215842203571, 'images/rs.jpg', 'R. Saturnino de Brito'),
 (13, 'Centro de Convenções', -22.814632123648288, -47.070874208355804, 'images/cc.jpg', 'Avenida Érico Veríssimo, 500'),
 (14, 'Instituto de Artes - IA/Unicamp', -22.815270315044277, -47.07058299754328, 'images/ia.jpg', 'Rua Elis Regina, 50'),

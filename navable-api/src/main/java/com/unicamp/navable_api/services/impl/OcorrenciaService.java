@@ -41,10 +41,6 @@ public class OcorrenciaService {
     public List<OcorrenciaDTO> getAllOcorrencias(double latitude, double longitude) {
         List<Ocorrencia> ocorrencias = ocorrenciaRepository.findNearby(latitude, longitude);
 
-        if (ocorrencias.isEmpty()) {
-            throw new IllegalArgumentException("No Ocorrencias found near the provided location");
-        }
-
         return ocorrencias.stream()
                 .map(ocorrencia -> {
                     OcorrenciaDTO dto = ocorrenciaMapper.toDTO(ocorrencia);

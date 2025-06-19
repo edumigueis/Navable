@@ -50,10 +50,20 @@ class ProfileView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 30,
-              backgroundImage: AssetImage(
-                  'assets/images/flutter_logo.png'), // Placeholder image
+              backgroundColor: Colors.white,
+              child: ClipOval(
+                child: Image.network(
+                  "", // TO DO ADD USER PROF PIC
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.person, size: 30, color: Colors.grey);
+                  },
+                ),
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -165,4 +175,5 @@ class ProfileView extends StatelessWidget {
       ),
     );
   }
+
 }

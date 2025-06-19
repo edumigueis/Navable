@@ -134,7 +134,7 @@ class _PlaceCardState extends State<PlaceCard> {
               ),
               image: widget.place.image.isNotEmpty
                   ? DecorationImage(
-                image: AssetImage("assets/${widget.place.image}"),
+                image: NetworkImage(widget.place.image),
                 fit: BoxFit.cover,
               )
                   : null,
