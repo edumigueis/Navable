@@ -48,7 +48,7 @@ class UsuarioControllerTest {
         UsuarioDTO usuario = new UsuarioDTO();
         when(usuarioService.getUsuarioById(anyInt())).thenReturn(usuario);
 
-        UsuarioDTO response = usuarioController.getUsuarioById(userId);
+        UsuarioDTO response = usuarioController.getMyProfile(userId);
 
         assertEquals(usuario, response);
         verify(usuarioService, times(1)).getUsuarioById(userId);

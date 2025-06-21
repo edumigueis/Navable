@@ -68,7 +68,7 @@ class PickAccessibilitiesView extends StatelessWidget {
                 onPressed: () {
                   controller.registerCategories();
                   if (controller.errorMessage == null) {
-                    Navigator.pushNamed(context, "/");
+                    Navigator.pushNamed(context, "/home");
                   }
                 },
               ),

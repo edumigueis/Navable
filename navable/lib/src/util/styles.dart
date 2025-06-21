@@ -15,7 +15,6 @@ extension CustomStyles on TextTheme {
   // Error style with line-through and bold
   TextStyle get error => GoogleFonts.urbanist(
           textStyle: const TextStyle(
-        decoration: TextDecoration.lineThrough,
         fontSize: 20.0,
         color: Colors.red,
         fontWeight: FontWeight.bold,

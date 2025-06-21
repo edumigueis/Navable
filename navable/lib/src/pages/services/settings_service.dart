@@ -57,7 +57,7 @@ class SettingsService {
 
   Future<void> logout() async {
     await _storage.delete(key: AppConfig.userIdKey);
-  await _storage.delete(key: AppConfig.tokenKey);
+    await _storage.delete(key: AppConfig.tokenKey);
   }
 
   Future<void> deleteAccount() async {

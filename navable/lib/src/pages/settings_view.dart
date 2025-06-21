@@ -264,7 +264,6 @@ class SettingsView extends StatelessWidget {
                 controller.logout().then((_) {
                   Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
                 }).catchError((error) {
-                  // Handle any errors that occur during account deletion
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Error logging out: $error'),
