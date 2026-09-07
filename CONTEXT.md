@@ -10,10 +10,10 @@ Navable is an urban accessibility platform designed to enhance social inclusion 
 * **General Users:** Individuals who may use the app to aid others or to understand the accessibility of locations.
 
 ### Core Entities
-* **User:** An authenticated individual with a profile and accessibility preferences.
-* **Establishment:** A physical location (e.g., a shop, park, or station) with known accessibility features.
-* **Observation (Observation/Report):** A user-contributed report regarding the accessibility of a location or route.
-* **Route:** A planned path from point A to point B, evaluated for accessibility.
+* **User:** An authenticated individual with a profile, accessibility preferences, and a trust badge in reviews.
+* **Establishment:** A physical location (e.g., a shop, park, or station) with known accessibility features and a rating based on user reviews.
+* **Observation (Incident/Barrier):** A user-contributed report of a transient barrier at a coordinate. Subject to community upvoting (extends life) and downvoting (triggers removal, threshold scaled by reputation).
+* **Route:** A planned path, evaluated via a 100m forward-projecting 20m buffer.
 
 ## System Architecture
 
