@@ -9,15 +9,20 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OcorrenciaRepository extends JpaRepository<Ocorrencia, Integer> {
-    @Query(value = "SELECT o.* FROM Ocorrencia o WHERE " + 
-           GeoLocationSupport.OCORRENCIA_HAVERSINE_DISTANCE, 
+    @Query(value = "SELECT o.* FROM Ocorrencia o WHERE " +
+           GeoLocationSupport.OCORRENCIA_HAVERSINE_DISTANCE,
            nativeQuery = true)
     List<Ocorrencia> findNearby(
         @Param("latitude") double latitude,
         @Param("longitude") double longitude,
         @Param("distance") double distance
     );
-    
+
+    // Providing a convenience method with default distance
+    default List<Ocorrencia> findNearby(double latitude, double longitude) {
+        return findNearby(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
+    }
+
     // Providing a convenience method with default distance
     default List<Ocorrencia> findNearby(double latitude, double longitude) {
         return findNearby(latitude, longitude, GeoLocationSupport.DEFAULT_SEARCH_RADIUS_KM);
@@ -32,4 +37,3 @@ public interface OcorrenciaRepository extends JpaRepository<Ocorrencia, Integer>
         """, nativeQuery = true)
     List<Object[]> findOcorrenciaWithVoteCount(@Param("id_ocorrencia") Integer idOcorrencia);
 }
-

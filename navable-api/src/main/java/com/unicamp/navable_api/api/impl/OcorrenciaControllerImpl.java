@@ -30,9 +30,9 @@ public class OcorrenciaControllerImpl {
         return ResponseEntity.ok(ocorrenciaService.getOcorrenciaById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<OcorrenciaDTO> createOcorrencia(@RequestBody OcorrenciaDTO ocorrenciaDTO) {
-        return ResponseEntity.ok(ocorrenciaService.createOcorrencia(ocorrenciaDTO));
+    @PostMapping("/alerts-path")
+    public ResponseEntity<List<OcorrenciaDTO>> getAlertsAlongPath(@RequestBody List<CoordinateDTO> path) {
+        return ResponseEntity.ok(ocorrenciaService.getAlertsAlongPath(path));
     }
 }
 
